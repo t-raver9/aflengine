@@ -9,7 +9,7 @@ Created on Mon Jun 19 21:30:49 2017
 import scrape as s
 import pandas as pd
 
-
+print("Welcome to AFLengine!")
 
 daterange = [4961,5088]
 
