@@ -30,47 +30,68 @@ def loadData(gamerange):
                 #strip overall result and remove linebreaks                                                                 
                 text_result = tree.xpath('//td[@class="hltitle"]/text()')
                 text_result[0] = text_result[0].replace('\n','')
-
+                
                 #strip match details and remove linebreaks
                 text_details = tree.xpath('//td[@class="lnorm"]/text()')
                 for s in text_details:
                     s = s.replace('\n','')
-            
+           
                 #strip match details and remove linebreaks
                 bvotes = tree.xpath('//td[@class="lnorm"]/descendant::*/text()')
                 for s in text_details:
-                    s = s.replace('\n','')             
-    
+                    s = s.replace('\n','')                 
+  
                 #strip quarter breakdown and remove linebreaks
                 text_quarters = tree.xpath('//table[@id="matchscoretable"]/descendant::*/text()');
                 for s in text_quarters:
                     s = s.replace('\n','')
-
+                
                 #strip home team data from statbox and remove linebreaks
-                player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
+                year = int(text_details[1].split(" ")[3].replace(",",""))
+                if(year < 2010):
+                    player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
+                else:
+                    player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
+                    
                 for s in player_stats_h:
                     s = s.replace('\n','')
+   
 
                 #strip away team data from statbox and remove linebreaks    
-                player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');
+                if(year < 2010):
+                    player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr/td/table/tr/td[1]/table/tr[3]/td/table/descendant::*/text()');                              
+                else:
+                    player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');
                 for s in player_stats_a:
                     s = s.replace('\n','')
-                                           
-
+                                                                         
                 #strip match stats column
-                mstats = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[5]/td/table/tr/td[1]/table/descendant::*/text()')
+                if(year < 2010):
+                    mstats = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[5]/td/table/tr/td[1]/table/descendant::*/text()')
+                else:
+                    mstats = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[5]/td/table/tr/td[1]/table/descendant::*/text()')
+                
+                
                 for s in mstats:
                     s = s.replace('\n','')
                 
-                scrapeBasicStats(player_stats_h,str(t),playermatch, "Home")
-                scrapeBasicStats(player_stats_a,str(t),playermatch, "Away")
+                
+                
+                scrapeBasicStats(player_stats_h,str(t),playermatch, "Home", year)
+                print("Homestats OK")
+                scrapeBasicStats(player_stats_a,str(t),playermatch, "Away", year)
+                print("Awaystats OK")
                 scrapeQuarters(text_quarters,str(t),quarters)
+                print("Quarters OK")
                 scrapeMatchDetails(str(text_details),str(text_result),str(t),mdetails)
-                scrapeMatchStats(mstats,str(t),matchstats)
+                print("Details OK") 
+                scrapeMatchStats(mstats,str(t),matchstats,year)
+                print("Matchstats OK")
                 scrapeVotes(bvotes,str(t),brownlow)
+                print("Brownlow OK")
                 print("Successfully processed game #" + str(t))
-            except:
-                print("There was an error with match #" + str(t))
+            except IndexError:
+                print("There was an index error with match #" + str(t))
                 errorcount += 1 
         else:
             print("Skipping game #" + str(t))
@@ -80,24 +101,53 @@ def loadData(gamerange):
     return [playermatch,quarters,mdetails,matchstats,brownlow]
 
 
-def scrapeBasicStats(gameIn,gameID,gameOut, homeAway):
-    i = 21
+def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
+    if(year < 2007 and homeAway == "Home"):
+        i=26
+    elif(year < 2007 and homeAway == "Away"):
+        i=19
+    else:
+        i=21
+        
+    #print(gameIn)
     for x in range(0,22):
-        i = i + 30
-        hb = int(gameIn[i+4].encode('utf-8'))
+        if(year < 2007):
+            i = i + 24
+        else:
+            i = i + 30
+         
+        print ("-1" + str(gameIn[i-1]))
+        print ("0" + str(gameIn[i]))
+        print ("1" + str(gameIn[i+1]))                
+        
         name = str(gameIn[i].encode('utf-8'))[2:-1]
         kicks = int(gameIn[i+2].encode('utf-8'))
+        hb = int(gameIn[i+4].encode('utf-8'))
         disp = int(gameIn[i+6].encode('utf-8'))
+        marks = int(gameIn[i+8].encode('utf-8'))
         goals = int(gameIn[i+10].encode('utf-8'))
         behinds = int(gameIn[i+12].encode('utf-8'))
         tackles = int(gameIn[i+14].encode('utf-8'))
-        hitouts = int(gameIn[i+16].encode('utf-8'))
-        i50s = int(gameIn[i+18].encode('utf-8'))
-        freesFor = int(gameIn[i+20].encode('utf-8'))
-        freesAgainst = int(gameIn[i+22].encode('utf-8'))
-        marks = int(gameIn[i+8].encode('utf-8'))
-        AFLfantasy = int(gameIn[i+24].encode('utf-8'))
-        Supercoach = int(gameIn[i+26].encode('utf-8'))
+
+        if(year<2007):
+            i50s = -1
+            print("14: " + str(gameIn[i+14]) + "15: " + str(gameIn[i+15]) + "16: " + str(gameIn[i+16]) + "17: " + str(gameIn[i+17]))
+            hitouts = int(gameIn[i+16].encode('utf-8'))
+            freesFor = int(gameIn[i+18].encode('utf-8'))
+            freesAgainst = int(gameIn[i+20].encode('utf-8'))
+
+            AFLfantasy = -1
+            Supercoach = -1
+            
+        else:
+            i50s = int(gameIn[i+18].encode('utf-8'))
+            freesFor = int(gameIn[i+20].encode('utf-8'))
+            freesAgainst = int(gameIn[i+22].encode('utf-8'))
+            AFLfantasy = int(gameIn[i+24].encode('utf-8'))
+            Supercoach = int(gameIn[i+26].encode('utf-8'))
+            hitouts = int(gameIn[i+16].encode('utf-8'))
+        
+        print(AFLfantasy)
         
         gameOut.append({'gameID':gameID, 'homeAway':homeAway, 'name':name, 'kicks':kicks, 
         'handballs':hb, 'disposals':disp,'marks':marks, 
@@ -162,6 +212,7 @@ def scrapeQuarters(gameIn,gameID,gameOut):
     
  
 def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
+    
     gameString = gameIn.replace('\\n','').replace("'",'').split(',')
     mround = gameString[0].split(' ')[1]
     venue = gameString[1]
@@ -170,10 +221,23 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
     #print(gameString)
     date = datetime.strptime(f.changeDate(gameString[4]),'%d %B %Y').date()
     time = str(gameString[5].split(" ")[1] + gameString[5].split(" ")[2] )
-    homeodds = gameString[6].split(":")[1].split(" ")[2]
-    homeline = gameString[7].split("@")[0].split(" ")[2]
-    awayodds = gameString[8].split(":")[1].split(" ")[2]
-    awayline = gameString[9].split("@")[0].split(" ")[2]
+    
+    if(date.year > 2009):
+        if "Brownlow" not in str(gameString):
+            homeodds = gameString[6].split(":")[1].split(" ")[2]
+            homeline = gameString[7].split("@")[0].split(" ")[2]
+            awayodds = gameString[8].split(":")[1].split(" ")[2]
+            awayline = gameString[9].split("@")[0].split(" ")[2]
+        else:
+            homeodds = -1
+            homeline = 0
+            awayodds = -1
+            awayline = 0
+    else:
+        homeodds = -1
+        homeline = 0
+        awayodds = -1
+        awayline = 0
     
     resultsString = gameResult.replace("'","").replace("defeats","defeated by").replace("defeat ","defeated by").replace("[","").replace("]","").replace("drew with","defeated by")
     results = resultsString.split("defeated by")
@@ -188,7 +252,8 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
                     'hometeam':home.strip(), 'awayteam':away.strip()})
     
     
-def scrapeMatchStats(gameIn,gameID,gameOut):
+def scrapeMatchStats(gameIn,gameID,gameOut,year):
+    print(gameIn)
     home = str(gameIn[3].encode('utf-8'))[2:-1]
     away = str(gameIn[7].encode('utf-8'))[2:-1]
     homekicks = int(gameIn[11].encode('utf-8'))
@@ -213,18 +278,25 @@ def scrapeMatchStats(gameIn,gameID,gameOut):
     awaybk = int(gameIn[85].encode('utf-8'))
     homerush = int(gameIn[88].encode('utf-8'))
     awayrush = int(gameIn[92].encode('utf-8'))
-    homei50 = int(gameIn[123].encode('utf-8'))
-    awayi50 = int(gameIn[127].encode('utf-8'))
+    if(year<2007):        
+        homei50 = -1
+        awayi50 = -1
+    else:
+        homei50 = int(gameIn[123].encode('utf-8'))
+        awayi50 = int(gameIn[127].encode('utf-8'))
+        
 
 
-    gameOut.append({'gameID':gameID, 'hometeam':home.strip(), 'awayteam':away.strip(), 'homekicks':homekicks,
-                    'awaykicks':awaykicks, 'homehb':homehb, 'awayhb':awayhb, 'homedisp':homedisp, 'awaydisp':awaydisp,
-                    'homemarks':homemarks, 'awaymarks':awaymarks, 'hometackles':hometackles, 'awaytackles':awaytackles,
-                    'homehitout':homehitout, 'awayhitout':awayhitout, 'homeff':homeff, 'awayff':awayff,
-                    'homefa':homefa, 'awayfa':awayfa, 'homeg':homeg, 'awayg':awayg, 'homebk':homebk, 'awaybk':awaybk,
-                    'homerush':homerush, 'awayrush':awayrush, 'homei50':homei50, 'awayi50':awayi50})
-
-
+    gameOut.append({'gameID':gameID, 'team':home.strip(), 'kicks':homekicks,
+                    'hb':homehb, 'disp':homedisp, 'marks':homemarks, 'tackles':hometackles, 
+                    'hitouts':homehitout, 'ff':homeff,'fa':homefa, 'goals':homeg, 'behinds':homebk,
+                    'rushed':homerush, 'i50':homei50})
+    
+    gameOut.append({'gameID':gameID, 'team':away.strip(), 'kicks':awaykicks,
+                    'hb':awayhb, 'disp':awaydisp, 'marks':awaymarks, 'tackles':awaytackles, 
+                    'hitouts':awayhitout, 'ff':awayff,'fa':awayfa, 'goals':awayg, 'behinds':awaybk,
+                    'rushed':awayrush, 'i50':awayi50})
+  
 
 def scrapeVotes(gameIn,gameID,gameOut):
     try:

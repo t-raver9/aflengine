@@ -11,7 +11,9 @@ import pandas as pd
 
 print("Welcome to AFLengine!")
 
-daterange = [4961,5088]
+daterange = [1840,1840]
+#5088
+#4961 - 9414
 
 
 data = s.loadData(daterange)
@@ -22,7 +24,7 @@ matchstats = data[3]
 brownlow = data[4]
 
 
-pd.DataFrame.from_dict(playerstats).to_csv('output/playerstatsEXTRA.csv')
-pd.DataFrame.from_dict(quarterstats).to_csv('output/quarterstatsEXTRA.csv')
-pd.DataFrame.from_dict(matchdetails).to_csv('output/matchdetailsEXTRA.csv')
-pd.DataFrame.from_dict(matchstats).to_csv('output/matchstatsEXTRA.csv')
+#pd.DataFrame.from_dict(playerstats).to_csv('output/playerstatsEXTRA.csv')
+#pd.DataFrame.from_dict(quarterstats).to_csv('output/quarterstatsEXTRA.csv')
+#pd.DataFrame.from_dict(matchdetails).to_csv('output/matchdetailsEXTRA.csv')
+#pd.DataFrame.from_dict(matchstats).to_csv('output/matchstatsEXTRA.csv')
