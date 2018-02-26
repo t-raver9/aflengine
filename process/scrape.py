@@ -20,7 +20,7 @@ def scrape(syear,eyear):
     startyear = syear
     endyear = eyear
     year = endyear
-    match_summaries = f.initSummaries()
+    summaries = f.initSummaries()
     player_stats = f.initPlayerStats()
     #scoring_progression = f.initScoringProgression()
     
@@ -44,7 +44,7 @@ def scrape(syear,eyear):
                 del rawmatch[1]
             
             #Scrape the Match Summary
-            match_summaries.loc[len(match_summaries)] = f.getSummary(rawmatch[0])
+            summaries.loc[len(summaries)] = f.getSummary(rawmatch[0])
             
             #Scrape the player stats
             player_stats = f.getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
@@ -56,8 +56,7 @@ def scrape(syear,eyear):
         year -= 1
             
 
-    #return match_summaries, player_stats
-    return player_stats
+    return summaries, player_stats
     
     
 
@@ -68,19 +67,19 @@ def scrape(syear,eyear):
 if __name__ == '__main__':
     if(len(sys.argv) != 3):
         print("Using default season range of 1897 to 2017")
-        syear = 2017
+        syear = 1897
         eyear = 2017
     else:
         syear = int(sys.argv[1])
         eyear = int(sys.argv[2])
     
     #summaries, players = scrape(syear,eyear)
-    players=scrape(syear,eyear)
+    summaries, players=scrape(syear,eyear)
     
     
     #Output to CSV
-    #summaries.to_csv("../outputs/match_summaries.csv", mode="w")
-    #players.to_csv("../outputs/player_stats.csv", mode="w")   
+    summaries.to_csv("../outputs/match_summaries.csv", mode="w")
+    players.to_csv("../outputs/player_stats.csv", mode="w")   
 
 
 
