@@ -10,7 +10,9 @@ Created on Wed Feb  7 20:31:18 2018
 import scrapefunctions as f
 import os
 import sys
+import numpy as np
 from os.path import dirname, abspath
+
 
 
 def scrape(syear,eyear):
@@ -23,45 +25,48 @@ def scrape(syear,eyear):
     summaries = f.initSummaries()
     player_stats = f.initPlayerStats()
     #scoring_progression = f.initScoringProgression()
-    
+
     #iterate through each year, run the scraping process
-    while(int(year)>=int(startyear)):
+    while(year>=startyear):
         print("Processing year: " + str(year))
-        
-        
+
+
         files = os.listdir(d + "/matchfiles/" + str(year))
-        
+
         #Iterate through each match in the year
         for file in files:
-            
+
             #Load the match HTML
             rawmatch = f.loadPage(d + "/matchfiles/" + str(year) + "/" + file)
-            
+
             #removes the 'records' table if there is one
             if(len(rawmatch) == 9):
                 del rawmatch[1]
-            elif(len(rawmatch) == 8 and int(year) <= 2007):
+            elif(len(rawmatch) == 8 and year <= 2007):
                 del rawmatch[1]
-            
+
             #Scrape the Match Summary
             summaries.loc[len(summaries)] = f.getSummary(rawmatch[0])
-            
+            summaries.fillna('')
+            summaries = summaries.replace(np.nan, '', regex=True)
+
             #Scrape the player stats
             player_stats = f.getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
             player_stats = f.getPlayerStats(player_stats,rawmatch[4],'A',rawmatch[0])
-            
+            player_stats = player_stats.replace(np.nan, '', regex=True)
+
             #Scrape the scoring progression (if applicable)
             #TODO
-            
+
         year -= 1
-            
+
 
     return summaries, player_stats
-    
-    
 
-         
-            
+
+
+
+
 #If run from command line, takes year ranges as parameters, otherwise
 #uses defaults
 if __name__ == '__main__':
@@ -72,14 +77,14 @@ if __name__ == '__main__':
     else:
         syear = int(sys.argv[1])
         eyear = int(sys.argv[2])
-    
+
     #summaries, players = scrape(syear,eyear)
     summaries, players=scrape(syear,eyear)
-    
-    
+
+
     #Output to CSV
     summaries.to_csv("../outputs/match_summaries.csv", mode="w")
-    players.to_csv("../outputs/player_stats.csv", mode="w")   
+    players.to_csv("../outputs/player_stats.csv", mode="w")
 
 
 

@@ -25,25 +25,25 @@ def getSummary(t):
     cells=list()
     for cell in t.findAll("td"):
         cells.append(cell.text)
-    
-        
+
+
     matchstring = str(cells[1]).split(" ")
-    
-    
+
+
     if(len(cells)==25): #Game finishing in regular time
         umpstring = str(cells[24]).split(",")
     elif(len(cells)==29): #Game finishing in overtime
         umpstring = str(cells[28]).split(",")
     else:
         umpstring = "ERROR"
-    
+
     #If match is a final, remove 'FINAL' cell so that it aligns with
     #Round numbers
     if(str(matchstring[2]) == "Final"):
         del matchstring[2]
-    
-    
-    #Create blank row to be filled    
+
+
+    #Create blank row to be filled
     outrow = [None] * 25
     outrow[0] = matchstring[1] #round
 
@@ -90,8 +90,8 @@ def getSummary(t):
         outrow[4] = matchstring[7] #localtime
     else:
         print ("Error with file:" + str(cells[1]) + "   " + str(len(matchstring)))
-        
-    
+
+
     #Process teams and quarter by quarter scores for non overtime games
     if(len(cells)==25): #Game finishing in regular time
         outrow[6] = cells[3]    #hteam
@@ -117,26 +117,26 @@ def getSummary(t):
         outrow[15] = cells[13]  #ateamQ4
         outrow[22] = cells[8]  #hteamET
         outrow[23] = cells[14]  #ateamET
-       
-    
+
+
     #Process differently based on howm any umpires in the game
     if(len(umpstring)>2):
         outrow[16] =   umpstring[0].split("(")[0]
-        outrow[17] =   umpstring[1].split("(")[0]#umpire2    
+        outrow[17] =   umpstring[1].split("(")[0]#umpire2
         outrow[18] =   umpstring[2].split("(")[0]
         outrow[19] =   re.sub("[^0-9]", "",str(umpstring[0]))
         outrow[20] =   re.sub("[^0-9]", "",str(umpstring[1]))
         outrow[21] =   re.sub("[^0-9]", "",str(umpstring[2]))
     elif(len(umpstring)>1):
         outrow[16] =   umpstring[0].split("(")[0]
-        outrow[17] =   umpstring[1].split("(")[0]#umpire2    
+        outrow[17] =   umpstring[1].split("(")[0]#umpire2
         outrow[18] =   ""
         outrow[19] =   re.sub("[^0-9]", "",str(umpstring[0]))
         outrow[20] =   re.sub("[^0-9]", "",str(umpstring[1]))
         outrow[21] =   ""
     else:
         outrow[16] =   umpstring[0].split("(")[0]
-        outrow[17] =   ""  
+        outrow[17] =   ""
         outrow[18] =   ""
         outrow[19] =   re.sub("[^0-9]", "",str(umpstring[0]))
         outrow[20] =   ""
@@ -150,26 +150,29 @@ def getPlayerStats(p,t,ha,s):
     rows=list()
     for row in t.findAll("tr"):
         rows.append(row)
-    
+
     if(len(rows) != 26 and len(rows) != 27):
         print("FUCKED UP")
     else:
         rowpoint = 2
-        
+
         #loop through each player in team
-        while(int(rowpoint)<=23):
+        while(True):
             outrow = [None] * 30
             cells = list()
             for cell in rows[rowpoint].findAll("td"):
                 cells.append(cell.text)
-                
+
+            if(cells[0] == "Rushed" or cells[0] == "Totals"):
+                break;
+
             playerID = rows[rowpoint].find("a",href=True)['href'].split("/")[4].split(".")[0]
             team = rows[0].text.split(" Match")[0]
-                
-            
-            
-            
-            
+
+
+
+
+
             outrow[0] = playerID
             outrow[1] = o.getMatchIndex(s)
             outrow[2] = o.replaceTeam(team)
@@ -201,7 +204,7 @@ def getPlayerStats(p,t,ha,s):
             outrow[28] = cells[23]
             outrow[29] = cells[24]
             p.loc[len(p)] = outrow
-            rowpoint += 1    
+            rowpoint += 1
         return p
 
 
@@ -232,6 +235,6 @@ def initPlayerStats():
                                    'marks_in_50','one_percenters',
                                    'bounces','goal_assists','tog'])
 
-  
-    
-    
+
+
+
