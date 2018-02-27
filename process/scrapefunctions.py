@@ -44,7 +44,7 @@ def getSummary(t):
 
 
     #Create blank row to be filled
-    outrow = [None] * 25
+    outrow = [None] * 26
     outrow[0] = matchstring[1] #round
 
 
@@ -91,6 +91,7 @@ def getSummary(t):
     else:
         print ("Error with file:" + str(cells[1]) + "   " + str(len(matchstring)))
 
+    outrow[25] = o.getMatchIndex(t)
 
     #Process teams and quarter by quarter scores for non overtime games
     if(len(cells)==25): #Game finishing in regular time
@@ -221,7 +222,7 @@ def initSummaries():
                                    'ateam_q3','ateam_q4','umpire1',
                                    'umpire2','umpire3','umpire1games',
                                    'umpire2games','umpire3games',
-                                   'hteam_et','ateam_et','season'])
+                                   'hteam_et','ateam_et','season','matchid'])
 
 def initPlayerStats():
     return pd.DataFrame(columns=['playerid','matchid','team','ha','first_name','last_name',
