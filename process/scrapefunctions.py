@@ -152,7 +152,7 @@ def getPlayerStats(p,t,ha,s):
     for row in t.findAll("tr"):
         rows.append(row)
 
-    if(len(rows) <23):
+    if(len(rows) <22):
         print("FUCKED UP")
         print(t)
         print(len(rows))
