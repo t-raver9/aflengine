@@ -11,6 +11,7 @@ import scrapefunctions as f
 import os
 import sys
 import numpy as np
+import time
 from os.path import dirname, abspath
 
 
@@ -25,6 +26,7 @@ def scrape(syear,eyear):
     summaries = f.initSummaries()
     player_stats = f.initPlayerStats()
     #scoring_progression = f.initScoringProgression()
+    stamp = int(time.time())
 
     #iterate through each year, run the scraping process
     while(year>=startyear):
@@ -49,16 +51,26 @@ def scrape(syear,eyear):
             summaries.loc[len(summaries)] = f.getSummary(rawmatch[0])
             summaries.fillna('')
             summaries = summaries.replace(np.nan, '', regex=True)
+            
 
             #Scrape the player stats
             player_stats = f.getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
             player_stats = f.getPlayerStats(player_stats,rawmatch[4],'A',rawmatch[0])
             player_stats = player_stats.replace(np.nan, '', regex=True)
-
+            
+            
             #Scrape the scoring progression (if applicable)
             #TODO
-
+            
+        if(year==endyear):
+            summaries.to_csv("../outputs/match_summaries" + str(stamp) +".csv", mode="w",index=False)
+            player_stats.to_csv("../outputs/player_stats" + str(stamp) +".csv", mode="w",index=False)
+        else:
+            summaries.to_csv("../outputs/match_summaries" + str(stamp) +".csv", mode="a",header=False,index=False)
+            player_stats.to_csv("../outputs/player_stats" + str(stamp) +".csv", mode="a",header=False,index=False)
         year -= 1
+        summaries = f.initSummaries()
+        player_stats = f.initPlayerStats()
 
 
     return summaries, player_stats
@@ -83,8 +95,8 @@ if __name__ == '__main__':
 
 
     #Output to CSV
-    summaries.to_csv("../outputs/match_summaries.csv", mode="w")
-    players.to_csv("../outputs/player_stats.csv", mode="w")
+    #summaries.to_csv("../outputs/match_summaries.csv", mode="a")
+    #players.to_csv("../outputs/player_stats.csv", mode="a")
 
 
 
