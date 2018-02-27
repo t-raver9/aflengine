@@ -152,8 +152,10 @@ def getPlayerStats(p,t,ha,s):
     for row in t.findAll("tr"):
         rows.append(row)
 
-    if(len(rows) != 26 and len(rows) != 27):
+    if(len(rows) <23):
         print("FUCKED UP")
+        print(t)
+        print(len(rows))
     else:
         rowpoint = 2
 
