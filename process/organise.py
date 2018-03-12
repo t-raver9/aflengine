@@ -60,38 +60,41 @@ def getTeamCode(team):
 
 #Turns each round into two characters    
 def getRoundCode(round):
-    return {
-           '1' : '01',
-           '2' : '02',
-           '3' : '03',
-           '4' : '04',
-           '5' : '05',
-           '6' : '06',
-           '7' : '07',
-           '8' : '08',
-           '9' : '09',
-           '10' : '10',
-           '11' : '11',
-           '12' : '12',
-           '13' : '13',
-           '14' : '14',
-           '15' : '15',
-           '16' : '16',
-           '17' : '17',
-           '18' : '18',
-           '19' : '19',
-           '20' : '20',
-           '21' : '21',
-           '22' : '22',
-           '23' : '23',
-           '24' : '24',
-           'Elimination' : 'EF',
-           'Qualifying' : 'QF',
-           'Semi' : 'SF',
-           'Preliminary' : 'PF',
-           'Grand' : 'GF'
-           }[round]    
-           
+    try:
+        return {
+                '1' : '01',
+                '2' : '02',
+                '3' : '03',
+                '4' : '04',
+                '5' : '05',
+                '6' : '06',
+                '7' : '07',
+                '8' : '08',
+                '9' : '09',
+                '10' : '10',
+                '11' : '11',
+                '12' : '12',
+                '13' : '13',
+                '14' : '14',
+                '15' : '15',
+                '16' : '16',
+                '17' : '17',
+                '18' : '18',
+                '19' : '19',
+                '20' : '20',
+                '21' : '21',
+                '22' : '22',
+                '23' : '23',
+                '24' : '24',
+                'Elimination' : 'EF',
+                'Qualifying' : 'QF',
+                'Semi' : 'SF',
+                'Preliminary' : 'PF',
+                'Grand' : 'GF'
+                }[round]    
+    except KeyError:
+        print("Error for round: " + str(round))
+        
 def getMatchIndex(m):
     cells=list()
     for cell in m.findAll("td"):
