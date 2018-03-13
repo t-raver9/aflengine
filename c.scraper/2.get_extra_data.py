@@ -15,7 +15,8 @@ def getMatchID(df):
     return (str(df["year"]) + str(f.getRoundCode(df["round"])) + \
             str(f.getTeamCode(df["hometeam"])) + \
             str(f.getTeamCode(df["awayteam"])))
-    
+
+
 def nameFormat(df,col):
     if(df[col] == "Western Bulldogs"):
         return "Footscray"
@@ -27,12 +28,12 @@ def nameFormat(df,col):
         return "Greater Western Sydney"
     else:
         return df[col]
-        
+
 
 def getPlayerMatchID(df):
     playerID = str(df["name"]).replace(" ","_")
-    
-    
+
+
     if(numpy.isnan(df["addcode"])):
         return str(playerID) + str(df["matchid"])
     else:
@@ -41,7 +42,7 @@ def getPlayerMatchID(df):
 
 
 
-    
+
 
 
 
@@ -53,7 +54,7 @@ def getPlayerMatchID(df):
 
 
 
-#load files    
+#load files
 summaries = pd.read_csv("../d.input/match_summaries.csv")
 player_stats = pd.read_csv("../d.input/player_stats.csv")
 extra_summaries = pd.read_csv("../d.input/matchdetails.csv")
@@ -70,7 +71,7 @@ extra_summaries.rename(columns={'gameID_fw':'gameID'}, inplace=True)
 
 player_stats["fullname"] = player_stats["first_name"] + " " +  \
     player_stats["last_name"]
-        
+
 
 player_stats_test = player_stats.head(100)
 extra_players_test = extra_player_stats.head(100)
