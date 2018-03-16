@@ -196,3 +196,26 @@ def checkSub(df):
             return ""
     else:
         return ""
+    
+def changeDate(date):
+    dstring = date.split(' ')
+    newdate = str(dstring[1].strip('stndrh') + " " + dstring[2] + " " + dstring[3])
+    return newdate
+
+def convertStats(file,content):
+    f = pd.read_csv(file, index_col = 0)
+    m=[]
+    if(content == "Match"):
+         for index, row in f.iterrows():
+             m.append({'gameID':row["gameID"],'ha':"Home", 'team':row["hometeam"], 'kicks':row["homekicks"],
+                    'hb':row["homehb"], 'disp':row["homedisp"], 'marks':row["homemarks"], 
+                    'tackles':row["hometackles"], 'hitouts':row["homehitout"], 'ff':row["homeff"],
+                    'fa':row["homeff"], 'goals':row["homeg"], 'behinds':row["homebk"], 'score':(row["homeg"] * 6) + row["homebk"], 
+                    'margin':(row["homeg"] * 6) + row["homebk"] - ((row["awayg"] * 6) + row["awaybk"]),'rushed':row["homerush"], 'i50':row["homei50"]})
+    
+             m.append({'gameID':row["gameID"], 'ha':"Away",'team':row["awayteam"], 'kicks':row["awaykicks"],
+                    'hb':row["awayhb"], 'disp':row["awaydisp"], 'marks':row["awaymarks"], 
+                    'tackles':row["awaytackles"], 'hitouts':row["awayhitout"], 'ff':row["awayff"],
+                    'fa':row["awayff"], 'goals':row["awayg"], 'behinds':row["awaybk"], 'score':(row["awayg"] * 6) + row["awaybk"], 
+                    'margin':(row["awayg"] * 6) + row["awaybk"] - ((row["homeg"] * 6) + row["homebk"]), 'rushed':row["awayrush"], 'i50':row["awayi50"]})
+    return pd.DataFrame.from_dict(m)
