@@ -11,6 +11,7 @@ import functions as f
 import os, sys, numpy as np
 from os.path import dirname, abspath
 import re
+import timeit
 
 
 
@@ -241,26 +242,31 @@ def scrape(syear,eyear):
             player_stats = getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
             player_stats = getPlayerStats(player_stats,rawmatch[4],'A',rawmatch[0])
             player_stats = player_stats.replace(np.nan, '', regex=True)
-            print("Completed game #" + str(i) + " in season " + str(year))
-            i += 1
+            
+            
 
 
             #Scrape the scoring progression (if applicable)
             #TODO
 
-        if(year==endyear):
+        
             if(os.path.isfile("../d.input/match_summaries.csv")):
                 summaries.to_csv("../d.input/match_summaries.csv", mode="a",header=False,index=False)
                 player_stats.to_csv("../d.input/player_stats.csv", mode="a",header=False,index=False)
             else:
                 summaries.to_csv("../d.input/match_summaries.csv", mode="w",index=False)
                 player_stats.to_csv("../d.input/player_stats.csv", mode="w",index=False)
-        else:
-            summaries.to_csv("../d.input/match_summaries.csv", mode="a",header=False,index=False)
-            player_stats.to_csv("../d.input/player_stats.csv", mode="a",header=False,index=False)
+        
+            summaries = f.initSummaries()
+            player_stats = f.initPlayerStats()
+            #print("Completed game #" + str(i) + " in season " + str(year))
+            i += 1
+        
+        #else:
+        #    summaries.to_csv("../d.input/match_summaries.csv", mode="a",header=False,index=False)
+        #    player_stats.to_csv("../d.input/player_stats.csv", mode="a",header=False,index=False)
         year -= 1
-        summaries = f.initSummaries()
-        player_stats = f.initPlayerStats()
+        
 
     #player_stats["subbed"] = player_stats.apply(f.checkSub,axis=1)
     #player_stats["number"] = player_stats.apply(f.cleanNumber,axis=1)
@@ -276,7 +282,7 @@ def scrape(syear,eyear):
 if __name__ == '__main__':
     if(len(sys.argv) != 3):
         print("Using default season range of 1897 to 2017")
-        syear = 2017
+        syear = 1897
         eyear = 2017
     else:
         syear = int(sys.argv[1])

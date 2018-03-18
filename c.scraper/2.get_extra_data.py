@@ -14,55 +14,10 @@ import functions as f
 
 
 
-def getMatchID(df):
-    return (str(df["year"]) + str(f.getRoundCode(df["round"])) + \
-            str(f.getTeamCode(df["hometeam"])) + \
-            str(f.getTeamCode(df["awayteam"])))
-    
-def nameFormat(df,col):
-    if(df[col] == "Western Bulldogs"):
-        return "Footscray"
-    elif(df[col] == "Kangaroos"):
-        return "North Melbourne"
-    elif(df[col] == "Brisbane"):
-        return "Brisbane Lions"
-    elif(df[col] == "GWS"):
-        return "Greater Western Sydney"
-    else:
-        return df[col]
-        
-
-def getPlayerMatchID(df):
-    playerID = str(df["name"]).replace(" ","_")
-    
-    
-    if(numpy.isnan(df["addcode"])):
-        return str(playerID) + str(df["matchid"])
-    else:
-        return str(playerID) + str(df["matchid"]) + str(+ df["addcode"])
-
-
-
-######
-#CODE BELOW HERE NOT WORKING WITHOUT DATA FRONT FOOTYWIRE
 
 
 
 
-#load files    
-#summaries = pd.read_csv("../d.input/match_summaries.csv")
-#player_stats = pd.read_csv("../d.input/player_stats.csv")
-#extra_summaries = pd.read_csv("../d.input/matchdetails.csv")
-#extra_player_stats = pd.read_csv("../d.input/playerstats.csv")
-
-
-
-
-
-#extra_summaries["hometeam"] = extra_summaries.apply(nameFormat, col="hometeam", axis=1)
-#extra_summaries["awayteam"] = extra_summaries.apply(nameFormat, col="awayteam", axis=1)
-#extra_summaries["matchid"] = extra_summaries.apply(getMatchID, axis=1)
-#extra_summaries.rename(columns={'gameID_fw':'gameID'}, inplace=True)
 
 #player_stats["fullname"] = player_stats["first_name"] + " " +  \
 #    player_stats["last_name"]
@@ -119,9 +74,12 @@ playermatch = []
 mdetails = []
 
 
-daterange = [5089,9513]
-#5088
-#4961 - 9414
+daterange = [9513,9513]
+
+#4961 - Round one 2010
+#9531 - 2017 GF
+
+
 
 
 def loadData(gamerange):
@@ -255,22 +213,23 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
         #day = gameString[3]
         #print(gameString)
     
-    if(date.year > 2009):
+    #odds only collected since 2010, and footywire is missing 2017 GF odds
+    if(date.year > 2009 and not(int(gameID) == 9513)): 
         if "Brownlow" not in str(gameString):
             homeodds = gameString[6].split(":")[1].split(" ")[2]
             homeline = gameString[7].split("@")[0].split(" ")[2]
             awayodds = gameString[8].split(":")[1].split(" ")[2]
             awayline = gameString[9].split("@")[0].split(" ")[2]
         else:
-            homeodds = ""
-            homeline = ""
-            awayodds = ""
-            awayline = ""
+            homeodds = -1
+            homeline = -1
+            awayodds = -1
+            awayline = -1
     else:
-        homeodds = ""
-        homeline = ""
-        awayodds = ""
-        awayline = ""
+        homeodds = -1
+        homeline = -1
+        awayodds = -1
+        awayline = -1
     
     resultsString = gameResult.replace("'","").replace("defeats","defeated by").replace("defeat ","defeated by").replace("[","").replace("]","").replace("drew with","defeated by")
     results = resultsString.split("defeated by")
@@ -288,9 +247,9 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
     
 data = loadData(daterange)
 
-playerstats = data[0]
-matchdetails = data[1]
+#playerstats = data[0]
+#matchdetails = data[1]
 
-pd.DataFrame.from_dict(playerstats).to_csv("../d.input/fantasy_scores.csv", mode="w")
-pd.DataFrame.from_dict(matchdetails).to_csv("../d.input/odds_data.csv", mode="w")
+pd.DataFrame.from_dict(playermatch).to_csv("../d.input/fantasy_scores.csv", mode="a", header=False)
+pd.DataFrame.from_dict(mdetails).to_csv("../d.input/odds_data.csv", mode="a", header=False)
 
