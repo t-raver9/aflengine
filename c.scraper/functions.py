@@ -7,6 +7,7 @@ Created on Tue Feb 20 20:08:44 2018
 """
 from bs4 import BeautifulSoup
 import pandas as pd
+import numpy
 
 
 #Load an html page and return it as s BS table
@@ -64,6 +65,36 @@ def replaceTeam(team):
         return "North Melbourne"
     else:
         return team
+    
+    
+def getMatchID(df):
+    return (str(df["year"]) + str(getRoundCode(df["round"])) + \
+            str(getTeamCode(df["hometeam"])) + \
+            str(getTeamCode(df["awayteam"])))
+    
+def nameFormat(df,col):
+    if(df[col] == "Western Bulldogs"):
+        return "Footscray"
+    elif(df[col] == "Kangaroos"):
+        return "North Melbourne"
+    elif(df[col] == "Brisbane"):
+        return "Brisbane Lions"
+    elif(df[col] == "GWS"):
+        return "Greater Western Sydney"
+    else:
+        return df[col]
+        
+
+def getPlayerMatchID(df):
+    playerID = str(df["name"]).replace(" ","_")
+    
+    
+    if(numpy.isnan(df["addcode"])):
+        return str(playerID) + str(df["matchid"])
+    else:
+        return str(playerID) + str(df["matchid"]) + str(+ df["addcode"])
+    
+
 
 #Generate a three character 'teamcode' for each team
 def getTeamCode(team):
@@ -219,3 +250,33 @@ def convertStats(file,content):
                     'fa':row["awayff"], 'goals':row["awayg"], 'behinds':row["awaybk"], 'score':(row["awayg"] * 6) + row["awaybk"], 
                     'margin':(row["awayg"] * 6) + row["awaybk"] - ((row["homeg"] * 6) + row["homebk"]), 'rushed':row["awayrush"], 'i50':row["awayi50"]})
     return pd.DataFrame.from_dict(m)
+
+
+def getYear(df):
+    date = df["date"].split("/")
+    return "20" + date[2]
+
+def getNameKeyFW(df):
+    namesplit = df["name"].split(" ")
+    one = namesplit[0][0]
+    
+    if("." in namesplit[1]):
+        two = namesplit[2]
+    else:
+        two = namesplit[1]
+    three = str(df["disposals"])
+    return one + two + three
+
+def getNameKeyAT(df):
+    one = df["first_name"][1]
+    two = df["last_name"].split(" ")[0]
+    three = str(df["disposals"])
+    return one + two + three
+
+def getFullKey(df):
+    return df["matchid"] + df["namekey"]
+
+def fillYear(df):
+    yearstring = df["matchid_x"][:4]
+    return int(yearstring)
+    
