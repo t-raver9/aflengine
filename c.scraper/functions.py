@@ -52,7 +52,11 @@ def createIndex(df):
     tround = getRoundCode(df['round'])
     hcode = getTeamCode(df['hteam'])
     acode = getTeamCode(df['ateam'])
-    gindex = str(year) + str(tround) + hcode + acode
+    codes = [hcode,acode]
+    codes.sort()
+    
+    
+    gindex = str(year) + str(tround) + codes[0] + codes[1]
     return gindex
 
         #Assign game index to each game
@@ -68,9 +72,13 @@ def replaceTeam(team):
     
     
 def getMatchID(df):
+    hcode = getTeamCode(df['hometeam'])
+    acode = getTeamCode(df['awayteam'])
+    codes = [hcode,acode]
+    codes.sort()
+    
     return (str(df["year"]) + str(getRoundCode(df["round"])) + \
-            str(getTeamCode(df["hometeam"])) + \
-            str(getTeamCode(df["awayteam"])))
+            codes[0] + codes[1])
     
 def nameFormat(df,col):
     if(df[col] == "Western Bulldogs"):
@@ -155,7 +163,8 @@ def getRoundCode(round):
                 'Qualifying' : 'QF',
                 'Semi' : 'SF',
                 'Preliminary' : 'PF',
-                'Grand' : 'GF'
+                'Grand' : 'GF',
+                'Final' : 'TF'
                 }[round]
     except KeyError:
         print("Error for round: " + str(round))
@@ -206,9 +215,14 @@ def getMatchIndex(m):
 
     hcode = getTeamCode(replaceTeam(hteam))
     acode = getTeamCode(replaceTeam(ateam))
+    
+    codes = [hcode,acode]
+    codes.sort()
+    
+    
     rcode = getRoundCode(theround)
 
-    return (str(year) + str(rcode) + hcode + acode)
+    return (str(year) + str(rcode) + codes[0] + codes[1])
 
 def cleanNumber(df):
     if(len(str(df["number"])) > 2):
@@ -264,14 +278,26 @@ def getNameKeyFW(df):
         two = namesplit[2]
     else:
         two = namesplit[1]
-    three = str(df["disposals"])
-    return one + two + three
+        
+    try:
+        d = int(df["disposals"])
+    except ValueError:
+        d = 0
+    
+    three = str(d)
+    return str(one + two + three).lower()
 
 def getNameKeyAT(df):
     one = df["first_name"][1]
     two = df["last_name"].split(" ")[0]
-    three = str(df["disposals"])
-    return one + two + three
+    
+    try:
+        d = int(df["disposals"])
+    except ValueError:
+        d = 0
+    
+    three = str(d)
+    return str(one + two + three).lower()
 
 def getFullKey(df):
     return df["matchid"] + df["namekey"]
@@ -279,4 +305,35 @@ def getFullKey(df):
 def fillYear(df):
     yearstring = df["matchid_x"][:4]
     return int(yearstring)
+
+def nameClean(df):
+    NAMESWAP {
+            'Gary Jnr Ablett': 'Gary Ablett',
+            'Darcy BJones' : 'Darcy ByrneJones',
+            'Josh DCardillo' : 'Josh Deluca',
+            'Trent DLane' : 'Trent DennisLane',
+            'Cameron EYolmen' : 'Cam EllisYolmen',
+            'Michael S Gardiner' : 'Michael Gardiner',
+            'George Hsmith' : 'George HorlinSmith',
+            'Will HElliott' : 'Will HoskinElliott',
+            'Jarrod KThomson' : 'Jarrod KaylerThomson',
+            'Josh P Kennedy' : 'Josh Kennedy',
+            'Jay KHarris' : 'Jay KennedyHarris',
+            'Nathan LMurray' : 'Nathan LovettMurray',
+            'Anthony MTipungwuti' : 'Anthony McDonaldTipungwuti',
+            'Alex NBullen' : 'Alex NealBullen',
+            'Alex PSeton' : 'Alex PetrevskiSeton',
+            'Sam PPepper' : 'Sam PowellPepper',
+            'Lewis RThomson' : 'Lewis RobertsThomson',
+            'Ed VWillis' : 'Ed VickersWillis'
+            }
+    
+            return NAMESWAP.get(df.loc[])
+            #str(df["fullname"])
+            
+            
+            
+            
+            
+            }
     

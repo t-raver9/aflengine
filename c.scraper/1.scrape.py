@@ -11,7 +11,6 @@ import functions as f
 import os, sys, numpy as np
 from os.path import dirname, abspath
 import re
-import timeit
 
 
 
@@ -171,8 +170,8 @@ def getPlayerStats(p,t,ha,s):
             outrow[1] = f.getMatchIndex(s)
             outrow[2] = f.replaceTeam(team)
             outrow[3] = ha
-            outrow[4] = cells[1].split(",")[1]
-            outrow[5] = cells[1].split(",")[0]
+            outrow[4] = re.sub(r'[^\w\s]','',cells[1].split(",")[1])
+            outrow[5] = re.sub(r'[^\w\s]','',cells[1].split(",")[0])
             outrow[6] = cells[0]
             outrow[7] = cells[2]
             outrow[8] = cells[3]
@@ -282,7 +281,7 @@ def scrape(syear,eyear):
 if __name__ == '__main__':
     if(len(sys.argv) != 3):
         print("Using default season range of 1897 to 2017")
-        syear = 1897
+        syear = 2010
         eyear = 2017
     else:
         syear = int(sys.argv[1])
