@@ -11,6 +11,7 @@ from lxml import html
 from datetime import datetime
 import requests
 import functions as f
+import re
 
 
 
@@ -74,7 +75,7 @@ playermatch = []
 mdetails = []
 
 
-daterange = [9513,9513]
+daterange = [4961,9513]
 
 #4961 - Round one 2010
 #9531 - 2017 GF
@@ -162,7 +163,7 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
             i = i + 38
                          
         
-        name = str(gameIn[i].encode('utf-8'))[2:-1]
+        name = re.sub(r'[^\w\s]','',str(gameIn[i].encode('utf-8'))[2:-1])
         #kicks = int(gameIn[i+2].encode('utf-8'))
         #hb = int(gameIn[i+4].encode('utf-8'))
         disp = int(gameIn[i+6].encode('utf-8'))
@@ -250,6 +251,6 @@ data = loadData(daterange)
 #playerstats = data[0]
 #matchdetails = data[1]
 
-pd.DataFrame.from_dict(playermatch).to_csv("../d.input/fantasy_scores.csv", mode="a", header=False)
-pd.DataFrame.from_dict(mdetails).to_csv("../d.input/odds_data.csv", mode="a", header=False)
+pd.DataFrame.from_dict(playermatch).to_csv("../d.input/fantasy_scores.csv", mode="w")
+pd.DataFrame.from_dict(mdetails).to_csv("../d.input/odds_data.csv", mode="w")
 
