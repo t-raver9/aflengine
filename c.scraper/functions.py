@@ -271,7 +271,7 @@ def getYear(df):
     return "20" + date[2]
 
 def getNameKeyFW(df):
-    namesplit = df["name"].split(" ")
+    namesplit = df["fullname"].split(" ")
     one = namesplit[0][0]
     
     if("." in namesplit[1]):
@@ -307,14 +307,14 @@ def fillYear(df):
     return int(yearstring)
 
 def nameClean(df):
-    NAMESWAP {
+    return {
             'Gary Jnr Ablett': 'Gary Ablett',
             'Darcy BJones' : 'Darcy ByrneJones',
             'Josh DCardillo' : 'Josh Deluca',
             'Trent DLane' : 'Trent DennisLane',
             'Cameron EYolmen' : 'Cam EllisYolmen',
             'Michael S Gardiner' : 'Michael Gardiner',
-            'George Hsmith' : 'George HorlinSmith',
+            'George HSmith' : 'George HorlinSmith',
             'Will HElliott' : 'Will HoskinElliott',
             'Jarrod KThomson' : 'Jarrod KaylerThomson',
             'Josh P Kennedy' : 'Josh Kennedy',
@@ -322,18 +322,13 @@ def nameClean(df):
             'Nathan LMurray' : 'Nathan LovettMurray',
             'Anthony MTipungwuti' : 'Anthony McDonaldTipungwuti',
             'Alex NBullen' : 'Alex NealBullen',
-            'Alex PSeton' : 'Alex PetrevskiSeton',
+            'Sam PSeton' : 'Sam PetrevskiSeton',
             'Sam PPepper' : 'Sam PowellPepper',
             'Lewis RThomson' : 'Lewis RobertsThomson',
             'Ed VWillis' : 'Ed VickersWillis'
-            }
+            }.get(df["name"],df["name"])
     
-            return NAMESWAP.get(df.loc[])
+            #return NAMESWAP.get(df.loc[])
             #str(df["fullname"])
-            
-            
-            
-            
-            
-            }
+
     
