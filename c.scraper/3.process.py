@@ -23,12 +23,14 @@ odds["matchid"] = odds.apply(f.getMatchID, axis=1)
 fantasy = pd.merge(fantasy,odds,how="left",on="gameID")
 fantasy.drop(["Unnamed: 0_x", "gameID","Unnamed: 0_y"], axis=1, inplace=True)
 
+
+fantasy["fullname"] = fantasy.apply(f.nameClean,axis=1)
+
 fantasy["namekey"] = fantasy.apply(f.getNameKeyFW,axis=1)
 
 player_stats["namekey"] = player_stats.apply(f.getNameKeyAT,axis=1)
 
 
-fantasy["fullname"] = fantasy.apply(f.nameClean,axis=1)
 
 
 fantasy["fullkey"] = fantasy.apply(f.getFullKey,axis=1)
