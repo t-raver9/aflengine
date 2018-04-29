@@ -46,8 +46,13 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
     with open('../d.matchfiles/matchlist.json','w') as fout:
         json.dump(matchlist,fout)
 
+<<<<<<< HEAD
 #Get main match files from JSON list and store the html files in fodler 
 def getPages(syear,eyear):
+=======
+#Get files from JSON list and store them in the        
+def getPages():
+>>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
     #load list from JSON file
     with open('../d.matchfiles/matchlist.json','r') as fin:
         data = json.load(fin)
@@ -59,6 +64,7 @@ def getPages(syear,eyear):
         if not os.path.exists("../d.matchfiles/" + year):
             os.makedirs("../d.matchfiles/" + year)
         #Iterate through each match in the year
+<<<<<<< HEAD
         for matchurl in mlist:            
             code = str(matchurl).rpartition('/')[2]
             if not os.path.exists("../d.matchfiles/" + year + "/" + code):
@@ -111,5 +117,28 @@ if __name__ == '__main__':
     getPageNames(syear,eyear)
     getPages(syear, eyear)
     getExtraPages(scode,ecode)
+=======
+        for matchurl in mlist:
+            code = str(matchurl).rpartition('/')[2]
+            urllib.request.urlretrieve(matchurl, 
+                "../d.matchfiles/" + year + "/" + code)
+        print("Successfully downloaded matches for " + str(year) + " season") 
+            
+
+    
+#If run from command line, takes year ranges as parameters, otherwise
+#uses defaults
+if __name__ == '__main__':
+    if(len(sys.argv) != 3):
+        print("Using default season range of 1897 to 2017")
+        syear = 1897
+        eyear = 2017
+    else:
+        syear = int(sys.argv[1])
+        eyear = int(sys.argv[2])
+    
+    getPageNames(syear,eyear)
+    getPages()
+>>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
 
  

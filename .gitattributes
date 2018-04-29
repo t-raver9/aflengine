@@ -1,3 +1,6 @@
 d.input/match_summaries.csv filter=lfs diff=lfs merge=lfs -text
 d.input/player_stats.csv filter=lfs diff=lfs merge=lfs -text
+<<<<<<< HEAD
 *.csv filter=lfs diff=lfs merge=lfs -text
+=======
+>>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85

@@ -13,6 +13,7 @@ import afunctions as a
 summaries = pd.read_csv("../d.output/modern_match_summaries.csv")
 player_stats = pd.read_csv("../d.output/modern_full_players.csv")
 
+<<<<<<< HEAD
 
 #load historial data
 hsummaries = pd.read_csv("../d.output/historic_match_summaries.csv")
@@ -20,6 +21,8 @@ hplayer_stats = pd.read_csv("../d.output/historic_full_players.csv")
 
 
 #GROUP POINTS PER SEASON
+=======
+>>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
 #load historical match summaries
 hist_summaries = pd.read_csv("../d.output/historic_match_summaries.csv")
 
@@ -30,6 +33,7 @@ hist_summaries["totalpoints"] = hist_summaries.apply(a.getPoints,axis=1)
 average_scores = hist_summaries.groupby('season')['totalpoints'].mean().sort_values(ascending=False)
 
 
+<<<<<<< HEAD
 
 #GROUP SCORES BY GROUND
 summaries2000 = hsummaries.loc[hsummaries['season'] >= 2000]
@@ -42,3 +46,8 @@ ground_data = pd.concat([ground_score_averages,ground_score_count,ground_score_a
 ground_data = ground_data[ground_data.matchid >= 50]
 
 ground_data.rename(columns={'matchid': 'matches','totalpoints':'avepoints'}, inplace=True)
+=======
+average_scores.to_csv("../d.analysis/points_per_game.csv", mode="w")
+
+
+>>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
