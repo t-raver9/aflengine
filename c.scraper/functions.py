@@ -133,6 +133,7 @@ def getTeamCode(team):
 
 #Turns each round into two characters
 def getRoundCode(round):
+    r = str(round)
     try:
         return {
                 '1' : '01',
@@ -165,7 +166,7 @@ def getRoundCode(round):
                 'Preliminary' : 'PF',
                 'Grand' : 'GF',
                 'Final' : 'TF'
-                }[round]
+                }[r]
     except KeyError:
         print("Error for round: " + str(round))
 
@@ -218,8 +219,7 @@ def getMatchIndex(m):
     
     codes = [hcode,acode]
     codes.sort()
-    
-    
+        
     rcode = getRoundCode(theround)
 
     return (str(year) + str(rcode) + codes[0] + codes[1])
@@ -267,8 +267,10 @@ def convertStats(file,content):
 
 
 def getYear(df):
-    date = df["date"].split("/")
-    return "20" + date[2]
+    #date = df["date"].split("/")
+    #return "20" + date[2]
+    return pd.to_datetime(df["date"]).year
+    #return df["date"].year
 
 def getNameKeyFW(df):
     namesplit = df["fullname"].split(" ")
@@ -325,7 +327,8 @@ def nameClean(df):
             'Sam PSeton' : 'Sam PetrevskiSeton',
             'Sam PPepper' : 'Sam PowellPepper',
             'Lewis RThomson' : 'Lewis RobertsThomson',
-            'Ed VWillis' : 'Ed VickersWillis'
+            'Ed VWillis' : 'Ed VickersWillis',
+            'Luke DUniacke' : 'Luke DaviesUniacke'
             }.get(df["name"],df["name"])
     
             #return NAMESWAP.get(df.loc[])

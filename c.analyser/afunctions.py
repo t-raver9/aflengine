@@ -9,3 +9,12 @@ Created on Tue Mar 20 21:47:24 2018
 def getPoints(df):
     return int(df["hteam_q4"].split(".")[2]) + \
             int(df["ateam_q4"].split(".")[2])
+            
+def getAccuracy(df):
+    goals = int(df["hteam_q4"].split(".")[0]) + \
+        int(df["ateam_q4"].split(".")[0])
+    
+    behinds = int(df["hteam_q4"].split(".")[1]) + \
+        int(df["ateam_q4"].split(".")[1])
+    
+    return (goals / (goals + behinds) * 100)

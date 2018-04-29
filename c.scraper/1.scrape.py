@@ -86,6 +86,7 @@ def getSummary(t):
         print ("Error with file:" + str(cells[1]) + "   " + str(len(matchstring)))
 
     outrow[25] = f.getMatchIndex(t)
+    print(outrow[25])
 
     #Process teams and quarter by quarter scores for non overtime games
     if(len(cells)==25): #Game finishing in regular time
@@ -280,14 +281,18 @@ def scrape(syear,eyear):
 #uses defaults
 if __name__ == '__main__':
     if(len(sys.argv) != 3):
-        print("Using default season range of 1897 to 2017")
-        syear = 2010
-        eyear = 2017
+        print("Using default season range of 1897 to 2018")
+        syear = 1897
+        eyear = 2018
     else:
         syear = int(sys.argv[1])
         eyear = int(sys.argv[2])
+        
+        
+        
 
     summaries, players = scrape(syear,eyear)
+    
 
     #Output to CSV
     #summaries.to_csv("../d.input/match_summaries.csv", mode="w")
