@@ -217,14 +217,14 @@ def scrape(syear,eyear):
         print("Processing year: " + str(year))
 
 
-        files = os.listdir(d + "/d.matchfiles/" + str(year))
+        files = os.listdir(d + "/d.matchfiles/afltables/" + str(year))
 
         #Iterate through each match in the year
         i = 1
         for file in files:
 
             #Load the match HTML
-            rawmatch = f.loadPage(d + "/d.matchfiles/" + str(year) + "/" + file)
+            rawmatch = f.loadPage(d + "/d.matchfiles/afltables/" + str(year) + "/" + file)
 
             #removes the 'records' table if there is one
             if(len(rawmatch) == 9):
@@ -241,31 +241,31 @@ def scrape(syear,eyear):
             player_stats = getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
             player_stats = getPlayerStats(player_stats,rawmatch[4],'A',rawmatch[0])
             player_stats = player_stats.replace(np.nan, '', regex=True)
-            
-            
+
+
 
 
             #Scrape the scoring progression (if applicable)
             #TODO
 
-        
+
             if(os.path.isfile("../d.input/match_summaries.csv")):
                 summaries.to_csv("../d.input/match_summaries.csv", mode="a",header=False,index=False)
                 player_stats.to_csv("../d.input/player_stats.csv", mode="a",header=False,index=False)
             else:
                 summaries.to_csv("../d.input/match_summaries.csv", mode="w",index=False)
                 player_stats.to_csv("../d.input/player_stats.csv", mode="w",index=False)
-        
+
             summaries = f.initSummaries()
             player_stats = f.initPlayerStats()
             #print("Completed game #" + str(i) + " in season " + str(year))
             i += 1
-        
+
         #else:
         #    summaries.to_csv("../d.input/match_summaries.csv", mode="a",header=False,index=False)
         #    player_stats.to_csv("../d.input/player_stats.csv", mode="a",header=False,index=False)
         year -= 1
-        
+
 
     #player_stats["subbed"] = player_stats.apply(f.checkSub,axis=1)
     #player_stats["number"] = player_stats.apply(f.cleanNumber,axis=1)
@@ -286,11 +286,11 @@ if __name__ == '__main__':
     else:
         syear = int(sys.argv[1])
         eyear = int(sys.argv[2])
-        
+
 
 
     summaries, players = scrape(syear,eyear)
-    
+
 
 
     #Output to CSV
