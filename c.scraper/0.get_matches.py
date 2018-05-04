@@ -39,7 +39,7 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
                         data.pop(str(n))
                 except KeyError:
                     pass
-            with open(d + "/d.matchfiles/afltables/matchlist.json",'w') as datafile:
+            with open(d + "/d.matchfiles/afltables/matchlist.json",'a') as datafile:
                 json.dump(data, datafile)    
     except (FileNotFoundError, IOError):
         pass

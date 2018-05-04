@@ -217,14 +217,14 @@ def scrape(syear,eyear):
         print("Processing year: " + str(year))
 
 
-        files = os.listdir(d + "/d.matchfiles/" + str(year))
+        files = os.listdir(d + "/d.matchfiles/afltables/" + str(year))
 
         #Iterate through each match in the year
         i = 1
         for file in files:
 
             #Load the match HTML
-            rawmatch = f.loadPage(d + "/d.matchfiles/" + str(year) + "/" + file)
+            rawmatch = f.loadPage(d + "/d.matchfiles/afltables/" + str(year) + "/" + file)
 
             #removes the 'records' table if there is one
             if(len(rawmatch) == 9):
