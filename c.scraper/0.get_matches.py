@@ -7,6 +7,7 @@ Created on Wed Feb  7 20:54:07 2018
 """
 
 from bs4 import BeautifulSoup
+from os.path import dirname, abspath
 import urllib, os, json, sys
 
 
@@ -18,7 +19,33 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
     end = ".html"
     matchlist = dict()
     year = endyear
+    d = dirname(dirname(abspath(__file__)))
+    
+    
+    #make a list of all the years
+    n=startyear
+    years = list()
+    while(n<=endyear):
+        years.append(n)
+        n += 1
+      
+    #delete any years we are redownloading
+    try:
+        with open(d + "/d.matchfiles/afltables/matchlist.json",'r') as datafile:
+            data = json.load(datafile)
+            for n in years:
+                try:
+                    if data[str(n)]:
+                        data.pop(str(n))
+                except KeyError:
+                    pass
+            with open(d + "/d.matchfiles/afltables/matchlist.json",'w') as datafile:
+                json.dump(data, datafile)    
+    except (FileNotFoundError, IOError):
+        pass
 
+
+    
     #loops backwards from endyear to startyear
     while(year>=startyear):
         url = base + str(year) + end
@@ -43,29 +70,33 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
         
 
     #When all seasons are done, output to JSON list
-    with open('../d.matchfiles/afltables/matchlist.json','w') as fout:
+    with open(d + "/d.matchfiles/afltables/matchlist.json",'w') as fout:
         json.dump(matchlist,fout)
 
+    return matchlist
 
 #Get main match files from JSON list and store the html files in fodler 
 def getPages(syear,eyear):
+    d = dirname(dirname(abspath(__file__)))
+    
+    
     #load list from JSON file
-    with open('../d.matchfiles/afltables/matchlist.json','r') as fin:
+    with open(d + "/d.matchfiles/afltables/matchlist.json",'r') as fin:
         data = json.load(fin)
     
     #Iterate through each year in the list
     for year, mlist in data.items():
         print("Downloading " + str(year) + " season")
         #Create folder for that year if it doesn't exist
-        if not os.path.exists("../d.matchfiles/afltables/" + year):
-            os.makedirs("../d.matchfiles/afltables/" + year)
+        if not os.path.exists(d + "/d.matchfiles/afltables/" + year):
+            os.makedirs(d + "/d.matchfiles/afltables/" + year)
         #Iterate through each match in the year
 
         for matchurl in mlist:            
             code = str(matchurl).rpartition('/')[2]
-            if not os.path.exists("../d.matchfiles/afltables/" + year + "/" + code):
+            if not os.path.exists(d + "/d.matchfiles/afltables/" + year + "/" + code):
                 urllib.request.urlretrieve(matchurl, 
-                                           "../d.matchfiles/afltables/" + year + "/" + code)
+                                           d + "/d.matchfiles/afltables/" + year + "/" + code)
                 #print("Successfully downloaded matches for " + str(year) + " season") 
             else:
                 print("Match: " + code + " already exists. Skipping")
@@ -73,9 +104,10 @@ def getPages(syear,eyear):
 
 #get the pages with odds and fantasy data from footywire
 def getExtraPages(scode,ecode):
+    d = dirname(dirname(abspath(__file__)))
     print("Getting matches from " + str(scode) + " to " + str(ecode))
-    if not os.path.exists("../d.matchfiles/footywire"):
-            os.makedirs("../d.matchfiles/footywire")
+    if not os.path.exists(d + "/d.matchfiles/footywire"):
+            os.makedirs(d + "/d.matchfiles/footywire")
     for t in range(scode,ecode+1):
         errors = 0
         if(t>9297 or t<6370 and  t!=6079 and t!=6162):
@@ -83,9 +115,9 @@ def getExtraPages(scode,ecode):
                 url1 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
                 url2 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t) + '&advv=Y'                
                 urllib.request.urlretrieve(url1, 
-                "../d.matchfiles/footywire" + str(t) + ".html")
+                d + "/d.matchfiles/footywire" + str(t) + ".html")
                 urllib.request.urlretrieve(url2, 
-                "../d.matchfiles/footywire_adv" + str(t) + ".html")
+                d + "/d.matchfiles/footywire_adv" + str(t) + ".html")
                 
             except IndexError:
                 print("There was an index error with match #" + str(t))
