@@ -6,7 +6,7 @@ Created on Wed Feb 28 15:15:51 2018
 @author: chrisstrods
 """
 
-<<<<<<< HEAD
+
 import pandas as pd
 from lxml import html
 from datetime import datetime
@@ -14,69 +14,6 @@ import functions as f
 import re
 from os.path import dirname, abspath
 import os
-=======
-import numpy, pandas as pd
-from lxml import html
-from datetime import datetime
-import requests
-import functions as f
-import re
-
-
-
-
-
-
-
-
-#player_stats["fullname"] = player_stats["first_name"] + " " +  \
-#    player_stats["last_name"]
-        
-
-#player_stats_test = player_stats.head(100)
-#extra_players_test = extra_player_stats.head(100)
-#extra_summaries_test = extra_summaries.head(n=100)
-
-#
-
-#extra_players_joined = pd.merge(extra_player_stats,extra_summaries,how="left",on="gameID")
-#extra_players_joined_trimmed = extra_players_joined[['name','homeAway','hometeam','awayteam','AFLfantasy','Supercoach','matchid']]
-#extra_players_joined_trimmed_test = extra_players_joined_trimmed.head(100)
-
-
-
-
-#extra_players_joined_trimmed_test["Fuzzy1"] = extra_players_joined_trimmed_test.apply(fuzzy_match,
-#                                args=(player_stats,fuzz.ratio, 80),axis=0)
-
-
-#fantasy_joined["playermatchid"] = fantasy_joined.apply(getPlayerMatchID, axis=1)
-
-
-#fantasy_test = fantasy_joined.head(n=100)
-
-
-#fantasy_joined.to_csv("../extra_data/fantasy_joined.csv",mode="w")
-
-
-
-#summaries_joined = pd.merge(summaries,extra_summaries,how="left",on="matchid")
-#players_joined = pd.merge(player_stats,fantasy_joined,how="left",on="playermatchid")
-
-
-#fantasy_test = fantasy_joined.head(n=100)
-#summaries_test = summaries_joined.head(n=100)
-#players_test = players_joined.head(n=100)
-
-
-#players_joined.to_csv("../extra_data/players_joined.csv",mode="w")
-
-
-#fantasy_joined["matchid"] = fantasy_joined.apply(getMatchID,axis=1)
-
-
-
->>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
 
 
 
@@ -85,44 +22,33 @@ playermatch = []
 mdetails = []
 
 
-<<<<<<< HEAD
-daterange = [9514,9563]
-
-#4961 - Round one 2010
-#9513 - 2017 GF
-#9558 - end round 5 2018
-=======
-daterange = [4961,9513]
+daterange = [4961,9567]
 
 #4961 - Round one 2010
 #9531 - 2017 GF
->>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
+#9567 - End round 6 2018
+
 
 
 
 
 def loadData(gamerange):
     errorcount = 0
-<<<<<<< HEAD
     d = dirname(dirname(abspath(__file__)))
-=======
->>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
+
+
     for t in range(gamerange[0],gamerange[1]+1):
         if(t>9297 or t<6370):
             try:
                 print("Processing game #" + str(t))
                 #download file from server
-<<<<<<< HEAD
+
                 
                 #url ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
                 file = open(d + "/d.extrafiles/" + str(t) + ".html")
                 #tree = etree.parse(response)
                 tree = html.fromstring(file.read())
-=======
-                url ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
-                response = requests.get(url)
-                tree = html.fromstring(response.text)
->>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
+
                 #print(page.read())
         
 
@@ -194,7 +120,7 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
                          
         
         name = re.sub(r'[^\w\s]','',str(gameIn[i].encode('utf-8'))[2:-1])
-<<<<<<< HEAD
+
         disp = int(gameIn[i+6].encode('utf-8'))
 
         if(year<2007):
@@ -204,35 +130,7 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
         else:
             AFLfantasy = int(gameIn[i+32].encode('utf-8'))
             Supercoach = int(gameIn[i+34].encode('utf-8'))
-=======
-        #kicks = int(gameIn[i+2].encode('utf-8'))
-        #hb = int(gameIn[i+4].encode('utf-8'))
-        disp = int(gameIn[i+6].encode('utf-8'))
-        #marks = int(gameIn[i+8].encode('utf-8'))
-        #goals = int(gameIn[i+10].encode('utf-8'))
-        #behinds = int(gameIn[i+12].encode('utf-8'))
-        #tackles = int(gameIn[i+14].encode('utf-8'))
 
-        if(year<2007):
-            #i50s = -1
-        
-            #hitouts = int(gameIn[i+16].encode('utf-8'))
-            #freesFor = int(gameIn[i+18].encode('utf-8'))
-            #freesAgainst = int(gameIn[i+20].encode('utf-8'))
-
-            AFLfantasy = ""
-            Supercoach = ""
-            continue
-            
-        else:
-            #i50s = int(gameIn[i+18].encode('utf-8'))
-            #freesFor = int(gameIn[i+20].encode('utf-8'))
-            #freesAgainst = int(gameIn[i+22].encode('utf-8'))
-            AFLfantasy = int(gameIn[i+32].encode('utf-8'))
-            Supercoach = int(gameIn[i+34].encode('utf-8'))
-            #hitouts = int(gameIn[i+16].encode('utf-8'))
-        
->>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
         
         gameOut.append({'gameID':gameID, 'homeAway':homeAway, 
                         'name':name, 'disposals':disp, 'AFLfantasy':AFLfantasy, 
@@ -243,24 +141,11 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
     gameString = gameIn.replace('\\n','').replace("'",'').split(',')
     mround = gameString[0].split(' ')[1]
     if(not(int(gameID) < 1840)):
-<<<<<<< HEAD
+
         date = datetime.strptime(f.changeDate(gameString[4]),'%d %B %Y').date()
         time = str(gameString[5].split(" ")[1] + gameString[5].split(" ")[2] )
 
-=======
-        #venue = "N/A"
-        #crowd = "N/A"
-        #date = "N/A"
-        #time = "N/A"
-        #day = "N/A"
-        date = datetime.strptime(f.changeDate(gameString[4]),'%d %B %Y').date()
-        time = str(gameString[5].split(" ")[1] + gameString[5].split(" ")[2] )
-    #else:
-        #venue = gameString[1]
-        #crowd = gameString[2].split(' ')[2]
-        #day = gameString[3]
-        #print(gameString)
->>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
+
     
     #odds only collected since 2010, and footywire is missing 2017 GF odds
     if(date.year > 2009 and not(int(gameID) == 9513)): 
@@ -299,7 +184,7 @@ data = loadData(daterange)
 #playerstats = data[0]
 #matchdetails = data[1]
 
-<<<<<<< HEAD
+
 if(os.path.isfile("../d.input/fantasy_scores.csv")):
     pd.DataFrame.from_dict(playermatch).to_csv("../d.input/fantasy_scores.csv", mode="a", index = False, header=False)
 else:
@@ -312,8 +197,5 @@ else:
 
 
 
-=======
-pd.DataFrame.from_dict(playermatch).to_csv("../d.input/fantasy_scores.csv", mode="w")
-pd.DataFrame.from_dict(mdetails).to_csv("../d.input/odds_data.csv", mode="w")
->>>>>>> 11cc48be996f73df4ac9a8dc6b7353238b68eb85
+
 
