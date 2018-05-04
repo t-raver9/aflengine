@@ -43,29 +43,29 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
         
 
     #When all seasons are done, output to JSON list
-    with open('../d.matchfiles/matchlist.json','w') as fout:
+    with open('../d.matchfiles/afltables/matchlist.json','w') as fout:
         json.dump(matchlist,fout)
 
 
 #Get main match files from JSON list and store the html files in fodler 
 def getPages(syear,eyear):
     #load list from JSON file
-    with open('../d.matchfiles/matchlist.json','r') as fin:
+    with open('../d.matchfiles/afltables/matchlist.json','r') as fin:
         data = json.load(fin)
     
     #Iterate through each year in the list
     for year, mlist in data.items():
         print("Downloading " + str(year) + " season")
         #Create folder for that year if it doesn't exist
-        if not os.path.exists("../d.matchfiles/" + year):
-            os.makedirs("../d.matchfiles/" + year)
+        if not os.path.exists("../d.matchfiles/afltables/" + year):
+            os.makedirs("../d.matchfiles/afltables/" + year)
         #Iterate through each match in the year
 
         for matchurl in mlist:            
             code = str(matchurl).rpartition('/')[2]
-            if not os.path.exists("../d.matchfiles/" + year + "/" + code):
+            if not os.path.exists("../d.matchfiles/afltables/" + year + "/" + code):
                 urllib.request.urlretrieve(matchurl, 
-                                           "../d.matchfiles/" + year + "/" + code)
+                                           "../d.matchfiles/afltables/" + year + "/" + code)
                 #print("Successfully downloaded matches for " + str(year) + " season") 
             else:
                 print("Match: " + code + " already exists. Skipping")
@@ -74,15 +74,19 @@ def getPages(syear,eyear):
 #get the pages with odds and fantasy data from footywire
 def getExtraPages(scode,ecode):
     print("Getting matches from " + str(scode) + " to " + str(ecode))
-    if not os.path.exists("../d.extrafiles"):
-            os.makedirs("../d.extrafiles")
+    if not os.path.exists("../d.matchfiles/footywire"):
+            os.makedirs("../d.matchfiles/footywire")
     for t in range(scode,ecode+1):
         errors = 0
         if(t>9297 or t<6370 and  t!=6079 and t!=6162):
             try:
-                url ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
-                urllib.request.urlretrieve(url, 
-                "../d.extrafiles/" + str(t) + ".html")
+                url1 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
+                url2 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t) + '&advv=Y'                
+                urllib.request.urlretrieve(url1, 
+                "../d.matchfiles/footywire" + str(t) + ".html")
+                urllib.request.urlretrieve(url2, 
+                "../d.matchfiles/footywire_adv" + str(t) + ".html")
+                
             except IndexError:
                 print("There was an index error with match #" + str(t))
                 errors += 1
@@ -97,7 +101,7 @@ def getExtraPages(scode,ecode):
 if __name__ == '__main__':
     if(len(sys.argv) != 5):
         print("Using default season range of 1897 to 2017")
-        syear = 2018
+        syear = 1897
         eyear = 2018
 
         #first game 2010 is 5089, don't go back any further as info
