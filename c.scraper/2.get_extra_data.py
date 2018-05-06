@@ -45,7 +45,7 @@ def loadData(gamerange):
 
                 
                 #url ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
-                file = open(d + "/d.extrafiles/" + str(t) + ".html")
+                file = open(d + "/d.extrafiles/footywire/" + str(t) + ".html")
                 #tree = etree.parse(response)
                 tree = html.fromstring(file.read())
 
