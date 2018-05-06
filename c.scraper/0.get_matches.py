@@ -115,9 +115,9 @@ def getExtraPages(scode,ecode):
                 url1 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
                 url2 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t) + '&advv=Y'                
                 urllib.request.urlretrieve(url1, 
-                d + "/d.matchfiles/footywire" + str(t) + ".html")
+                d + "/d.matchfiles/footywire/footywire" + str(t) + ".html")
                 urllib.request.urlretrieve(url2, 
-                d + "/d.matchfiles/footywire_adv" + str(t) + ".html")
+                d + "/d.matchfiles/footywire_adv/footywire_adv" + str(t) + ".html")
                 
             except IndexError:
                 print("There was an index error with match #" + str(t))
@@ -138,16 +138,21 @@ if __name__ == '__main__':
 
         #first game 2010 is 5089, don't go back any further as info
         #is redundant
-        scode = 5089
-        ecode = 9563        
+        
+        #4961 - earliest game
+        #9563 - up to round 6 end
+        #5089
+        
+        scode = 5053
+        ecode = 5088
     else:
         syear = int(sys.argv[1])
         eyear = int(sys.argv[2])
         scode = int(sys.argv[3])
         ecode = int(sys.argv[4])
     
-    getPageNames(syear,eyear)
-    getPages(syear, eyear)
+    #getPageNames(syear,eyear)
+    #getPages(syear, eyear)
     getExtraPages(scode,ecode)
 
 
