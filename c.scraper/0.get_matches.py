@@ -106,8 +106,8 @@ def getPages(syear,eyear):
 def getExtraPages(scode,ecode):
     d = dirname(dirname(abspath(__file__)))
     print("Getting matches from " + str(scode) + " to " + str(ecode))
-    if not os.path.exists(d + "/d.matchfiles/footywire"):
-            os.makedirs(d + "/d.matchfiles/footywire")
+    if not os.path.exists(d + "/d.matchfiles/footywire/"):
+            os.makedirs(d + "/d.matchfiles/footywire/")
     for t in range(scode,ecode+1):
         errors = 0
         if(t>9297 or t<6370 and  t!=6079 and t!=6162):
@@ -133,7 +133,7 @@ def getExtraPages(scode,ecode):
 if __name__ == '__main__':
     if(len(sys.argv) != 5):
         print("Using default season range of 1897 to 2017")
-        syear = 1897
+        syear = 2018
         eyear = 2018
 
         #first game 2010 is 5089, don't go back any further as info
@@ -143,16 +143,16 @@ if __name__ == '__main__':
         #9563 - up to round 6 end
         #5089
         
-        scode = 5053
-        ecode = 5088
+        scode = 9568
+        ecode = 9576
     else:
         syear = int(sys.argv[1])
         eyear = int(sys.argv[2])
         scode = int(sys.argv[3])
         ecode = int(sys.argv[4])
     
-    #getPageNames(syear,eyear)
-    #getPages(syear, eyear)
+    getPageNames(syear,eyear)
+    getPages(syear, eyear)
     getExtraPages(scode,ecode)
 
 

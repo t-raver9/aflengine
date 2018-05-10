@@ -22,11 +22,12 @@ playermatch = []
 mdetails = []
 
 
-daterange = [4961,9567]
+daterange = [9568,9576]
 
 #4961 - Round one 2010
 #9531 - 2017 GF
 #9567 - End round 6 2018
+#9576 - End round 7 2018
 
 
 
@@ -38,14 +39,14 @@ def loadData(gamerange):
 
 
     for t in range(gamerange[0],gamerange[1]+1):
-        if(t>9297 or t<6370):
+        if(t>9297 or t<6370 and  t!=6079 and t!=6162):
             try:
                 print("Processing game #" + str(t))
                 #download file from server
 
                 
                 #url ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
-                file = open(d + "/d.extrafiles/footywire/" + str(t) + ".html")
+                file = open(d + "/d.matchfiles/footywire/footywire" + str(t) + ".html")
                 #tree = etree.parse(response)
                 tree = html.fromstring(file.read())
 

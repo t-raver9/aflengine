@@ -281,7 +281,7 @@ def scrape(syear,eyear):
 if __name__ == '__main__':
     if(len(sys.argv) != 3):
         print("Using default season range of 1897 to 2018")
-        syear = 1897
+        syear = 2018
         eyear = 2018
     else:
         syear = int(sys.argv[1])

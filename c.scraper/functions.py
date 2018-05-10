@@ -314,7 +314,7 @@ def getFullKey(df):
     return df["matchid"] + df["namekey"]
 
 def fillYear(df):
-    yearstring = df["matchid_x"][:4]
+    yearstring = df["matchid"][:4]
     return int(yearstring)
 
 def nameClean(df):
@@ -344,4 +344,3 @@ def nameClean(df):
             #return NAMESWAP.get(df.loc[])
             #str(df["fullname"])
 
-    
