@@ -8,12 +8,19 @@ Created on Thu May 10 19:46:37 2018
 
 
 from pydata import libs #load tidyverse
+globals().update(libs())
 from os.path import dirname, abspath
 import afunctions as af
 from scipy.stats.stats import pearsonr, spearmanr
+import plotly.plotly as py
+import plotly.graph_objs as go
 
-globals().update(libs())
 
+
+plotly.__version__
+
+
+plotly.tools.set_credentials_file(username='chrisstrods', api_key='IO7gBrNiF7Mwp3VI6SYX')
 
 #load match and player data
 d = dirname(dirname(abspath('__file__')))
@@ -56,8 +63,8 @@ matches_with_frees["umpgames"] =  \
     matches_with_frees.apply(af.getUmpireGames,axis=1)
 
 #Put umpgames and frees into standalone lists    
-umpgames = matches_with_frees["umpgames"].tolist()
-frees = matches_with_frees["frees_for"].tolist()
+lumpgames = matches_with_frees["umpgames"].tolist()
+lfrees = matches_with_frees["total_frees"].tolist()
 
 
 
@@ -74,3 +81,17 @@ dognopannell = dognopannell.loc[dognopannell["season"]>= 2010]
 dognopannell["freedifference"] = dognopannell.apply(af.dogPannelDiff,axis=1)
 revdiff = dognopannell["freedifference"].sum()
 revavediff = dognopannell["freedifference"].mean()
+
+
+
+trace = go.Scatter(
+    x = lumpgames,
+    y = lfrees,
+    mode = 'markers'
+)
+
+data = [trace]
+
+# Plot and embed in ipython notebook!
+py.iplot(data, filename='basic-scatter')
+
