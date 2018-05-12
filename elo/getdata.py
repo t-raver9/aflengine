@@ -22,7 +22,7 @@ matches["date"] = pd.to_datetime(matches["date"], \
 matches["date"] = matches["date"].dt.date
 
 #Exlude matches before 1990
-matches = matches.loc[matches["date"] > datetime.date(1990,1,1)]
+#matches = matches.loc[matches["date"] > datetime.date(1990,1,1)]
 
 
 pdsql = lambda q: sqldf(q, globals())

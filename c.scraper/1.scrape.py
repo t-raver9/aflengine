@@ -100,18 +100,18 @@ def getSummary(t):
         outrow[14] = cells[11]  #ateamQ3
         outrow[15] = cells[12]  #ateamQ4
     elif(len(cells)==29): #Game finishing in overtime
-        outrow[6] = f.replaceTeam(cells[3])    #hteam
-        outrow[7] = cells[4]    #hteamQ1
-        outrow[8] = cells[5]    #hteamQ2
-        outrow[9] = cells[6]    #hteamQ3
-        outrow[10] = cells[7]   #hteamQ4
-        outrow[11] = f.replaceTeam(cells[8])   #ateam
-        outrow[12] = cells[10]   #ateamQ1
-        outrow[13] = cells[11]  #ateamQ2
-        outrow[14] = cells[12]  #ateamQ3
-        outrow[15] = cells[13]  #ateamQ4
-        outrow[22] = cells[8]  #hteamET
-        outrow[23] = cells[14]  #ateamET
+        outrow[6] = f.replaceTeam(cells[9])    #hteam
+        outrow[7] = cells[10]    #hteamQ1
+        outrow[8] = cells[11]    #hteamQ2
+        outrow[9] = cells[12]    #hteamQ3
+        outrow[10] = cells[13]   #hteamQ4
+        outrow[11] = f.replaceTeam(cells[3])   #ateam
+        outrow[12] = cells[4]   #ateamQ1
+        outrow[13] = cells[5]  #ateamQ2
+        outrow[14] = cells[6]  #ateamQ3
+        outrow[15] = cells[7]  #ateamQ4
+        outrow[22] = cells[14]  #hteamET
+        outrow[23] = cells[8]  #ateamET
 
 
     #Process differently based on howm any umpires in the game
