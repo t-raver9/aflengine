@@ -8,9 +8,11 @@ Created on Sat May 12 10:42:24 2018
 
 import pandas as pd
 from os.path import dirname, abspath
+import collections
 
 
 STARTYEAR = 1897 #Year to begin processing data from
+LASTYEAR = 2018 #Last year data collected
 STARTELO = 1500 #The default starting ELO rating
 MEANELO = 1500
 ISRF = 0.1 #Inter season regression factor
@@ -102,7 +104,49 @@ def initialiseData():
          "West Coast":Team("West Coast",STARTELO),\
          "University":Team("University",STARTELO)}
     
-    return t, m
+    initialiser = collections.OrderedDict({'team':["Adelaide","Brisbane Bears", \
+        "Brisbane Lions","Carlton","Collingwood","Essendon",\
+        "Footscray","Fitzroy","Fremantle","Geelong","Gold Coast",\
+        "Greater Western Sydney","Hawthorn","Melbourne",\
+        "North Melbourne","Port Adelaide","Richmond","St Kilda",\
+        "South Melbourne","Sydney","West Coast","University"
+        ],'R1':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R2':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R3':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R4':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R5':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R6':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R7':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R8':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R9':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R10':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R11':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R12':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R13':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R14':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R15':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R16':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R17':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R18':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R19':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R20':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R21':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R22':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R23':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R24':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'F1':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'F2':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'F3':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'F4':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        })
+
+    
+    h = {}
+    for i in range(STARTYEAR,LASTYEAR+1):
+        h[i] = pd.DataFrame(data=initialiser)
+        h[i].set_index('team',inplace=True)
+    
+    return t, m, h
 
 
 def matchELO(match,teams,teamone,teamtwo,opp_elo):
@@ -150,41 +194,72 @@ def matchELO(match,teams,teamone,teamtwo,opp_elo):
     
     return new_elo
      
-    
+def updateRound(r):
+    if(r == "Qualifying" or r== "Elimination"):
+        out = "F1"
+    elif(r == "Semi"):
+        out = "F2"
+    elif(r == "Preliminary"):
+        out = "F3"
+    elif(r == "Grand"):
+        out = "F4"
+    else:
+        out = "R" + str(r)
+        
+    return out
 
-def processELO(matches,teams):
+def processELO(matches,teams, history):
     for index, m in matches.iterrows():
         #give each team 0.5 multiple in the match is a draw
         home = m["hteam"]
         away = m["ateam"]
+        season = m["season"]
+        the_round = m["round"]
+        
+        the_round = updateRound(the_round)
         
         #Make recording of each team's current ELO so they are each
         #Updating against the pre-game value
         h_elo = teams[home].elo
         a_elo = teams[away].elo
         
-        #Match ends in a draw
+        #Update teams structure
         teams[home].elo = matchELO(m,teams,home,away,a_elo)
-        teams[away].elo = matchELO(m,teams,away,home,h_elo)        
-    return teams
+        teams[away].elo = matchELO(m,teams,away,home,h_elo)   
+        
+        
+        #Update historical score matrix
+        history[season].loc[home][the_round] = teams[home].elo
+        history[season].loc[away][the_round] = teams[away].elo        
+        
+        
+        
+    return teams, history
 
 
-def postProcess(t):
+def postProcess(t,h):
     r = pd.DataFrame(columns=["team","elo","history"])
     for key, val in list(t.items()):
 
         r.loc[len(r)] = [key,int(val.elo),""]
         
-        r = r[(r.team.str.contains("Fitzroy") == False) & \
-        (r.team.str.contains("University") == False) & \
-        (r.team.str.contains("Brisbane Bears") == False) & \
-        (r.team.str.contains("South Melbourne") == False)]
                 
         r.sort_values(by="elo",ascending=False,inplace=True)
-    return r
+        
+        
+        for i in range(STARTYEAR,LASTYEAR+1):
+            #Remove any team which was not active in that season
+            #Note becuase of byes, check to make sure team didn't play
+            #In consecutive weeks
+            h[i] = h[i][(h[i].R2 != 0) | (h[i].R3 != 0)]
+            
+            #Remove any rounds which were not played that season
+            h[i] = h[i][h[i].columns[(h[i]!=0).any(axis=0)]]
+        
+    return r, h
         
       
-teams, matches = initialiseData()
-teams = processELO(matches,teams)
-ranked = postProcess(teams)
+teams, matches, history = initialiseData()
+teams, history = processELO(matches, teams, history)
+ranked, history = postProcess(teams,history)
 
