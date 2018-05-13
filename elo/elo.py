@@ -9,47 +9,45 @@ Created on Sat May 12 10:42:24 2018
 import pandas as pd
 from os.path import dirname, abspath
 
-def getWinner(df):
-    if(df["hscore"] > df["ascore"]):
-        return df["hteam"]
-    elif(df["hscore"] < df["ascore"]):
-        return df["ateam"]
-    else:
-        return "Draw"
-    
-def getLoser(df):
-    if(df["hscore"] > df["ascore"]):
-        return df["ateam"]
-    elif(df["hscore"] < df["ascore"]):
-        return df["hteam"]
-    else:
-        return "Draw"
-    
-def getWinscore(df):
-    if(df["hscore"] > df["ascore"]):
-        return df["hscore"]
-    elif(df["hscore"] < df["ascore"]):
-        return df["ascore"]
-    else:
-        return df["hscore"]
 
-def getLosescore(df):
-    if(df["hscore"] < df["ascore"]):
-        return df["hscore"]
-    elif(df["hscore"] > df["ascore"]):
-        return df["ascore"]
-    else:
-        return df["hscore"]
+STARTYEAR = 1897 #Year to begin processing data from
+STARTELO = 1500 #The default starting ELO rating
+MEANELO = 1500
+ISRF = 0.1 #Inter season regression factor
+K_FACTOR = 40 #K factor for elo - higher = bouncier
 
-def expected(A, B):
+class Team:    
+    """
+    Each team has an instane of this Class, which stores it's ELO
+    history, including highs lows and historical values. It also
+    tracks what season was the last to be processed for the purpose
+    of determining when a new season has started so the ELO score can
+    be regressed to the mean
+    """
+    def __init__(self, name, s_elo):
+        self.name = name
+        self.elo = s_elo #Starting ELO rating
+        self.mean_elo = self.elo
+        self.highest_elo = self.elo
+        self.lowest_elo = self.elo
+        self.last_season = 1896 #Default - does not regress in 1897
+
+def expected(T1, T2, G):
     """
     Calculate expected win likelihood of A in a match against B
-    :param A: Elo rating for player A
-    :param B: Elo rating for player B
-    """
+    :param T1: Elo rating for Team 1
+    :param T2: Elo rating for Team 2
     
-    return 1 / (1 + 10 ** ((B - A) / 400))
-
+    """
+    #Calculate home ground weighting    
+    #TODO: Make more elaborate
+    #function to calculate this more precisely
+    if(G=="Home"):
+        HGA = 1   
+    else:
+        HGA = 1
+    
+    return (1 / (1 + 10 ** ((T2 - T1) / 400))*HGA)
 
 def elo(old, exp, score, k_factor):
     """
@@ -59,153 +57,134 @@ def elo(old, exp, score, k_factor):
     :param score: The actual score for this match
     :param k: The k-factor for Elo (default: 32)
     """
+    
     return old + k_factor * (score - exp)
 
 
-class Team:    
-    def __init__(self, name, s_elo):
-        self.name = name
-        self.elo = 1500
-        self.mean_elo = self.elo
-        self.highest_elo = self.elo
-        self.lowest_elo = self.elo
-        self.last_season = 1896
-        
-#load matches
-d = dirname(dirname(abspath('__file__')))
-matches = pd.read_csv(d + "/elo/elo_matches.csv")
 
-#sort matches by date
-matches.sort_values(by=['season', 'date'], inplace=True)
+def initialiseData():       
+    """Intitalise teams data structure and process input file ready for
+    ELO calculator"""
+    #load matches
+    d = dirname(dirname(abspath('__file__')))
+    m = pd.read_csv(d + "/elo/elo_matches.csv")
+    
+    #sort matches by date
+    m.sort_values(by=['season', 'date'], inplace=True)
 
-#create columns for winning team and losing team
-matches["Wteam"] = matches.apply(getWinner,axis=1)
-matches["Lteam"] = matches.apply(getLoser,axis=1)
-matches["Wscore"] = matches.apply(getWinscore,axis=1)
-matches["Lscore"] = matches.apply(getLosescore,axis=1)
+    #Convert dates into a format that can be sorted
+    m["date"] = pd.to_datetime(m["date"], \
+           dayfirst=True,format="%d/%m/%Y",infer_datetime_format=True)
+    m["date"] = m["date"].dt.date
+    m = m.loc[m["season"] >= STARTYEAR]
 
-#ELO contstants
-mean_elo = 1500
-elo_width = 500
-k_factor = 30
-
-m_trim = matches.head(100)
-
-
-#Convert dates into datetime object
-matches["date"] = pd.to_datetime(matches["date"], \
-       dayfirst=True,format="%d/%m/%Y",infer_datetime_format=True)
-matches["date"] = matches["date"].dt.date
-matches = matches.loc[matches["season"] > 1897]
-
-teams = {"Adelaide":Team("Adelaide",1500), \
-         "Brisbane Lions":Team("Brisbane Lions",1500), \
-         "Brisbane Bears":Team("Brisbane Bears",1500), \
-         "Carlton":Team("Carlton",1500), \
-         "Collingwood":Team("Collingwood",1500), \
-         "Essendon":Team("Essendon",1500),\
-         "Fitzroy":Team("Fitzroy",1500), \
-         "Footscray":Team("Footscray",1500), \
-         "Fremantle":Team("Fremantle",1500), \
-         "Geelong":Team("Geelong",1500), \
-         "Gold Coast":Team("Gold Coast",1500), \
-         "Greater Western Sydney":Team("Greater Western Sydney",1500),\
-         "Hawthorn":Team("Hawthorn",1500), \
-         "Melbourne":Team("Melbourne",1500), \
-         "North Melbourne":Team("North Melbourne",1500),\
-         "Port Adelaide":Team("Port Adelaide",1500),\
-         "Richmond":Team("Richmond",1500), \
-         "St Kilda":Team("St Kilda",1500),\
-         "South Melbourne":Team("South Melbourne",1500),\
-         "Sydney":Team("Sydney",1500), \
-         "West Coast":Team("West Coast",1500),\
-         "University":Team("University",1500)}
+    #Create dictionary of teams with default STARTING ELO
+    t = {"Adelaide":Team("Adelaide",STARTELO), \
+         "Brisbane Lions":Team("Brisbane Lions",STARTELO), \
+         "Brisbane Bears":Team("Brisbane Bears",STARTELO), \
+         "Carlton":Team("Carlton",STARTELO), \
+         "Collingwood":Team("Collingwood",STARTELO), \
+         "Essendon":Team("Essendon",STARTELO),\
+         "Fitzroy":Team("Fitzroy",STARTELO), \
+         "Footscray":Team("Footscray",STARTELO), \
+         "Fremantle":Team("Fremantle",STARTELO), \
+         "Geelong":Team("Geelong",STARTELO), \
+         "Gold Coast":Team("Gold Coast",STARTELO), \
+         "Greater Western Sydney":Team("Greater Western Sydney",STARTELO),\
+         "Hawthorn":Team("Hawthorn",STARTELO), \
+         "Melbourne":Team("Melbourne",STARTELO), \
+         "North Melbourne":Team("North Melbourne",STARTELO),\
+         "Port Adelaide":Team("Port Adelaide",STARTELO),\
+         "Richmond":Team("Richmond",STARTELO), \
+         "St Kilda":Team("St Kilda",STARTELO),\
+         "South Melbourne":Team("South Melbourne",STARTELO),\
+         "Sydney":Team("Sydney",STARTELO), \
+         "West Coast":Team("West Coast",STARTELO),\
+         "University":Team("University",STARTELO)}
+    
+    return t, m
 
 
+def matchELO(match,teams,teamone,teamtwo,opp_elo):
+    """Calculates the new ELO for a single match.
+    PARAM:
+        match -Row in dataframe with data for a single match
+        teams -Dictionary of team ELO data
+        teamone -String of team to calculate ELO score for
+        teamtwo -String of opponent of team to calculate ELO score for
+        opp_elo -The opposition's pre-match ELO"""
+    
+    #Determine which side was the homse side and apply win factor
+    if(teams[teamone].name == match["hteam"]):
+        ha = "Home"
+        if(match["hscore"] > match["ascore"]):
+            factor = 1
+        elif(match["hscore"] < match["ascore"]):
+            factor = 0
+        else:
+            factor = 0.5
+    else:
+        ha = "Away"
+        if(match["hscore"] > match["ascore"]):
+            factor = 0
+        elif(match["hscore"] < match["ascore"]):
+            factor = 1
+        else:
+            factor = 0.5        
+    
+    
+    #If it is the start of new season, wipe of 10% of difference between ELO and 1500
+    if(match["season"]==1897):
+        pass
+    #If it is a new season, update season and adjust ELO
+    elif(match["season"]>teams[teamone].last_season):
+        teams[teamone].last_season = match["season"]
+        if(teams[teamone].elo > MEANELO):
+            teams[teamone].elo = teams[teamone].elo - (abs(teams[teamone].elo - MEANELO) * ISRF)
+        else:
+            teams[teamone].elo = teams[teamone].elo + (abs(teams[teamone].elo - MEANELO) * ISRF)
+                    
+    new_elo = elo(teams[teamone].elo,             
+        expected(teams[teamone].elo,opp_elo,ha),\
+        factor, K_FACTOR)   
+    
+    return new_elo
+     
+    
 
-
-
-
-for index, m in matches.iterrows():
-    #give each team 0.5 multiple in the match is a draw
-    if(m["Wteam"] == "Draw"):
+def processELO(matches,teams):
+    for index, m in matches.iterrows():
+        #give each team 0.5 multiple in the match is a draw
         home = m["hteam"]
         away = m["ateam"]
-        if(m["season"]==1896):
-            pass
-        elif(m["season"]>teams[home].last_season):
-            teams[home].last_season = m["season"]
-            if(teams[home].elo > 1500):
-                teams[home].elo = int(teams[home].elo - (abs(teams[home].elo - 1500) * .1))
-            else:
-                teams[home].elo = int(teams[home].elo + (abs(teams[home].elo - 1500) * .1))
-        if(m["season"]==1896):
-            pass
-        elif(m["season"]>teams[away].last_season):
-            teams[away].last_season = m["season"]
-            if(teams[away].elo > 1500):
-                teams[away].elo = int(teams[away].elo - (abs(teams[away].elo - 1500) * .1)) 
-            else:
-                teams[away].elo = int(teams[away].elo + (abs(teams[away].elo - 1500) * .1)) 
         
-        teams[home].elo = int(elo(teams[home].elo,             
-            expected(teams[home].elo,teams[away].elo),\
-            0.5, k_factor))     
-        teams[away].elo = int(elo(teams[away].elo,
-            expected(teams[away].elo,teams[home].elo),\
-            0.5, k_factor))
-    else:
-        winner = m["Wteam"]
-        loser = m["Lteam"]
+        #Make recording of each team's current ELO so they are each
+        #Updating against the pre-game value
+        h_elo = teams[home].elo
+        a_elo = teams[away].elo
         
-        #If it is the start of new season, wipe of 20% of difference between ELO and 1500
-        if(m["season"]==1896):
-            pass
-        elif(m["season"]>teams[winner].last_season):
-            teams[winner].last_season = m["season"]
-            if(teams[winner].elo > 1500):
-                teams[winner].elo = int(teams[winner].elo - (abs(teams[winner].elo - 1500) * .1))
-            else:
-                teams[winner].elo = int(teams[winner].elo + (abs(teams[winner].elo - 1500) * .1))
-        if(m["season"]==1896):
-            pass        
-        elif(m["season"]>teams[loser].last_season):
-            teams[winner].last_season = m["season"]
-            if(teams[loser].elo > 1500):
-                teams[loser].elo = int(teams[loser].elo - (abs(teams[loser].elo - 1500) * .1))
-            else:
-                teams[loser].elo = int(teams[loser].elo + (abs(teams[loser].elo - 1500) * .1))
+        #Match ends in a draw
+        teams[home].elo = matchELO(m,teams,home,away,a_elo)
+        teams[away].elo = matchELO(m,teams,away,home,h_elo)        
+    return teams
 
 
-        new_elo = elo(teams[winner].elo,
-            expected(teams[winner].elo,teams[loser].elo),1, \
-            k_factor)        
-        teams[winner].elo = int(new_elo)
-        
-        new_elo = elo(teams[loser].elo,
-            expected(teams[loser].elo,teams[winner].elo),0, \
-            k_factor)                
-        teams[loser].elo = int(new_elo)
-            
-ranked = pd.DataFrame(columns=["team","elo","history"])
+def postProcess(t):
+    r = pd.DataFrame(columns=["team","elo","history"])
+    for key, val in list(t.items()):
 
-for key, val in list(teams.items()):
-    if(val.elo==1500):
-        del teams[key]
-    else:
-        ranked.loc[len(ranked)] = [key,val.elo,""]
+        r.loc[len(r)] = [key,int(val.elo),""]
         
-ranked = ranked[(ranked.team.str.contains("Fitzroy") == False) & \
-            (ranked.team.str.contains("University") == False) & \
-            (ranked.team.str.contains("Brisbane Bears") == False) & \
-            (ranked.team.str.contains("South Melbourne") == False)]
+        r = r[(r.team.str.contains("Fitzroy") == False) & \
+        (r.team.str.contains("University") == False) & \
+        (r.team.str.contains("Brisbane Bears") == False) & \
+        (r.team.str.contains("South Melbourne") == False)]
                 
-ranked.sort_values(by="elo",ascending=False,inplace=True)
+        r.sort_values(by="elo",ascending=False,inplace=True)
+    return r
         
-        
+      
+teams, matches = initialiseData()
+teams = processELO(matches,teams)
+ranked = postProcess(teams)
 
-print(ranked["elo"].mean())
-
-print(expected(1611,1350))
-print("Expected odds:" + str(100/(expected(1621,1545)*100)))
-print("Expected odds:" + str(100/(expected(1545,1621)*100)))
