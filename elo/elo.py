@@ -45,9 +45,9 @@ def expected(T1, T2, G):
     #TODO: Make more elaborate
     #function to calculate this more precisely
     if(G=="Home"):
-        HGA = 1   
+        HGA = 1.1   
     else:
-        HGA = 1
+        HGA = 0.9
     
     return (1 / (1 + 10 ** ((T2 - T1) / 400))*HGA)
 
@@ -237,6 +237,21 @@ def processELO(matches,teams, history):
     return teams, history
 
 
+def fillBlankRounds(df,n):
+    if(df[[n]] != 0):
+        return df[[n]]
+    else:
+        if(n==0):
+            return df[[n+1]]
+        else:
+            for x in range (1,27):
+                if(df[[n-x]] != 0):
+                    return df[[n-x]]
+                
+            
+        
+  
+
 def postProcess(t,h):
     r = pd.DataFrame(columns=["team","elo","history"])
     for key, val in list(t.items()):
@@ -255,11 +270,61 @@ def postProcess(t,h):
             
             #Remove any rounds which were not played that season
             h[i] = h[i][h[i].columns[(h[i]!=0).any(axis=0)]]
+            
+            #Fill zero rounds from when a team didn't play with the 
+            #previous rounds
+            length = len(h[i].index)
+            
+            for n in range(0,28):
+                try:
+                    inspect_round = h[i].iloc[:,n]
+                    if(n==0):
+                        prior_round = h[i].iloc[:,n+1]    
+                    else:
+                        prior_round = h[i].iloc[:,n-1]
+                    
+                    for x in range(0,length):
+                        if(inspect_round.iloc[x] != 0):
+                            continue
+                        else:
+                            inspect_round[x] = prior_round[x]
+                except IndexError:
+                    continue
+            
+            
+        
         
     return r, h
+
+
+def getRecords(history,teams):
+    
+    for t_key,t_value in teams.items():
+        for s_key,season in history.items():
+            t_season = season[season.index == t_key]
+            for x in range(0,len(t_season.columns)):
+                try:
+                    curr_round = int(t_season.iloc[:,x][0])
+                       
+                    if(curr_round > t_value.highest_elo):
+                        t_value.highest_elo = curr_round
+                    if(curr_round < t_value.lowest_elo):
+                        t_value.lowest_elo = curr_round        
+                except IndexError:
+                    continue
+                    
+    
+    
+    
+    return history,teams
+    
         
       
 teams, matches, history = initialiseData()
 teams, history = processELO(matches, teams, history)
 ranked, history = postProcess(teams,history)
+records,teams = getRecords(history,teams)
 
+
+for t_key,t_value in teams.items():
+    print(t_value.name + ": " + str(t_value.highest_elo))
