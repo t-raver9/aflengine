@@ -29,10 +29,25 @@ class Team:
     def __init__(self, name, s_elo):
         self.name = name
         self.elo = s_elo #Starting ELO rating
-        self.mean_elo = self.elo
-        self.highest_elo = self.elo
-        self.lowest_elo = self.elo
+        self.records = Record()
         self.last_season = 1896 #Default - does not regress in 1897
+        
+class Record:
+    """
+    Each team has one of these sitting inside, containing its
+    records and details about them
+    """
+    def __init__(self):
+        self.highest_elo = 0
+        self.highest_elo_round = ""
+        self.highest_elo_season = ""
+        self.lowest_elo = 9999
+        self.lowest_elo_round = ""
+        self.lowest_elo_season = ""
+
+        
+    
+
 
 def expected(T1, T2, G):
     """
@@ -261,6 +276,11 @@ def postProcess(t,h):
                 
         r.sort_values(by="elo",ascending=False,inplace=True)
         
+        r[r.team != 'Fitzroy' and r.team != 'South Melbourne' and \
+            r.team != 'Brisbane Bears' and r.team != 'University']
+          
+        
+        
         
         for i in range(STARTYEAR,LASTYEAR+1):
             #Remove any team which was not active in that season
@@ -299,32 +319,56 @@ def postProcess(t,h):
 
 def getRecords(history,teams):
     
-    for t_key,t_value in teams.items():
+
+    
+    for t_key,team in teams.items():
         for s_key,season in history.items():
             t_season = season[season.index == t_key]
             for x in range(0,len(t_season.columns)):
                 try:
                     curr_round = int(t_season.iloc[:,x][0])
                        
-                    if(curr_round > t_value.highest_elo):
-                        t_value.highest_elo = curr_round
-                    if(curr_round < t_value.lowest_elo):
-                        t_value.lowest_elo = curr_round        
+                    cols = list(t_season.columns.values)
+                    if(curr_round > team.records.highest_elo):
+                        team.records.highest_elo = curr_round
+                        team.records.highest_elo_round = cols[x]
+                        team.records.highest_elo_season = s_key
+                        
+                    if(curr_round < team.records.lowest_elo):
+                        team.records.lowest_elo = curr_round
+                        team.records.lowest_elo_round = cols[x]
+                        team.records.lowest_elo_season = s_key
+                        
                 except IndexError:
                     continue
                     
     
     
     
-    return history,teams
+    return teams
     
+
+def getRecordSummary(teams):
+    
+    record_table = pd.DataFrame(columns=['elo_high','elo_high_round',\
+        'elo_high_season','elo_low','elo_low_round','elo_low_season'])
+    
+    for key, value in teams.items():
+        record = value.records
+        record_table.loc[value.name] = [record.highest_elo,\
+            record.highest_elo_round,record.highest_elo_season,\
+            record.lowest_elo,record.lowest_elo_round,\
+            record.lowest_elo_season]
+        
+    return record_table
         
       
 teams, matches, history = initialiseData()
 teams, history = processELO(matches, teams, history)
-ranked, history = postProcess(teams,history)
-records,teams = getRecords(history,teams)
+current, history = postProcess(teams,history)
+teams = getRecords(history,teams)
+
+record_summary = getRecordSummary(teams)
 
 
-for t_key,t_value in teams.items():
-    print(t_value.name + ": " + str(t_value.highest_elo))
+

@@ -7,7 +7,6 @@ Created on Fri May 11 19:31:50 2018
 """
 
 import pandas as pd
-import datetime
 from pandasql import sqldf
 from os.path import dirname, abspath
 
@@ -34,7 +33,16 @@ q  = """
         hteam,
         ateam,
         hscore,
-        ascore
+        ascore,
+        venue,
+        date,
+        day,
+        time,
+        homeline,
+        awayline,
+        homeodds,
+        awayodds
+        
     FROM 
         matches;
         """

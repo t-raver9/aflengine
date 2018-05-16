@@ -22,7 +22,7 @@ playermatch = []
 mdetails = []
 
 
-daterange = [9568,9576]
+daterange = [9577,9585]
 
 #4961 - Round one 2010
 #9531 - 2017 GF
