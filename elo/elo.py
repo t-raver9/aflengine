@@ -9,6 +9,7 @@ Created on Sat May 12 10:42:24 2018
 import pandas as pd
 from os.path import dirname, abspath
 import collections
+import copy
 
 
 STARTYEAR = 1897 #Year to begin processing data from
@@ -276,8 +277,8 @@ def postProcess(t,h):
                 
         r.sort_values(by="elo",ascending=False,inplace=True)
         
-        r[r.team != 'Fitzroy' and r.team != 'South Melbourne' and \
-            r.team != 'Brisbane Bears' and r.team != 'University']
+        r[(r.team != 'Fitzroy') & (r.team != 'South Melbourne') & \
+            (r.team != 'Brisbane Bears') & (r.team != 'University')]
           
         
         
@@ -362,13 +363,34 @@ def getRecordSummary(teams):
         
     return record_table
         
-      
+    
+def prepareOutput(h):
+    
+    output = pd.DataFrame()
+
+    for key, value in h.items():
+        new_df = value.transpose()
+        new_df["new_index"] = str(key) + new_df.index
+        new_df.set_index("new_index",inplace=True)        
+        output = output.append(new_df)
+            
+
+
+    output.fillna(value=-1,inplace=True)
+    return output
+
+    
+  
 teams, matches, history = initialiseData()
 teams, history = processELO(matches, teams, history)
 current, history = postProcess(teams,history)
 teams = getRecords(history,teams)
+test = prepareOutput(history)
+
+
+
 
 record_summary = getRecordSummary(teams)
 
 
-
+test.to_csv("elo_out.csv","w")
