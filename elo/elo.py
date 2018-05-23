@@ -268,7 +268,7 @@ def fillBlankRounds(df,n):
         
   
 
-def postProcess(t,h):
+def postProcess(t,h,syear,lyear):
     r = pd.DataFrame(columns=["team","elo","history"])
     for key, val in list(t.items()):
 
@@ -283,7 +283,7 @@ def postProcess(t,h):
         
         
         
-        for i in range(STARTYEAR,LASTYEAR+1):
+        for i in range(syear,lyear+1):
             #Remove any team which was not active in that season
             #Note becuase of byes, check to make sure team didn't play
             #In consecutive weeks
@@ -382,15 +382,22 @@ def prepareOutput(h):
     
   
 teams, matches, history = initialiseData()
+modern_teams = copy.deepcopy(teams)
 teams, history = processELO(matches, teams, history)
-current, history = postProcess(teams,history)
+current, history = postProcess(teams,history,1897,2018)
 teams = getRecords(history,teams)
 test = prepareOutput(history)
 
+#modern_teams = copy.deepcopy(teams)
+modern_details = dict((k,history[k])for k in range(2010,2019))
+
+modern_current, modern_details = postProcess(modern_teams,modern_details,2010,2018)
+modern_teams = getRecords(modern_details,modern_teams)
+modern_summary = getRecordSummary(modern_teams)
 
 
 
 record_summary = getRecordSummary(teams)
 
 
-test.to_csv("elo_out.csv","w")
+test.to_csv("elo_out.csv",mode="w")

@@ -9,12 +9,6 @@ Created on Tue Mar 20 21:19:11 2018
 import pandas as pd
 import afunctions as a
 
-#load modern data (2010 onwards)
-summaries = pd.read_csv("../d.output/modern_full_summaries.csv")
-player_stats = pd.read_csv("../d.output/modern_full_players.csv")
-hist_players = pd.read_csv("../d.output/historic_full_players.csv")
-hist_summaries = pd.read_csv("../d.output/historic_full_summaries.csv")
-
 def calcPoints(hs):
     #calculate points scored per game
     hs["totalpoints"] = hs.apply(a.getPoints,axis=1)
@@ -25,6 +19,43 @@ def calcPoints(hs):
 def meanScoreSeason(hs):
     averages = hs.groupby('season')['totalpoints'].mean().sort_values(ascending=False)
     return averages
+
+
+def getPoints(df):
+    return int(df["hteam_q4"].split(".")[2]) + \
+            int(df["ateam_q4"].split(".")[2])
+            
+def getAccuracy(df):
+    goals = int(df["hteam_q4"].split(".")[0]) + \
+        int(df["ateam_q4"].split(".")[0])
+    
+    behinds = int(df["hteam_q4"].split(".")[1]) + \
+        int(df["ateam_q4"].split(".")[1])
+    return (goals / (goals + behinds) * 100)
+
+
+def getUmpireGames(df):
+    games = df["umpire1games"] + df["umpire2games"] + df["umpire3games"]
+    return games
+
+def PannellCheck(df):
+    if(df["umpire1"] == "Troy Pannell") or (df["umpire2"] == "Troy Pannell") or (df["umpire3"] == "Troy Pannell"):
+        return "True"
+    else:
+        return "False"
+    
+
+def dogsPlaying(df):
+    if(df["hteam"] == "Footscray") or (df["ateam"] == "Footscray"):
+        return "True"
+    else:
+        return "False"
+    
+def dogPannelDiff(df):
+    if(df["hteam"] == "Footscray"):
+        return df["home_frees"] - df["away_frees"]
+    else:
+        return df["away_frees"] - df["home_frees"]
 
 
 #Calculate score figures for grounds
@@ -40,9 +71,21 @@ def groundStats(hs):
     ground_data.rename(columns={'matchid': 'matches','totalpoints':'avepoints'}, inplace=True)
     return ground_data
 
+####
+###PROCESSING CODE
+###
+
+#load modern data (2010 onwards)
+summaries = pd.read_csv("../d.output/modern_full_summaries.csv")
+player_stats = pd.read_csv("../d.output/modern_full_players.csv")
+hist_players = pd.read_csv("../d.output/historic_full_players.csv")
+hist_summaries = pd.read_csv("../d.output/historic_full_summaries.csv")
+
+
+
 #def umpireAnalysis(hs,ps):
 summaries2000 = hist_summaries.loc[hist_summaries['season'] >= 2000]
-summaries2000["umpexperience"] = summaries2000.apply(a.getUmpGames,axis=1)
+summaries2000["umpexperience"] = summaries2000.apply(getUmpGames,axis=1)
     
 players2000 = hist_players.loc[hist_players['year'] >= 2000]
 players2000.rename(columns={'matchid_x': 'matchid'}, inplace=True)
