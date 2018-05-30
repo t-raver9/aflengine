@@ -12,7 +12,7 @@ from scraper import scrape
 from scraper import process
 
 print("GETTING DATAFILES")
-get.main(1897,2018,4961,9602)
+get.main(1897,2018,5529,9602)
 print("SUCCESSFULLY LOADED DATAFILES")
 print("SCRAPING AFLTABLES DATA")
 scrape.main(1897,2018)

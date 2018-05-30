@@ -140,7 +140,7 @@ def getSummary(t):
         outrow[19] =   re.sub("[^0-9]", "",str(umpstring[0]))
         outrow[20] =   ""
         outrow[21] =   ""
-        
+
     s.loc[len(s)] = outrow
     #rowpoint += 1
     return s
@@ -240,6 +240,7 @@ def scrape(syear,eyear):
                 del rawmatch[1]
 
             #Scrape the Match Summary
+            print("Scraping match summary for " + file)
             summaries = getSummary(rawmatch[0])
             summaries.fillna('')
             summaries = summaries.replace(np.nan, '', regex=True)
@@ -250,22 +251,22 @@ def scrape(syear,eyear):
             player_stats = player_stats.replace(np.nan, '', regex=True)
 
 
-            
+
             #Scrape the scoring progression (if applicable)
             #TODO
-            
-            
 
 
-            if(os.path.isfile("../input/match_summaries.csv")):
-                summaries.to_csv("../input/match_summaries.csv", \
+
+            print("OUTPUTTING " + file + " to database")
+            if(os.path.isfile("./input/match_summaries.csv")):
+                summaries.to_csv("./input/match_summaries.csv", \
                                  mode="a",header=False,index=False)
-                player_stats.to_csv("../input/player_stats.csv", \
+                player_stats.to_csv("./input/player_stats.csv", \
                                     mode="a",header=False,index=False)
             else:
-                summaries.to_csv("../input/match_summaries.csv", \
+                summaries.to_csv("./input/match_summaries.csv", \
                                  mode="w",index=False)
-                player_stats.to_csv("../input/player_stats.csv", \
+                player_stats.to_csv("./input/player_stats.csv", \
                                     mode="w",index=False)
 
             summaries = f.initSummaries()
@@ -286,35 +287,35 @@ def main(syear,eyear):
     print("Using default season range of 1897 to 2018")
     #syear = 1897
     #eyear = 2018
-    
+
 
     #Print a new line into summaries file so it appends to new line
-    if(os.path.isfile("../input/match_summaries.csv")):
-        file = open("../input/match_summaries.csv","a+")
-        file2 = open("../input/player_stats.csv","a+")
+    if(os.path.isfile("./input/match_summaries.csv")):
+        file = open("./input/match_summaries.csv","a+")
+        file2 = open("./input/player_stats.csv","a+")
         file.write("\n")
         file2.write("\n")
         file.close()
         file2.close()
 
     scrape(syear,eyear)
-    
-    
-    pstats = pd.read_csv("../input/player_stats.csv")
-    summ = pd.read_csv("../input/match_summaries.csv")
-    
-    #Drop any games which have been scraped twice, sort, and 
+
+
+    pstats = pd.read_csv("./input/player_stats.csv")
+    summ = pd.read_csv("./input/match_summaries.csv")
+
+    #Drop any games which have been scraped twice, sort, and
     #write back to file
     pstats.drop_duplicates(inplace=True)
     summ.drop_duplicates(inplace=True)
     pstats.sort_values(by=["matchid"],inplace=True)
     summ.sort_values(by=["date"],inplace=True)
-    
-    summ.to_csv("../input/match_summaries.csv", \
+
+    summ.to_csv("./input/match_summaries.csv", \
                 mode="w")
-    pstats.to_csv("../input/player_stats.csv", \
+    pstats.to_csv("./input/player_stats.csv", \
                 mode="w")
-    
-    
+
+
 
 
