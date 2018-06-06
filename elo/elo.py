@@ -277,8 +277,10 @@ def postProcess(t,h,syear,lyear):
                 
         r.sort_values(by="elo",ascending=False,inplace=True)
         
-        r[(r.team != 'Fitzroy') & (r.team != 'South Melbourne') & \
-            (r.team != 'Brisbane Bears') & (r.team != 'University')]
+        r = r.loc[(r['team'] != 'Fitzroy') & \
+                  (r['team'] != 'South Melbourne') & \
+                  (r['team'] != 'Brisbane Bears') & \
+                  (r['team'] != 'University')]
           
         
         

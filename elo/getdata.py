@@ -13,7 +13,7 @@ from os.path import dirname, abspath
 
 #load matches
 d = dirname(dirname(abspath('__file__')))
-matches = pd.read_csv(d + "/d.output/matches.csv")
+matches = pd.read_csv(d + "/output/matches.csv")
 
 #Convert dates into datetime object
 matches["date"] = pd.to_datetime(matches["date"], \
