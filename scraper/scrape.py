@@ -240,7 +240,6 @@ def scrape(syear,eyear):
                 del rawmatch[1]
 
             #Scrape the Match Summary
-            print("Scraping match summary for " + file)
             summaries = getSummary(rawmatch[0])
             summaries.fillna('')
             summaries = summaries.replace(np.nan, '', regex=True)
@@ -257,7 +256,6 @@ def scrape(syear,eyear):
 
 
 
-            print("OUTPUTTING " + file + " to database")
             if(os.path.isfile("./input/match_summaries.csv")):
                 summaries.to_csv("./input/match_summaries.csv", \
                                  mode="a",header=False,index=False)
