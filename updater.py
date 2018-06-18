@@ -15,7 +15,7 @@ from scraper import process
 
 
 print("GETTING DATAFILES")
-#get.main(2018,2018,4961,9611)
+get.main(2018,2018,4961,9611)
 print("SUCCESSFULLY LOADED DATAFILES")
 print("SCRAPING AFLTABLES DATA")
 scrape.main(1897,2018)

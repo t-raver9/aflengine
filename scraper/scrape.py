@@ -256,15 +256,15 @@ def scrape(syear,eyear):
 
 
 
-            if(os.path.isfile("./input/match_summaries.csv")):
-                summaries.to_csv("./input/match_summaries.csv", \
+            if(os.path.isfile(d+"/input/match_summaries.csv")):
+                summaries.to_csv(d+"/input/match_summaries.csv", \
                                  mode="a",header=False,index=False)
-                player_stats.to_csv("./input/player_stats.csv", \
+                player_stats.to_csv(d+"/input/player_stats.csv", \
                                     mode="a",header=False,index=False)
             else:
-                summaries.to_csv("./input/match_summaries.csv", \
+                summaries.to_csv(d+"/input/match_summaries.csv", \
                                  mode="w",index=False)
-                player_stats.to_csv("./input/player_stats.csv", \
+                player_stats.to_csv(d+"/input/player_stats.csv", \
                                     mode="w",index=False)
 
             summaries = f.initSummaries()
@@ -285,12 +285,12 @@ def main(syear,eyear):
     print("Using default season range of 1897 to 2018")
     #syear = 1897
     #eyear = 2018
-
+    d = dirname(dirname(abspath(__file__)))
 
     #Print a new line into summaries file so it appends to new line
-    if(os.path.isfile("./input/match_summaries.csv")):
-        file = open("./input/match_summaries.csv","a+")
-        file2 = open("./input/player_stats.csv","a+")
+    if(os.path.isfile(d+"/input/match_summaries.csv")):
+        file = open(d+"/input/match_summaries.csv","a+")
+        file2 = open(d+"/input/player_stats.csv","a+")
         file.write("\n")
         file2.write("\n")
         file.close()
@@ -299,8 +299,8 @@ def main(syear,eyear):
     scrape(syear,eyear)
 
 
-    pstats = pd.read_csv("./input/player_stats.csv")
-    summ = pd.read_csv("./input/match_summaries.csv")
+    pstats = pd.read_csv(d+"/input/player_stats.csv")
+    summ = pd.read_csv(d+"/input/match_summaries.csv")
 
     #Drop any games which have been scraped twice, sort, and
     #write back to file
@@ -309,9 +309,9 @@ def main(syear,eyear):
     pstats.sort_values(by=["matchid"],inplace=True)
     summ.sort_values(by=["date"],inplace=True)
 
-    summ.to_csv("./input/match_summaries.csv", \
+    summ.to_csv(d+"/input/match_summaries.csv", \
                 mode="w")
-    pstats.to_csv("./input/player_stats.csv", \
+    pstats.to_csv(d+"/input/player_stats.csv", \
                 mode="w")
 
 

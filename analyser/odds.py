@@ -7,6 +7,9 @@ Created on Wed May 23 19:14:55 2018
 """
 
 import pandas as pd
+from os.path import dirname, abspath
+
+d = dirname(dirname(abspath(__file__)))
 
 
 def getResultType(df):
@@ -33,7 +36,7 @@ def getResultType(df):
 
 
 #load modern data (2010 onwards)
-matches = pd.read_csv("../d.output/matches.csv")
+matches = pd.read_csv(d+"/output/matches.csv")
 matches = matches.loc[matches["season"] >= 2010]
 
 #calculate the vig for each match

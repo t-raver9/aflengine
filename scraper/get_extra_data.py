@@ -166,8 +166,7 @@ def main(scode,ecode):
     #used to store the lists
     playermatch = []
     mdetails = []
-
-
+    d = dirname(dirname(abspath(__file__)))
     daterange = [scode,ecode]
 
     #4961 - Round one 2010
@@ -182,15 +181,15 @@ def main(scode,ecode):
     #matchdetails = data[1]
 
 
-    if(os.path.isfile("./input/fantasy_scores.csv")):
-        pd.DataFrame.from_dict(playermatch).to_csv("./input/fantasy_scores.csv", mode="a", index = False, header=False)
+    if(os.path.isfile(d+"/input/fantasy_scores.csv")):
+        pd.DataFrame.from_dict(playermatch).to_csv(d+"/input/fantasy_scores.csv", mode="a", index = False, header=False)
     else:
-        pd.DataFrame.from_dict(playermatch).to_csv("./input/fantasy_scores.csv", mode="w", index = False)
+        pd.DataFrame.from_dict(playermatch).to_csv(d+"/input/fantasy_scores.csv", mode="w", index = False)
 
     if(os.path.isfile("../input/odds_data.csv")):
-        pd.DataFrame.from_dict(mdetails).to_csv("./input/odds_data.csv", mode="a", index = False, header=False)
+        pd.DataFrame.from_dict(mdetails).to_csv(d+"/input/odds_data.csv", mode="a", index = False, header=False)
     else:
-        pd.DataFrame.from_dict(mdetails).to_csv("./input/odds_data.csv", mode="w", index = False)
+        pd.DataFrame.from_dict(mdetails).to_csv(d+"/input/odds_data.csv", mode="w", index = False)
 
 
 

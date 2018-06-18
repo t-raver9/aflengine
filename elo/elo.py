@@ -10,6 +10,7 @@ import pandas as pd
 from os.path import dirname, abspath
 import collections
 import copy
+from math import log
 
 
 STARTYEAR = 1897 #Year to begin processing data from
@@ -65,9 +66,9 @@ def expected(T1, T2, G):
     else:
         HGA = 0.9
     
-    return (1 / (1 + 10 ** ((T2 - T1) / 400))*HGA)
+    return (1 / (1 + 10 ** ((T2 - T1) / 400))*1)
 
-def elo(old, exp, score, k_factor):
+def elo(old, exp, score, k_factor, margin,linediff):
     """
     Calculate the new Elo rating for a player
     :param old: The previous Elo rating
@@ -76,7 +77,21 @@ def elo(old, exp, score, k_factor):
     :param k: The k-factor for Elo (default: 32)
     """
     
-    return old + k_factor * (score - exp)
+
+    #Set maximum margin to 80 to discount big losses
+    if(margin > 100):
+        margin = 100
+        
+    #If match is a draw, don't adjust margin
+    if margin in range(0,2):
+        margin_factor = 0
+    else:
+        margin_factor = 1 + log(100,margin)
+            
+
+    print("Margin of " + str(margin) + ". Adjusting ELO by " + str((k_factor * (score - exp))))
+    return (old + (k_factor * (score - exp)))
+        
 
 
 
@@ -204,9 +219,15 @@ def matchELO(match,teams,teamone,teamtwo,opp_elo):
         else:
             teams[teamone].elo = teams[teamone].elo + (abs(teams[teamone].elo - MEANELO) * ISRF)
                     
+    margin = abs(match["hscore"]-match["ascore"])
+    if(match["season"]>=2010):
+        linediff = match["homeline"]-(match["hscore"]-match["ascore"]) 
+    else:
+        linediff = None
+    
     new_elo = elo(teams[teamone].elo,             
         expected(teams[teamone].elo,opp_elo,ha),\
-        factor, K_FACTOR)   
+        factor, K_FACTOR,margin,linediff)   
     
     return new_elo
      
@@ -403,3 +424,6 @@ record_summary = getRecordSummary(teams)
 
 
 test.to_csv("elo_out.csv",mode="w")
+
+
+
