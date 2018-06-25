@@ -7,7 +7,7 @@ Created on Fri Mar 16 20:30:04 2018
 """
 
 import pandas as pd
-import functions as f
+from scraper import functions as f
 from os.path import dirname, abspath
 
 
@@ -15,8 +15,8 @@ from os.path import dirname, abspath
 def main():
     #load files
     d = dirname(dirname(abspath(__file__)))
-    
-    
+
+
     summaries = pd.read_csv(d+"/input/match_summaries.csv")
     player_stats = pd.read_csv(d+"/input/player_stats.csv")
     odds = pd.read_csv(d+"/input/odds_data.csv")
@@ -60,13 +60,13 @@ def main():
                       'awayline','awayodds','awayteam','date',\
                       'homeline','homeodds','hometeam', 'round',\
                       'time','year','matchid_y','namekey_y',\
-                      'fullname','Unnamed: 0'],axis=1,inplace=True)
+                      'fullname'],axis=1,inplace=True)
 
     #Rename columns in match summary file and remove uneeded ones
     full_summaries.rename(columns={'round_x':'round', \
                                    'date_x':'date','time_x':'time'},inplace=True)
     full_summaries.drop(['awayteam','hometeam','gameID','date_y', \
-                         'round_y','date_y','time_y','year','Unnamed: 0'],axis=1,inplace=True)
+                         'round_y','date_y','time_y','year'],axis=1,inplace=True)
 
     #Drop any duplicate games
     full_summaries.drop_duplicates(subset="matchid",inplace=True)
@@ -106,15 +106,15 @@ def main():
 
     #Add season column for player stats
     player_full["season"] = player_full.apply(f.fillYear,axis=1)
-    
+
     #Remove stray untitled column
-    
-    
+
+
 
     #Output to CSV
     player_full.to_csv(d+"/output/players.csv", mode="w", index=False)
     full_summaries.to_csv(d+"/output/matches.csv", mode="w", index=False)
-    
+
     return player_full, full_summaries
 
-players, matches = main()
+#players, matches = main()

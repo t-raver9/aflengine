@@ -10,15 +10,15 @@ import pandas as pd
 from os.path import dirname, abspath
 import collections
 import copy
-from math import log
+
 
 
 STARTYEAR = 1897 #Year to begin processing data from
 LASTYEAR = 2018 #Last year data collected
 STARTELO = 1500 #The default starting ELO rating
-MEANELO = 1500
+MEANELO = 1500 #Mean ELO to regress to between seasons
 ISRF = 0.1 #Inter season regression factor
-K_FACTOR = 40 #K factor for elo - higher = bouncier
+K_FACTOR = 40 #K factor for elo
 
 class Team:    
     """
@@ -47,28 +47,28 @@ class Record:
         self.lowest_elo_round = ""
         self.lowest_elo_season = ""
 
-        
-    
 
+#def calcHGA
 
-def expected(T1, T2, G):
+def expected(T1, T2, HA, match):
     """
     Calculate expected win likelihood of A in a match against B
     :param T1: Elo rating for Team 1
     :param T2: Elo rating for Team 2
-    
+    :param G     
     """
-    #Calculate home ground weighting    
-    #TODO: Make more elaborate
-    #function to calculate this more precisely
-    if(G=="Home"):
-        HGA = 1.1   
-    else:
-        HGA = 0.9
     
-    return (1 / (1 + 10 ** ((T2 - T1) / 400))*1)
+    #Calculate home ground advantage factor
+    #TODO: base on venue, rather than who is listed as home/away team
+    if(HA == "Home"):
+        HGA = 50
+    else:
+        HGA = -50
+    
+    #Standard formula for calculating ELO probability
+    return (1 / (1 + 10 ** ((T2 - T1 + HGA) / 400)))
 
-def elo(old, exp, score, k_factor, margin,linediff):
+def elo(old, exp, score, k_factor, match):
     """
     Calculate the new Elo rating for a player
     :param old: The previous Elo rating
@@ -77,27 +77,29 @@ def elo(old, exp, score, k_factor, margin,linediff):
     :param k: The k-factor for Elo (default: 32)
     """
     
-
-    #Set maximum margin to 80 to discount big losses
-    if(margin > 100):
-        margin = 100
-        
-    #If match is a draw, don't adjust margin
-    if margin in range(0,2):
-        margin_factor = 0
-    else:
-        margin_factor = 1 + log(100,margin)
-            
-
-    print("Margin of " + str(margin) + ". Adjusting ELO by " + str((k_factor * (score - exp))))
-    return (old + (k_factor * (score - exp)))
+    #Calculate match ,argin
+    margin = abs(match["hscore"] - match["ascore"])
+    
+    #We want the margin effect to cap out at 80 points
+    if(margin > 80):
+        margin = 80
+    
+    #margin_factor should fall with range of 0 and 40
+    margin_factor = margin / 2 
+    
+    
+    #Adjusted K is standard K factor plus margin adjustment
+    adjusted_k = k_factor + margin_factor
+    
+    
+    return (old + (adjusted_k * (score - exp)))
         
 
 
 
 def initialiseData():       
-    """Intitalise teams data structure and process input file ready for
-    ELO calculator"""
+    """Intitalise teams data structure and process input file ready 
+    for ELO calculator"""
     #load matches
     d = dirname(dirname(abspath('__file__')))
     m = pd.read_csv(d + "/elo/elo_matches.csv")
@@ -123,7 +125,8 @@ def initialiseData():
          "Fremantle":Team("Fremantle",STARTELO), \
          "Geelong":Team("Geelong",STARTELO), \
          "Gold Coast":Team("Gold Coast",STARTELO), \
-         "Greater Western Sydney":Team("Greater Western Sydney",STARTELO),\
+         "Greater Western Sydney":Team("Greater Western Sydney",\
+                                       STARTELO),\
          "Hawthorn":Team("Hawthorn",STARTELO), \
          "Melbourne":Team("Melbourne",STARTELO), \
          "North Melbourne":Team("North Melbourne",STARTELO),\
@@ -135,10 +138,11 @@ def initialiseData():
          "West Coast":Team("West Coast",STARTELO),\
          "University":Team("University",STARTELO)}
     
-    initialiser = collections.OrderedDict({'team':["Adelaide","Brisbane Bears", \
-        "Brisbane Lions","Carlton","Collingwood","Essendon",\
-        "Footscray","Fitzroy","Fremantle","Geelong","Gold Coast",\
-        "Greater Western Sydney","Hawthorn","Melbourne",\
+    #Create a season of ELO scores, initialised to 0
+    initialiser = collections.OrderedDict({'team':["Adelaide",\
+        "Brisbane Bears", "Brisbane Lions","Carlton","Collingwood",\
+        "Essendon", "Footscray","Fitzroy","Fremantle","Geelong",\
+        "Gold Coast","Greater Western Sydney","Hawthorn","Melbourne",\
         "North Melbourne","Port Adelaide","Richmond","St Kilda",\
         "South Melbourne","Sydney","West Coast","University"
         ],'R1':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
@@ -171,7 +175,7 @@ def initialiseData():
         'F4':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         })
 
-    
+    #Create list of seasons within range
     h = {}
     for i in range(STARTYEAR,LASTYEAR+1):
         h[i] = pd.DataFrame(data=initialiser)
@@ -189,7 +193,7 @@ def matchELO(match,teams,teamone,teamtwo,opp_elo):
         teamtwo -String of opponent of team to calculate ELO score for
         opp_elo -The opposition's pre-match ELO"""
     
-    #Determine which side was the homse side and apply win factor
+    #Determine which side was the home side and apply win factor
     if(teams[teamone].name == match["hteam"]):
         ha = "Home"
         if(match["hscore"] > match["ascore"]):
@@ -208,29 +212,29 @@ def matchELO(match,teams,teamone,teamtwo,opp_elo):
             factor = 0.5        
     
     
-    #If it is the start of new season, wipe of 10% of difference between ELO and 1500
+    #If it is the start of new season, wipe off 10% of 
+    #difference between ELO and 1500
     if(match["season"]==1897):
         pass
     #If it is a new season, update season and adjust ELO
     elif(match["season"]>teams[teamone].last_season):
         teams[teamone].last_season = match["season"]
         if(teams[teamone].elo > MEANELO):
-            teams[teamone].elo = teams[teamone].elo - (abs(teams[teamone].elo - MEANELO) * ISRF)
+            teams[teamone].elo = teams[teamone].elo - \
+                (abs(teams[teamone].elo - MEANELO) * ISRF)
         else:
-            teams[teamone].elo = teams[teamone].elo + (abs(teams[teamone].elo - MEANELO) * ISRF)
+            teams[teamone].elo = teams[teamone].elo + \
+                (abs(teams[teamone].elo - MEANELO) * ISRF)
                     
-    margin = abs(match["hscore"]-match["ascore"])
-    if(match["season"]>=2010):
-        linediff = match["homeline"]-(match["hscore"]-match["ascore"]) 
-    else:
-        linediff = None
-    
+
+    #Calculate new ELO based on match result
     new_elo = elo(teams[teamone].elo,             
-        expected(teams[teamone].elo,opp_elo,ha),\
-        factor, K_FACTOR,margin,linediff)   
+        expected(teams[teamone].elo,opp_elo,ha,match),\
+        factor, K_FACTOR,match)   
     
     return new_elo
-     
+
+#Change round names for finals     
 def updateRound(r):
     if(r == "Qualifying" or r== "Elimination"):
         out = "F1"
@@ -386,20 +390,19 @@ def getRecordSummary(teams):
         
     return record_table
         
-    
+
+#    
 def prepareOutput(h):
     
     output = pd.DataFrame()
 
     for key, value in h.items():
         new_df = value.transpose()
-        new_df["new_index"] = str(key) + new_df.index
+        new_df["season"] = str(key)
+        new_df["round"] = new_df.index
+        new_df["new_index"] = new_df["season"] + new_df["round"]
         new_df.set_index("new_index",inplace=True)        
         output = output.append(new_df)
-            
-
-
-    output.fillna(value=-1,inplace=True)
     return output
 
     
@@ -413,8 +416,6 @@ test = prepareOutput(history)
 
 #modern_teams = copy.deepcopy(teams)
 modern_details = dict((k,history[k])for k in range(2010,2019))
-
-modern_current, modern_details = postProcess(modern_teams,modern_details,2010,2018)
 modern_teams = getRecords(modern_details,modern_teams)
 modern_summary = getRecordSummary(modern_teams)
 
@@ -422,6 +423,8 @@ modern_summary = getRecordSummary(modern_teams)
 
 record_summary = getRecordSummary(teams)
 
+
+print(current["elo"].mean())
 
 test.to_csv("elo_out.csv",mode="w")
 

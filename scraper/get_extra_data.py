@@ -186,7 +186,7 @@ def main(scode,ecode):
     else:
         pd.DataFrame.from_dict(playermatch).to_csv(d+"/input/fantasy_scores.csv", mode="w", index = False)
 
-    if(os.path.isfile("../input/odds_data.csv")):
+    if(os.path.isfile(d+"/input/odds_data.csv")):
         pd.DataFrame.from_dict(mdetails).to_csv(d+"/input/odds_data.csv", mode="a", index = False, header=False)
     else:
         pd.DataFrame.from_dict(mdetails).to_csv(d+"/input/odds_data.csv", mode="w", index = False)

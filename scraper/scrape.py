@@ -310,9 +310,9 @@ def main(syear,eyear):
     summ.sort_values(by=["date"],inplace=True)
 
     summ.to_csv(d+"/input/match_summaries.csv", \
-                mode="w")
+                mode="w",index=False)
     pstats.to_csv(d+"/input/player_stats.csv", \
-                mode="w")
+                mode="w",index=False)
 
 
 
