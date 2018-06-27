@@ -145,7 +145,9 @@ def initialiseData():
         "Gold Coast","Greater Western Sydney","Hawthorn","Melbourne",\
         "North Melbourne","Port Adelaide","Richmond","St Kilda",\
         "South Melbourne","Sydney","West Coast","University"
-        ],'R1':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        ],
+        'R0':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
+        'R1':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
         'R2':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
         'R3':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
         'R4':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\
@@ -263,6 +265,12 @@ def processELO(matches,teams, history):
         #Updating against the pre-game value
         h_elo = teams[home].elo
         a_elo = teams[away].elo
+        
+        if(the_round == "R1"):
+            history[season].loc[home]["R0"] = teams[home].elo + \
+                ((MEANELO - teams[home].elo)*ISRF)
+            history[season].loc[away]["R0"] = teams[away].elo + \
+                ((MEANELO - teams[away].elo)*ISRF)
         
         #Update teams structure
         teams[home].elo = matchELO(m,teams,home,away,a_elo)
