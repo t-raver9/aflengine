@@ -15,13 +15,21 @@ from scraper import process
 
 
 print("GETTING DATAFILES")
+<<<<<<< HEAD
 #get.main(2018,2018,9631,9648)
+=======
+get.main(2018,2018,9639,9639)
+>>>>>>> 762e01abebcf012455e289ad1dc3a68ce9d7ff22
 print("SUCCESSFULLY LOADED DATAFILES")
 print("SCRAPING AFLTABLES DATA")
-scrape.main(2018,2018)
+#scrape.main(2018,2018)
 print("SUCCESSFULLY SCRAPED AFLTABLES DATA")
 print("SCRAPING FOOTYWIRE DATA")
+<<<<<<< HEAD
 get_extra.main(9514,9648)
+=======
+get_extra.main(9639,9639)
+>>>>>>> 762e01abebcf012455e289ad1dc3a68ce9d7ff22
 print("SUCCESSFULLY SCRAPED FOOTYWIRE DATA")
 print("POST-PROCESSING SCRAPED DATA")
 process.main()
