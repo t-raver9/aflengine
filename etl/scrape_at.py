@@ -4,10 +4,16 @@
 Created on Wed Feb  7 20:31:18 2018
 
 @author: chrisstrods
+
+
+This script scrapes data from the AFLtables html files, and returns
+two files - 
+    matches.csv - which contains overall match statistics 
+    players.csv - indivudal player statistics for each match
 """
 
 
-from scraper import functions as f
+import shared_functions as f
 import os
 import numpy as np
 from os.path import dirname, abspath
@@ -243,28 +249,41 @@ def scrape(syear,eyear):
             summaries = getSummary(rawmatch[0])
             summaries.fillna('')
             summaries = summaries.replace(np.nan, '', regex=True)
+            
 
             #Scrape the player stats
             player_stats = getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
             player_stats = getPlayerStats(player_stats,rawmatch[4],'A',rawmatch[0])
             player_stats = player_stats.replace(np.nan, '', regex=True)
 
+            matchid = summaries["matchid"][0]
 
-
+            progression,lengths = 0, 0
             #Scrape the scoring progression (if applicable)
-            #TODO
+            if(year >= 2008):
+                progression, lengths = getProgression(rawmatch[7],matchid)
 
+            
 
-
-            if(os.path.isfile(d+"/input/match_summaries.csv")):
-                summaries.to_csv(d+"/input/match_summaries.csv", \
+            if(os.path.isfile(d+"/staging/match_summaries.csv")):
+                summaries.to_csv(d+"/staging/match_summaries.csv", \
                                  mode="a",header=False,index=False)
-                player_stats.to_csv(d+"/input/player_stats.csv", \
+                player_stats.to_csv(d+"/staging/player_stats.csv", \
+                                    mode="a",header=False,index=False)
+                if(type(progression) != int):
+                    progression.to_csv(d+"/staging/scoring_progression.csv", \
+                                    mode="a",header=False,index=False)
+                    lengths.to_csv(d+"/staging/q_lengths.csv", \
                                     mode="a",header=False,index=False)
             else:
-                summaries.to_csv(d+"/input/match_summaries.csv", \
+                summaries.to_csv(d+"/staging/match_summaries.csv", \
                                  mode="w",index=False)
-                player_stats.to_csv(d+"/input/player_stats.csv", \
+                player_stats.to_csv(d+"/staging/player_stats.csv", \
+                                    mode="w",index=False)
+                if(type(progression) != int):
+                    progression.to_csv(d+"/staging/scoring_progression.csv", \
+                                    mode="w",index=False)
+                    lengths.to_csv(d+"/staging/q_lengths.csv", \
                                     mode="w",index=False)
 
             summaries = f.initSummaries()
@@ -273,9 +292,81 @@ def scrape(syear,eyear):
             i += 1
 
         year -= 1
+        
 
 
+def getProgression(table,matchid):
+    
+    plist = list()
+    llist = list()
+    
 
+    
+    xteam,xplayer,xtype,xminutes,xseconds,xscore,xquarter,xmatchid = \
+        0,0,0,0,0,0,0,0
+    
+    rows=list()
+    for row in table.findAll("tr"):
+        rows.append(row)
+        
+    cells = list()
+    for cell in rows[2].findAll("td"):
+                cells.append(cell.text)
+    
+    qstring = cells[0].split("(")[1].split(" ")
+    current_quarter = 1
+    llist.append([matchid,current_quarter,qstring[0],qstring[1].split(")")[0]])
+    
+
+    for x in range(3,len(rows)-1):
+        cells = list()
+        for cell in rows[x].findAll("td"):
+                cells.append(cell.text)
+        
+        #print(len(cells))
+        if(len(cells) != 5):
+            current_quarter += 1            
+            if(current_quarter == 5):
+                qstring = cells[0].split(":")[1].split(" ")
+                llist.append([matchid,current_quarter,qstring[0][:-1],qstring[1].split(")")[0][:-1]])
+                break
+            qstring = cells[0].split("(")[1].split(" ")           
+
+            llist.append([matchid,current_quarter,qstring[0][:-1],qstring[1].split(")")[0][:-1]])
+            continue
+                
+        #Determine is score kicked by home or away team
+        if(len(cells[0]) < 3):
+            xteam = "Away"
+            xplayer = cells[4].rsplit(' ', 1)[0]
+            xtype = cells[4].split(" ")[-1]
+            xminutes = cells[3].split(" ")[0][:-1]
+            xseconds = cells[3].split(" ")[1][:-1]
+        else:
+            xteam = "Home"
+            xplayer = cells[0].rsplit(' ', 1)[0]
+            xtype = cells[0].split(" ")[-1]
+            xminutes = cells[1].split(" ")[0][:-1]
+            xseconds = cells[1].split(" ")[1][:-1]        
+        xscore = cells[2]
+        xquarter = current_quarter
+        xmatchid = matchid
+        
+        plist.append([xteam,xplayer,xtype,xminutes,xseconds,\
+                           xscore,xquarter,xmatchid])
+            
+        
+    progression = pd.DataFrame(plist,columns=["team","player","type","minutes",\
+                                        "seconds","score","quarter",\
+                                        "matchid"])
+    
+    lengths = pd.DataFrame(llist,columns=["matchid","quarter","minutes",\
+                                    "seconds"])            
+        
+    
+    
+    
+    return progression,lengths
 
 
 
@@ -314,6 +405,6 @@ def main(syear,eyear):
     pstats.to_csv(d+"/input/player_stats.csv", \
                 mode="w",index=False)
 
+    
 
-
-
+main(1897,2018)

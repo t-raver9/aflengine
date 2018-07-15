@@ -54,9 +54,9 @@ def main():
 
     #Rename columns in full player file and remove uneeded ones
     player_full.rename(columns={'matchid_x':'matchid', \
-                                'disposals_x':'disposals',\
+                                'kicks_x':'kicks',\
                                 'namekey_x':'namekey'},inplace=True)
-    player_full.drop(['ha','disposals_y','namekey_y','name',\
+    player_full.drop(['ha','kicks_y','namekey_y','name',\
                       'awayline','awayodds','awayteam','date',\
                       'homeline','homeodds','hometeam', 'round',\
                       'time','year','matchid_y','namekey_y',\

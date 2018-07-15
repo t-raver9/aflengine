@@ -291,7 +291,7 @@ def getNameKeyFW(df):
         two = namesplit[1]
         
     try:
-        d = int(df["disposals"])
+        d = int(df["kicks"])
     except ValueError:
         d = 0
     
@@ -303,7 +303,7 @@ def getNameKeyAT(df):
     two = df["last_name"].split(" ")[0]
     
     try:
-        d = int(df["disposals"])
+        d = int(df["kicks"])
     except ValueError:
         d = 0
     
@@ -329,7 +329,7 @@ def nameClean(df):
             'Will HElliott' : 'Will HoskinElliott',
             'Jarrod KThomson' : 'Jarrod KaylerThomson',
             'Josh P Kennedy' : 'Josh Kennedy',
-            'Jay KHarris' : 'Jay KennedyHarris',
+            'Jay KHarris' : 'Jay Kennedy',
             'Nathan LMurray' : 'Nathan LovettMurray',
             'Anthony MTipungwuti' : 'Anthony McDonaldTipungwuti',
             'Alex NBullen' : 'Alex NealBullen',

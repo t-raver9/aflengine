@@ -4,12 +4,14 @@
 Created on Wed Feb  7 20:54:07 2018
 
 @author: chrisstrods
+
+This script downloads all of the HTML files from AFLtable and
+Footywire from within the given parameters, in order to be scraped
 """
 
 from bs4 import BeautifulSoup
 from os.path import dirname, abspath
 import urllib, os, json
-
 
 
 #startyear - earliest year to get
@@ -133,20 +135,43 @@ def getExtraPages(scode,ecode):
 def main(syear,eyear,scode,ecode):
 
 
-    #first game 2010 is 5089, don't go back any further as info
+    #first game 2010 is 4961, don't go back any further as info
     #is redundant
         
         #4961 - earliest game
-        #9563 - up to round 6 end
-        #5089
+        #9512 - GF2017
+        #9648 - End Round 16 2018
+    
+    try:
+        print("Getting list of URLS from AFLtables")
+        getPageNames(syear,eyear)
+        print("Completed")
+    except:
+        print("There was an error getting list of URLS from \
+               AFLtables, try checking that the year parameters are \
+               valid, and that you are connected to the internet")
+        return
+    
+    try:
+        print("Download HTML files from AFLTables")
+        getPages(syear, eyear)
+        print("Completed")
+    except:
+        print("There was an error downloading file from AFLtables, \
+               try checking that the year parameters are valid, and \
+               that you are connected to the internet")
+        return       
         
-    #scode = 4961
-    #ecode = 9593
-    
-    
-    getPageNames(syear,eyear)
-    getPages(syear, eyear)
-    getExtraPages(scode,ecode)
+    try:
+        print("Download HTML files from Footywire")
+        getExtraPages(scode,ecode)
+        print("Completed")
+    except:
+        print("There was an error downloading files from Footywire, \
+              try checking that the year parameters are valid, and \
+              that you are connected to the internet")
+        return  
 
 
+main(2018,2018,9649,9657)
  
