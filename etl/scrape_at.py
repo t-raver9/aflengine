@@ -7,8 +7,8 @@ Created on Wed Feb  7 20:31:18 2018
 
 
 This script scrapes data from the AFLtables html files, and returns
-two files - 
-    matches.csv - which contains overall match statistics 
+two files -
+    matches.csv - which contains overall match statistics
     players.csv - indivudal player statistics for each match
 """
 
@@ -249,7 +249,7 @@ def scrape(syear,eyear):
             summaries = getSummary(rawmatch[0])
             summaries.fillna('')
             summaries = summaries.replace(np.nan, '', regex=True)
-            
+
 
             #Scrape the player stats
             player_stats = getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
@@ -263,7 +263,7 @@ def scrape(syear,eyear):
             if(year >= 2008):
                 progression, lengths = getProgression(rawmatch[7],matchid)
 
-            
+
 
             if(os.path.isfile(d+"/staging/match_summaries.csv")):
                 summaries.to_csv(d+"/staging/match_summaries.csv", \
@@ -292,49 +292,49 @@ def scrape(syear,eyear):
             i += 1
 
         year -= 1
-        
+
 
 
 def getProgression(table,matchid):
-    
+
     plist = list()
     llist = list()
-    
 
-    
+
+
     xteam,xplayer,xtype,xminutes,xseconds,xscore,xquarter,xmatchid = \
         0,0,0,0,0,0,0,0
-    
+
     rows=list()
     for row in table.findAll("tr"):
         rows.append(row)
-        
+
     cells = list()
     for cell in rows[2].findAll("td"):
                 cells.append(cell.text)
-    
+
     qstring = cells[0].split("(")[1].split(" ")
     current_quarter = 1
     llist.append([matchid,current_quarter,qstring[0],qstring[1].split(")")[0]])
-    
+
 
     for x in range(3,len(rows)-1):
         cells = list()
         for cell in rows[x].findAll("td"):
                 cells.append(cell.text)
-        
+
         #print(len(cells))
         if(len(cells) != 5):
-            current_quarter += 1            
+            current_quarter += 1
             if(current_quarter == 5):
                 qstring = cells[0].split(":")[1].split(" ")
                 llist.append([matchid,current_quarter,qstring[0][:-1],qstring[1].split(")")[0][:-1]])
                 break
-            qstring = cells[0].split("(")[1].split(" ")           
+            qstring = cells[0].split("(")[1].split(" ")
 
             llist.append([matchid,current_quarter,qstring[0][:-1],qstring[1].split(")")[0][:-1]])
             continue
-                
+
         #Determine is score kicked by home or away team
         if(len(cells[0]) < 3):
             xteam = "Away"
@@ -347,25 +347,25 @@ def getProgression(table,matchid):
             xplayer = cells[0].rsplit(' ', 1)[0]
             xtype = cells[0].split(" ")[-1]
             xminutes = cells[1].split(" ")[0][:-1]
-            xseconds = cells[1].split(" ")[1][:-1]        
+            xseconds = cells[1].split(" ")[1][:-1]
         xscore = cells[2]
         xquarter = current_quarter
         xmatchid = matchid
-        
+
         plist.append([xteam,xplayer,xtype,xminutes,xseconds,\
                            xscore,xquarter,xmatchid])
-            
-        
+
+
     progression = pd.DataFrame(plist,columns=["team","player","type","minutes",\
                                         "seconds","score","quarter",\
                                         "matchid"])
-    
+
     lengths = pd.DataFrame(llist,columns=["matchid","quarter","minutes",\
-                                    "seconds"])            
-        
-    
-    
-    
+                                    "seconds"])
+
+
+
+
     return progression,lengths
 
 
@@ -379,9 +379,9 @@ def main(syear,eyear):
     d = dirname(dirname(abspath(__file__)))
 
     #Print a new line into summaries file so it appends to new line
-    if(os.path.isfile(d+"/input/match_summaries.csv")):
-        file = open(d+"/input/match_summaries.csv","a+")
-        file2 = open(d+"/input/player_stats.csv","a+")
+    if(os.path.isfile(d+"/staging/match_summaries.csv")):
+        file = open(d+"/staging/match_summaries.csv","a+")
+        file2 = open(d+"/staging/player_stats.csv","a+")
         file.write("\n")
         file2.write("\n")
         file.close()
@@ -390,21 +390,25 @@ def main(syear,eyear):
     scrape(syear,eyear)
 
 
-    pstats = pd.read_csv(d+"/input/player_stats.csv")
-    summ = pd.read_csv(d+"/input/match_summaries.csv")
+    pstats = pd.read_csv(d+"/staging/player_stats.csv")
+    summ = pd.read_csv(d+"/staging/match_summaries.csv")
+    prog = pd.read_csv(d+"/staging/scoring_progression.csv")
 
     #Drop any games which have been scraped twice, sort, and
     #write back to file
     pstats.drop_duplicates(inplace=True)
     summ.drop_duplicates(inplace=True)
+    prog.drop_duplicates(inplace=True)
     pstats.sort_values(by=["matchid"],inplace=True)
     summ.sort_values(by=["date"],inplace=True)
 
-    summ.to_csv(d+"/input/match_summaries.csv", \
+    summ.to_csv(d+"/staging/match_summaries.csv", \
                 mode="w",index=False)
-    pstats.to_csv(d+"/input/player_stats.csv", \
+    pstats.to_csv(d+"/staging/player_stats.csv", \
                 mode="w",index=False)
+    prog.to_csv(d+"/staging/scoring_progression.csv", \
+            mode="w",index=False)
 
-    
 
-main(1897,2018)
+
+main(2018,2018)
