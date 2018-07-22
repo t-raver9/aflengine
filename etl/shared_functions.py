@@ -49,7 +49,14 @@ def initPlayerStats():
 def createIndex(df):
     df['date'].replace("/","-")
     year = df['season']
-    tround = getRoundCode(df['round'])
+    
+    if((df["date"] == "2-Oct-2010") or \
+       (df["date"] == "9-Oct-1948") or \
+       (df["date"] == "1-Oct-1977")):
+        tround = getRoundCode("Replay")
+    else:
+        tround = getRoundCode(df['round'])
+        
     hcode = getTeamCode(df['hteam'])
     acode = getTeamCode(df['ateam'])
     codes = [hcode,acode]
@@ -77,7 +84,14 @@ def getMatchID(df):
     codes = [hcode,acode]
     codes.sort()
     
-    return (str(df["year"]) + str(getRoundCode(df["round"])) + \
+    if((df["date"] == "2-Oct-2010") or \
+       (df["date"] == "9-Oct-1948") or \
+       (df["date"] == "1-Oct-1977")):
+        tround = str(getRoundCode("Replay"))
+    else:
+        tround = str(getRoundCode(df["round"]))
+    
+    return (str(df["year"]) + tround + \
             codes[0] + codes[1])
     
 def nameFormat(df,col):
@@ -92,6 +106,24 @@ def nameFormat(df,col):
     else:
         return df[col]
         
+def replayFix(df):
+    if((df["date"] == "2-Oct-2010") or \
+       (df["date"] == "9-Oct-1948") or \
+       (df["date"] == "1-Oct-1977")):
+        newstring = str(df["matchid"]).replace("GF","GR",1)
+        return newstring
+    else:
+        return df["matchid"]
+
+
+def roundFix(df):
+    if((df["date"] == "2-Oct-2010") or \
+       (df["date"] == "9-Oct-1948") or \
+       (df["date"] == "1-Oct-1977")):
+        return "Replay"
+    else:
+        return df["round"]
+    
 
 def getPlayerMatchID(df):
     playerID = str(df["name"]).replace(" ","_")
@@ -131,6 +163,93 @@ def getTeamCode(team):
            'West Coast' : 'WEG'
            }[team]
 
+def fixFinalsRounds(df):
+    if(df["round"] != "Final"):
+        return df["round"]
+    else:
+        gid = df["gameID"]
+        
+        try:
+            return {
+                9513 : 'Grand',
+                9512 : 'Preliminary',
+                9511 : 'Preliminary',
+                9510 : 'Semi',
+                9509 : 'Semi',
+                9508 : 'Elimination',
+                9507 : 'Elimination',
+                9506 : 'Qualifying',
+                9505 : 'Qualifying',
+                9306 : 'Grand',
+                9305 : 'Preliminary',
+                9304 : 'Preliminary',
+                9303 : 'Semi',
+                9302 : 'Semi',
+                9301 : 'Elimination',
+                9300 : 'Qualifying',
+                9299 : 'Qualifying',
+                9298 : 'Elimination',
+                6171 : 'Grand',
+                6170 : 'Preliminary',
+                6169 : 'Preliminary',
+                6168 : 'Semi',
+                6167 : 'Semi',
+                6166 : 'Elimination',
+                6165 : 'Elimination',
+                6164 : 'Qualifying',
+                6163 : 'Qualifying',
+                5963 : 'Grand',
+                5962 : 'Preliminary',
+                5961 : 'Preliminary',
+                5960 : 'Semi',
+                5959 : 'Semi',
+                5958 : 'Elimination',
+                5957 : 'Elimination',
+                5956 : 'Qualifying',
+                5955 : 'Qualifying',
+                5756 : 'Grand',
+                5755 : 'Preliminary',
+                5754 : 'Preliminary',
+                5753 : 'Semi',
+                5752 : 'Semi',
+                5751 : 'Elimination',
+                5750 : 'Elimination',
+                5749 : 'Qualifying',
+                5748 : 'Qualifying',
+                5549 : 'Grand',
+                5548 : 'Preliminary',
+                5547 : 'Preliminary',
+                5546 : 'Semi',
+                5545 : 'Semi',
+                5544 : 'Elimination',
+                5543 : 'Elimination',
+                5542 : 'Qualifying',
+                5541 : 'Qualifying',
+                5342 : 'Grand',
+                5341 : 'Preliminary',
+                5340 : 'Preliminary',
+                5339 : 'Semi',
+                5338 : 'Semi',
+                5337 : 'Elimination',
+                5336 : 'Elimination',
+                5335 : 'Qualifying',
+                5334 : 'Qualifying',
+                5146 : 'Replay',
+                5145 : 'Grand',
+                5144 : 'Preliminary',
+                5143 : 'Preliminary',
+                5142 : 'Semi',
+                5141 : 'Semi',
+                5140 : 'Elimination',
+                5139 : 'Qualifying',
+                5138 : 'Elimination',
+                5137 : 'Qualifying'
+                }[gid]
+        except KeyError:
+            print("Error for round: " + str(round))
+        
+    
+
 #Turns each round into two characters
 def getRoundCode(round):
 
@@ -167,14 +286,15 @@ def getRoundCode(round):
                 'Semi' : 'SF',
                 'Preliminary' : 'PF',
                 'Grand' : 'GF',
-                'Final' : 'TF'
+                'Final' : 'TF',
+                'Replay' : 'GR'
 
                 }[r]
 
     except KeyError:
         print("Error for round: " + str(round))
 
-def getMatchIndex(m):
+def getMatchIndex(m,date):
     cells=list()
     for cell in m.findAll("td"):
         cells.append(cell.text)
@@ -224,7 +344,12 @@ def getMatchIndex(m):
     codes = [hcode,acode]
     codes.sort()
 
-    rcode = getRoundCode(theround)
+    if((date == "2-Oct-2010") or \
+       (date == "9-Oct-1948") or \
+       (date == "1-Oct-1977")):
+        rcode = getRoundCode("Replay")
+    else:
+        rcode = getRoundCode(theround)
 
     return (str(year) + str(rcode) + codes[0] + codes[1])
 

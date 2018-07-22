@@ -95,7 +95,7 @@ def getSummary(t):
     else:
         print ("Error with file:" + str(cells[1]) + "   " + str(len(matchstring)))
 
-    outrow[25] = f.getMatchIndex(t)
+    outrow[25] = f.getMatchIndex(t,outrow[2])
 
     #Process teams and quarter by quarter scores for non overtime games
     if(len(cells)==25): #Game finishing in regular time
@@ -154,7 +154,7 @@ def getSummary(t):
 
 
 
-def getPlayerStats(p,t,ha,s):
+def getPlayerStats(p,t,ha,s,d):
     rows=list()
     for row in t.findAll("tr"):
         rows.append(row)
@@ -180,7 +180,7 @@ def getPlayerStats(p,t,ha,s):
             team = rows[0].text.split(" Match")[0]
 
             outrow[0] = playerID
-            outrow[1] = f.getMatchIndex(s)
+            outrow[1] = f.getMatchIndex(s,d)
             outrow[2] = f.replaceTeam(team)
             outrow[3] = ha
             outrow[4] = re.sub(r'[^\w\s]','',cells[1].split(",")[1])
@@ -252,8 +252,8 @@ def scrape(syear,eyear):
 
 
             #Scrape the player stats
-            player_stats = getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0])
-            player_stats = getPlayerStats(player_stats,rawmatch[4],'A',rawmatch[0])
+            player_stats = getPlayerStats(player_stats,rawmatch[2],'H',rawmatch[0],summaries["date"][0])
+            player_stats = getPlayerStats(player_stats,rawmatch[4],'A',rawmatch[0],summaries["date"][0])
             player_stats = player_stats.replace(np.nan, '', regex=True)
 
             matchid = summaries["matchid"][0]
@@ -411,4 +411,4 @@ def main(syear,eyear):
 
 
 
-main(2018,2018)
+main(2010,2010)

@@ -26,9 +26,9 @@ progression = pd.read_csv(d+"/staging/scoring_progression.csv")
 
 
 #Drop any records which have been scraped twice
-summaries.drop_duplicates(subset="matchid",inplace=True)
+summaries.drop_duplicates(inplace=True)
 player_stats.drop_duplicates(inplace=True)
-odds.drop_duplicates(subset="gameID",inplace=True)
+odds.drop_duplicates(inplace=True)
 fantasy.drop_duplicates(inplace=True)
 adv_stats.drop_duplicates(inplace=True)
 quarters.drop_duplicates(inplace=True)
@@ -46,7 +46,13 @@ progression.drop_duplicates(inplace=True)
 odds["hometeam"] = odds.apply(f.nameFormat, col="hometeam", axis=1)
 odds["awayteam"] = odds.apply(f.nameFormat, col="awayteam", axis=1)
 odds["year"] = odds.apply(f.getYear, axis=1)
+odds["round"] = odds.apply(f.fixFinalsRounds,axis=1)
 odds["matchid"] = odds.apply(f.getMatchID, axis=1)
+
+
+#Summaries update for GF replays
+summaries["matchid"] = summaries.apply(f.replayFix,axis=1)
+summaries["round"] = summaries.apply(f.roundFix,axis=1)
 
 #Merge fantasy with odds to get match details
 fantasy = pd.merge(fantasy,odds,how="left",on="gameID")
@@ -64,6 +70,7 @@ adv_stats["fullkey"] = fantasy.apply(f.getFullKey,axis=1)
 
 
 #Generate merge columns to get join key for player stats file
+
 player_stats["namekey"] = player_stats.apply(f.getNameKeyAT,axis=1)
 player_stats["fullkey"] = player_stats.apply(f.getFullKey,axis=1)
 
@@ -82,13 +89,50 @@ player_full.rename(columns={'matchid_x':'matchid', \
                             'kicks_x':'kicks',\
                             'homeAway_x':'homeAway',\
                             'name_x':'name',\
-                            'fullname_x':'fullnane'},inplace=True)
-player_full.drop(['ha','kicks_y','namekey_y','name','homeAway_y',\
-                  'awayline','awayodds','awayteam','date',\
-                  'homeline','homeodds','hometeam', 'round',\
-                  'time','year','matchid_y','namekey_y','name_y',\
-                  'fullname','fullname_y','namekey_x'],axis=1,\
-                    inplace=True)
+                            'fullname_x':'fullname'},inplace=True)
+
+player_full = player_full.reindex_axis(sorted(player_full.columns), axis=1)
+
+pf = player_full.head(100)
+
+player_full.drop(['fullname_y','homeAway_y','kicks_y','matchid_y',\
+                  'name_y'],axis=1,inplace=True)
+
+#Turn stat columns into integers
+player_full[['AFLfantasy','centre_clearances','disposal_efficiency',\
+             'effective_disposals','goal_assists','intercepts',\
+             'metres_gained','stoppage_clearances',\
+             'score_involvements','Supercoach',\
+             'tackles_in_50','turnovers',\
+             'awayline','awayodds','behinds','bounces','brownlow',\
+             'clangers','clearances','contested_marks',\
+             'contested_poss','disposals','frees_against',\
+             'frees_for','goal_assists','goals','handballs',\
+             'hitouts','homeline','homeodds','inside50','kicks',\
+             'marks','marks_in_50','number','one_percenters',\
+             'rebound50','tackles','tog','uncontested_poss',\
+             'year']]=\
+player_full[['AFLfantasy','CCL','DE','ED','GA','ITC',\
+             'MG','SCL','SI','Supercoach','T5','TO',\
+             'awayline','awayodds','behinds','bounces','brownlow',\
+             'clangers','clearances','contested_marks',\
+             'contested_poss','disposals','frees_against',\
+             'frees_for','goal_assists','goals','handballs',\
+             'hitouts','homeline','homeodds','inside50','kicks',\
+             'marks','marks_in_50','number','one_percenters',\
+             'rebound50','tackles','tog','uncontested_poss',\
+             'year']].apply(pd.to_numeric,errors='coerce')            
+
+player_full.drop(['BO','CCL','CM','CP','DE','ED','GA','ITC','MG',\
+                  'MI5','P1','SCL','SI','T5','TO',\
+                  'UP','awayline','awayodds','date',\
+                  'gameID','ha','homeline','homeodds',\
+                  'name','namekey_x','namekey_y','round',\
+                  'hometeam','awayteam','time',\
+                  'year'],axis=1,inplace=True)
+                  
+pf = player_full.head(100)
+
 
 #Rename columns in match summary file and remove uneeded ones
 full_summaries.rename(columns={'round_x':'round', \
@@ -112,27 +156,7 @@ full_summaries["umpire2"] = full_summaries["umpire2"].str.strip()
 full_summaries["umpire3"] = full_summaries["umpire3"].str.strip()
 
 
-#Turn stat columns into integers
-player_full[['kicks','marks','handballs','disposals','goals', \
-             'behinds','hitouts','tackles','rebound50','inside50', \
-             'clearances','clangers','frees_for','frees_against', \
-             'brownlow', 'contested_poss', 'uncontested_poss', \
-             'contested_marks', 'marks_in_50','one_percenters', \
-             'bounces', 'goal_assists', 'tog','BO',\
-             'centre_clearances','CM','CP','disposal_efficiency',\
-             'effective_disposals','GA','intercepts','metres_gained',\
-             'MI5','P1','stoppage_clearances','score_involvements',\
-             'tackles_inside_50','turnovers','UP']] = \
-player_full[['kicks','marks','handballs','disposals','goals', \
-             'behinds','hitouts','tackles','rebound50','inside50', \
-             'clearances','clangers','frees_for','frees_against', \
-             'brownlow', 'contested_poss', 'uncontested_poss', \
-             'contested_marks', 'marks_in_50','one_percenters', \
-             'bounces', 'goal_assists', 'tog','BO','CCL','CM',\
-             'CP','DE','ED','GA','ITC','MG','MI5','P1','SCL','SI',\
-             'T5','TO','UP']].apply(pd.to_numeric)
-player_full.drop(['BO','CM','CP','GA','MI5','P1','UP','CCL','DE',\
-                  'ED','ITC','MG','SCL','SI','T5','T0'],axis=1,inplace=True)
+
 
 #Create final scores and make them ints
 full_summaries["hscore"] = full_summaries.apply(lambda row: row["hteam_q4"].split(".")[2],axis=1)
@@ -142,6 +166,7 @@ full_summaries ["ascore"] = pd.to_numeric(full_summaries["ascore"])
 
 #Add season column for player stats
 player_full["season"] = player_full.apply(f.fillYear,axis=1)
+player_full.fillna("0",inplace=True)
 
 
 
