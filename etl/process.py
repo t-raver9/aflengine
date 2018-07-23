@@ -74,6 +74,11 @@ adv_stats["fullkey"] = fantasy.apply(f.getFullKey,axis=1)
 player_stats["namekey"] = player_stats.apply(f.getNameKeyAT,axis=1)
 player_stats["fullkey"] = player_stats.apply(f.getFullKey,axis=1)
 
+
+#Make manual adjustments for discrepancies
+player_stats["fullkey"] = player_stats.apply(f.fixFullName,axis=1)
+
+
 #Join match summaries with odds file to get all match data
 full_summaries = pd.merge(summaries,odds,how="left",on="matchid")
 

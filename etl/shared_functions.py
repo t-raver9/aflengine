@@ -53,7 +53,13 @@ def createIndex(df):
     if((df["date"] == "2-Oct-2010") or \
        (df["date"] == "9-Oct-1948") or \
        (df["date"] == "1-Oct-1977")):
-        tround = getRoundCode("Replay")
+        tround = getRoundCode("GReplay")
+    elif(df["date"] == "22-Sep-1962") :
+        tround = str(getRoundCode("PReplay"))
+    elif(df["date"] == "23-Sep-1972") :
+        tround = str(getRoundCode("SReplay"))
+    elif(df["date"] == "15-Sep-1990") :
+        tround = str(getRoundCode("QReplay"))
     else:
         tround = getRoundCode(df['round'])
         
@@ -76,7 +82,32 @@ def replaceTeam(team):
         return "North Melbourne"
     else:
         return team
+
+
+def fixFullName(df):
     
+    fullkey = df["fullkey"]
+    
+    try:
+        return {
+            '201315ESSPORamoore14' : '201315ESSPORamoore13',
+            '201315ESSPORjhombsch3' : '201315ESSPORjhombsch4',
+            '201801GCSNORjlyons18' : '201801GCSNORjlyons17',
+            '201801GCSNORlweller11' : '201801GCSNORlweller12',
+            '201801GCSNORdmacpherson15' : '201801GCSNORdmacpherson14',
+            '201801GCSNORnholman7' : '201801GCSNORnholman8',
+            '201801GCSNORjmacmillan20' : '201801GCSNORjmacmillan19',
+            '201801GCSNORlmcdonald9' : '201801GCSNORlmcdonald10',
+            '201802FOTWEGtmclean14' : '201802FOTWEGtmclean15',
+            '201802FOTWEGanaughton9' : '201802FOTWEGanaughton8',
+            '201809CARMELskerridge14' : '201809CARMELskerridge15',
+            '201809CARMELmkreuzer7' : '201809CARMELmkreuzer6',
+            '201815COLGCSdswallow17' : '201815COLGCSdswallow16',
+            '201815FOTGEEgablett18' : '201815FOTGEEgablett17'
+            }[fullkey]
+    except KeyError:
+        return fullkey
+
     
 def getMatchID(df):
     hcode = getTeamCode(df['hometeam'])
@@ -87,7 +118,13 @@ def getMatchID(df):
     if((df["date"] == "2-Oct-2010") or \
        (df["date"] == "9-Oct-1948") or \
        (df["date"] == "1-Oct-1977")):
-        tround = str(getRoundCode("Replay"))
+        tround = str(getRoundCode("GReplay"))
+    elif(df["date"] == "22-Sep-1962") :
+        tround = str(getRoundCode("PReplay"))
+    elif(df["date"] == "23-Sep-1972") :
+        tround = str(getRoundCode("SReplay"))
+    elif(df["date"] == "15-Sep-1990") :
+        tround = str(getRoundCode("QReplay"))
     else:
         tround = str(getRoundCode(df["round"]))
     
@@ -110,17 +147,28 @@ def replayFix(df):
     if((df["date"] == "2-Oct-2010") or \
        (df["date"] == "9-Oct-1948") or \
        (df["date"] == "1-Oct-1977")):
-        newstring = str(df["matchid"]).replace("GF","GR",1)
-        return newstring
+        newstring = str(df["matchid"]).replace("GF","GR",1)    
+    elif(df["date"] == "22-Sep-1962") :
+        newstring = str(df["matchid"]).replace("PF","PR",1)    
+    elif(df["date"] == "23-Sep-1972") :
+        newstring = str(df["matchid"]).replace("SF","SR",1)    
+    elif(df["date"] == "15-Sep-1990") :
+        newstring = str(df["matchid"]).replace("QF","QR",1)    
     else:
-        return df["matchid"]
-
+        return df["matchid"]    
+    return newstring
 
 def roundFix(df):
     if((df["date"] == "2-Oct-2010") or \
        (df["date"] == "9-Oct-1948") or \
        (df["date"] == "1-Oct-1977")):
-        return "Replay"
+        return "GReplay"
+    elif(df["date"] == "15-Sep-1963") :
+        return "PReplay"
+    elif(df["date"] == "22-Sep-1962") :
+        return "SReplay"
+    elif(df["date"] == "15-Sep-1990") :
+        return "QReplay"
     else:
         return df["round"]
     
@@ -234,7 +282,7 @@ def fixFinalsRounds(df):
                 5336 : 'Elimination',
                 5335 : 'Qualifying',
                 5334 : 'Qualifying',
-                5146 : 'Replay',
+                5146 : 'GReplay',
                 5145 : 'Grand',
                 5144 : 'Preliminary',
                 5143 : 'Preliminary',
@@ -286,8 +334,10 @@ def getRoundCode(round):
                 'Semi' : 'SF',
                 'Preliminary' : 'PF',
                 'Grand' : 'GF',
-                'Final' : 'TF',
-                'Replay' : 'GR'
+                'QReplay' : 'QR',
+                'SReplay' : 'SR',
+                'PReplay' : 'PR',                
+                'GReplay' : 'GR'
 
                 }[r]
 
@@ -345,9 +395,15 @@ def getMatchIndex(m,date):
     codes.sort()
 
     if((date == "2-Oct-2010") or \
-       (date == "9-Oct-1948") or \
-       (date == "1-Oct-1977")):
-        rcode = getRoundCode("Replay")
+        (date == "9-Oct-1948") or \
+        (date == "1-Oct-1977")):
+        rcode = getRoundCode("GReplay")
+    elif(date == "22-Sep-1962") :
+        rcode = getRoundCode("PReplay")
+    elif(date == "23-Sep-1972") :
+        rcode = getRoundCode("SReplay")
+    elif(date == "15-Sep-1990") :
+        rcode = getRoundCode("QReplay") 
     else:
         rcode = getRoundCode(theround)
 

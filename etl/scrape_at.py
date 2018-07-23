@@ -393,12 +393,14 @@ def main(syear,eyear):
     pstats = pd.read_csv(d+"/staging/player_stats.csv")
     summ = pd.read_csv(d+"/staging/match_summaries.csv")
     prog = pd.read_csv(d+"/staging/scoring_progression.csv")
+    leng = pd.read_csv(d+"/staging/q_lengths.csv")
 
     #Drop any games which have been scraped twice, sort, and
     #write back to file
     pstats.drop_duplicates(inplace=True)
     summ.drop_duplicates(inplace=True)
     prog.drop_duplicates(inplace=True)
+    leng.drop_duplicates(inplace=True)
     pstats.sort_values(by=["matchid"],inplace=True)
     summ.sort_values(by=["date"],inplace=True)
 
@@ -408,7 +410,9 @@ def main(syear,eyear):
                 mode="w",index=False)
     prog.to_csv(d+"/staging/scoring_progression.csv", \
             mode="w",index=False)
+    leng.to_csv(d+"/staging/q_lengths.csv", \
+            mode="w",index=False)
 
 
 
-main(2010,2010)
+main(1897,2018)
