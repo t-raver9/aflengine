@@ -12,8 +12,8 @@ from os.path import dirname, abspath
 
 
 #load matches
-d = dirname(dirname(abspath('__file__')))
-matches = pd.read_csv(d + "/output/matches.csv")
+d = dirname(dirname(dirname(abspath('__file__'))))
+matches = pd.read_csv(d + "/bench/matches.csv")
 
 #Convert dates into datetime object
 matches["date"] = pd.to_datetime(matches["date"], \

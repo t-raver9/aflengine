@@ -56,7 +56,9 @@ def createIndex(df):
         tround = getRoundCode("GReplay")
     elif(df["date"] == "22-Sep-1962") :
         tround = str(getRoundCode("PReplay"))
-    elif(df["date"] == "23-Sep-1972") :
+    elif((df["date"] == "23-Sep-1972") or \
+         (df["date"] == "22-Sep-1928") or \
+         (df["date"] == "21-Sep-1946")):
         tround = str(getRoundCode("SReplay"))
     elif(df["date"] == "15-Sep-1990") :
         tround = str(getRoundCode("QReplay"))
@@ -118,10 +120,12 @@ def getMatchID(df):
     if((df["date"] == "2-Oct-2010") or \
        (df["date"] == "9-Oct-1948") or \
        (df["date"] == "1-Oct-1977")):
-        tround = str(getRoundCode("GReplay"))
+        tround = getRoundCode("GReplay")
     elif(df["date"] == "22-Sep-1962") :
         tround = str(getRoundCode("PReplay"))
-    elif(df["date"] == "23-Sep-1972") :
+    elif((df["date"] == "23-Sep-1972") or \
+         (df["date"] == "22-Sep-1928") or \
+         (df["date"] == "21-Sep-1946")):
         tround = str(getRoundCode("SReplay"))
     elif(df["date"] == "15-Sep-1990") :
         tround = str(getRoundCode("QReplay"))
@@ -143,14 +147,16 @@ def nameFormat(df,col):
     else:
         return df[col]
         
-def replayFix(df):
+def replayFix(df):    
     if((df["date"] == "2-Oct-2010") or \
        (df["date"] == "9-Oct-1948") or \
        (df["date"] == "1-Oct-1977")):
         newstring = str(df["matchid"]).replace("GF","GR",1)    
     elif(df["date"] == "22-Sep-1962") :
         newstring = str(df["matchid"]).replace("PF","PR",1)    
-    elif(df["date"] == "23-Sep-1972") :
+    elif((df["date"] == "23-Sep-1972") or \
+         (df["date"] == "22-Sep-1928") or \
+         (df["date"] == "21-Sep-1946")):
         newstring = str(df["matchid"]).replace("SF","SR",1)    
     elif(df["date"] == "15-Sep-1990") :
         newstring = str(df["matchid"]).replace("QF","QR",1)    
@@ -158,15 +164,17 @@ def replayFix(df):
         return df["matchid"]    
     return newstring
 
-def roundFix(df):
+def roundFix(df):    
     if((df["date"] == "2-Oct-2010") or \
        (df["date"] == "9-Oct-1948") or \
        (df["date"] == "1-Oct-1977")):
         return "GReplay"
-    elif(df["date"] == "15-Sep-1963") :
-        return "PReplay"
-    elif(df["date"] == "22-Sep-1962") :
+    elif((df["date"] == "23-Sep-1972") or \
+         (df["date"] == "22-Sep-1928") or \
+         (df["date"] == "21-Sep-1946")):
         return "SReplay"
+    elif(df["date"] == "22-Sep-1962") :
+        return "PReplay"
     elif(df["date"] == "15-Sep-1990") :
         return "QReplay"
     else:
@@ -400,7 +408,9 @@ def getMatchIndex(m,date):
         rcode = getRoundCode("GReplay")
     elif(date == "22-Sep-1962") :
         rcode = getRoundCode("PReplay")
-    elif(date == "23-Sep-1972") :
+    elif((date == "23-Sep-1972") or \
+         (date == "22-Sep-1928") or \
+         (date == "21-Sep-1946")):        
         rcode = getRoundCode("SReplay")
     elif(date == "15-Sep-1990") :
         rcode = getRoundCode("QReplay") 
