@@ -268,6 +268,6 @@ def main(scode,ecode):
         pd.DataFrame.from_dict(playermatch_adv).to_csv(d+"/staging/adv_stats.csv", mode="w", index = False)
 
 
-main(4961,9666)
+main(9667,9675)
 
 

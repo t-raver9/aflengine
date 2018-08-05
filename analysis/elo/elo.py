@@ -436,5 +436,8 @@ print(current["elo"].mean())
 
 test.to_csv("elo_out.csv",mode="w")
 
+current_out = current.set_index("team")
+current_out = current_out.drop(["history"],axis=1)
+current_out.to_csv("../../bench/ratings.csv",mode="w")
 
 

@@ -22,15 +22,15 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
     matchlist = dict()
     year = endyear
     d = dirname(dirname(abspath(__file__)))
-    
-    
+
+
     #make a list of all the years
     n=startyear
     years = list()
     while(n<=endyear):
         years.append(n)
         n += 1
-      
+
     #delete any years we are redownloading
     try:
         with open(d + "/matchfiles/afltables/matchlist.json",'r') as datafile:
@@ -42,16 +42,16 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
                 except KeyError:
                     pass
             with open(d + "/matchfiles/afltables/matchlist.json",'a') as datafile:
-                json.dump(data, datafile)    
+                json.dump(data, datafile)
     except (FileNotFoundError, IOError):
         pass
 
 
-    
+
     #loops backwards from endyear to startyear
     while(year>=startyear):
         url = base + str(year) + end
-        
+
         #get page containing all match links in the season
         page = urllib.request.urlopen(url)
         soup = BeautifulSoup(page, 'html.parser')
@@ -60,7 +60,7 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
 
         #Get all links on the page
         for a in soup.findAll('a',href=True):
-            
+
             #If link text is 'match stats' then it links to a game, so
             #record that URL in the list
             if(a.text=="Match stats"):
@@ -69,7 +69,7 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
                 matchlist.update({year:matches})
         print("Successfully downloaded match codes for " + str(year) + " season")
         year -= 1
-        
+
 
     #When all seasons are done, output to JSON list
     with open(d + "/matchfiles/afltables/matchlist.json",'w') as fout:
@@ -77,15 +77,15 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
 
     return matchlist
 
-#Get main match files from JSON list and store the html files in fodler 
+#Get main match files from JSON list and store the html files in fodler
 def getPages(syear,eyear):
     d = dirname(dirname(abspath(__file__)))
-    
-    
+
+
     #load list from JSON file
     with open(d + "/matchfiles/afltables/matchlist.json",'r') as fin:
         data = json.load(fin)
-    
+
     #Iterate through each year in the list
     for year, mlist in data.items():
         print("Downloading " + str(year) + " season")
@@ -94,15 +94,15 @@ def getPages(syear,eyear):
             os.makedirs(d + "/matchfiles/afltables/" + year)
         #Iterate through each match in the year
 
-        for matchurl in mlist:            
+        for matchurl in mlist:
             code = str(matchurl).rpartition('/')[2]
             if not os.path.exists(d + "/matchfiles/afltables/" + year + "/" + code):
-                urllib.request.urlretrieve(matchurl, 
+                urllib.request.urlretrieve(matchurl,
                                            d + "/matchfiles/afltables/" + year + "/" + code)
-                #print("Successfully downloaded matches for " + str(year) + " season") 
+                #print("Successfully downloaded matches for " + str(year) + " season")
             else:
                 print("Match: " + code + " already exists. Skipping")
-            
+
 
 #get the pages with odds and fantasy data from footywire
 def getExtraPages(scode,ecode):
@@ -115,10 +115,10 @@ def getExtraPages(scode,ecode):
         if(t>9297 or t<6370 and  t!=6079 and t!=6162):
             try:
                 url1 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
-                url2 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t) + '&advv=Y'                
-                urllib.request.urlretrieve(url1, 
+                url2 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t) + '&advv=Y'
+                urllib.request.urlretrieve(url1,
                 d + "/matchfiles/footywire/footywire" + str(t) + ".html")
-                urllib.request.urlretrieve(url2, 
+                urllib.request.urlretrieve(url2,
                 d + "/matchfiles/footywire_adv/footywire_adv" + str(t) + ".html")
                 print("Successfully downloaded match #" + str(t))
             except IndexError:
@@ -137,11 +137,11 @@ def main(syear,eyear,scode,ecode):
 
     #first game 2010 is 4961, don't go back any further as info
     #is redundant
-        
+
         #4961 - earliest game
         #9512 - GF2017
         #9648 - End Round 16 2018
-    
+
     try:
         print("Getting list of URLS from AFLtables")
         getPageNames(syear,eyear)
@@ -151,7 +151,7 @@ def main(syear,eyear,scode,ecode):
                AFLtables, try checking that the year parameters are \
                valid, and that you are connected to the internet")
         return
-    
+
     try:
         print("Download HTML files from AFLTables")
         getPages(syear, eyear)
@@ -160,8 +160,8 @@ def main(syear,eyear,scode,ecode):
         print("There was an error downloading file from AFLtables, \
                try checking that the year parameters are valid, and \
                that you are connected to the internet")
-        return       
-        
+        return
+
     try:
         print("Download HTML files from Footywire")
         getExtraPages(scode,ecode)
@@ -170,8 +170,8 @@ def main(syear,eyear,scode,ecode):
         print("There was an error downloading files from Footywire, \
               try checking that the year parameters are valid, and \
               that you are connected to the internet")
-        return  
+        return
 
 
-main(2018,2018,9658,9666)
- 
+main(2018,2018,9667,9675)
+
