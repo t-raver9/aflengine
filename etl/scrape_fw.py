@@ -10,7 +10,7 @@ the following files:
     odds_data.csv - odds and line data form matches going back to 2010
     fantasy_scores.csv - supercoach and aflfantasy scores for players
     advanced stats - stats which are not recorded on AFLtables
-    
+
 """
 
 
@@ -69,9 +69,9 @@ def loadData(gamerange,playermatch,pma,mdetails):
                     s = s.replace('\n','')
 
                 for s in adv_stats_h:
-                    s = s.replace('\n','') 
-                    
-                
+                    s = s.replace('\n','')
+
+
 
 
 
@@ -84,12 +84,12 @@ def loadData(gamerange,playermatch,pma,mdetails):
                     adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');
                 for s in player_stats_a:
                     s = s.replace('\n','')
-                    
+
                 #replace newlines with blanks
                 for s in player_stats_a:
                     s = s.replace('\n','')
                 for s in adv_stats_a:
-                    s = s.replace('\n','') 
+                    s = s.replace('\n','')
 
 
 
@@ -113,10 +113,10 @@ def loadData(gamerange,playermatch,pma,mdetails):
 
 def scrapeAdvStats(gameIn,gameID,gameOut, homeAway,year):
     CP,UP,ED,DE,CM,GA,MI5,P1,BO,CCL,SCL,SI,MG,TO,ITC,T5 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    
+
     i=21
-    
-    
+
+
     for x in range(0,22):
         if(year < 2015):
             i = i + 24
@@ -143,20 +143,20 @@ def scrapeAdvStats(gameIn,gameID,gameOut, homeAway,year):
             MI5 = int(gameIn[i+14].encode('utf-8'))
             P1 = int(gameIn[i+16].encode('utf-8'))
             BO = int(gameIn[i+18].encode('utf-8'))
-            CCL = int(gameIn[i+20].encode('utf-8'))  
-            SCL = int(gameIn[i+22].encode('utf-8'))  
-            SI = int(gameIn[i+24].encode('utf-8'))  
-            MG = int(gameIn[i+26].encode('utf-8'))  
-            TO = int(gameIn[i+28].encode('utf-8'))  
-            ITC = int(gameIn[i+30].encode('utf-8'))  
-            T5 = int(gameIn[i+32].encode('utf-8'))  
-            
-            
+            CCL = int(gameIn[i+20].encode('utf-8'))
+            SCL = int(gameIn[i+22].encode('utf-8'))
+            SI = int(gameIn[i+24].encode('utf-8'))
+            MG = int(gameIn[i+26].encode('utf-8'))
+            TO = int(gameIn[i+28].encode('utf-8'))
+            ITC = int(gameIn[i+30].encode('utf-8'))
+            T5 = int(gameIn[i+32].encode('utf-8'))
+
+
         gameOut.append({'gameID':gameID, 'homeAway':homeAway,
             'name':name, 'CP':CP, 'UP':UP,'ED':ED,'DE':DE,'CM':CM,
             'GA':GA,'MI5':MI5,'P1':P1,'BO':BO,'CCL':CCL,'SCL':SCL,
             'SI':SI,'MG':MG,'TO':TO,'ITC':ITC,'T5':T5})
-    
+
 
 def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
     if(year < 2007 and homeAway == "Home"):
@@ -194,7 +194,7 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
 
 def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
     gameString = gameIn.replace('\\n','').replace("'",'').split(',')
-    
+
     mround = gameString[0].split(' ')[1]
     if(not(int(gameID) < 1840)):
 
@@ -238,8 +238,8 @@ def main(scode,ecode):
     playermatch = []
     playermatch_adv = []
     mdetails = []
-    
-    
+
+
     d = dirname(dirname(abspath(__file__)))
     daterange = [scode,ecode]
 
@@ -257,7 +257,7 @@ def main(scode,ecode):
         pd.DataFrame.from_dict(playermatch).to_csv(d+"/staging/fantasy_scores.csv", mode="a", index = False, header=False)
     else:
         pd.DataFrame.from_dict(playermatch).to_csv(d+"/staging/fantasy_scores.csv", mode="w", index = False)
-    
+
     if(os.path.isfile(d+"/staging/odds_data.csv")):
         pd.DataFrame.from_dict(mdetails).to_csv(d+"/staging/odds_data.csv", mode="a", index = False, header=False)
     else:
@@ -268,6 +268,6 @@ def main(scode,ecode):
         pd.DataFrame.from_dict(playermatch_adv).to_csv(d+"/staging/adv_stats.csv", mode="w", index = False)
 
 
-main(9667,9675)
+main(9685,9693)
 
 

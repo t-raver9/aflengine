@@ -12,19 +12,19 @@ import random
 import laddergen as lg
 import numpy as np
 from os.path import dirname, abspath
-   
+
 def calcWinProb(df,ratings):
     hteam = df["hteam"]
     ateam = df["ateam"]
 
-   
+
     hrating = ratings.loc[hteam]["elo"]
     arating = ratings.loc[ateam]["elo"]
-    
-    
+
+
     prob =  1-(1 / (1 + 10 ** ((hrating - arating) / 400)))
 
-    
+
     return prob
 
 #load files
@@ -73,30 +73,30 @@ for i in range (0,10000):
         r = random.uniform(0, 1)
         if(r<game["hwinprob"]):
             simmed_games.at[index,"hscore"] = 100
-            simmed_games.at[index,"ascore"] = 80            
+            simmed_games.at[index,"ascore"] = 80
         else:
             simmed_games.at[index,"hscore"] = 80
-            simmed_games.at[index,"ascore"] = 100            
-            
+            simmed_games.at[index,"ascore"] = 100
+
         #print(game)
-            
+
     simmed_ladder = lg.getLadder(simmed_games)
     simmed_ladder = simmed_ladder.reset_index()
-    
+
     simresults.append(simmed_games)
     simladders.append(simmed_ladder)
     print("Sim #" + str(i) + " is complete")
-            
-i = 1            
+
+i = 1
 for sim in simladders:
-    
+
     #Calc minor premier
     simsummary.loc[sim.iloc[0]["team"]]["p1"] += 1
     simsummary.loc[sim.iloc[1]["team"]]["p2"] += 1
     simsummary.loc[sim.iloc[2]["team"]]["p3"] += 1
     simsummary.loc[sim.iloc[3]["team"]]["p4"] += 1
     simsummary.loc[sim.iloc[4]["team"]]["p5"] += 1
-    simsummary.loc[sim.iloc[5]["team"]]["p6"] += 1    
+    simsummary.loc[sim.iloc[5]["team"]]["p6"] += 1
     simsummary.loc[sim.iloc[6]["team"]]["p7"] += 1
     simsummary.loc[sim.iloc[7]["team"]]["p8"] += 1
     simsummary.loc[sim.iloc[8]["team"]]["p9"] += 1
@@ -110,13 +110,13 @@ for sim in simladders:
     simsummary.loc[sim.iloc[16]["team"]]["p17"] += 1
     simsummary.loc[sim.iloc[17]["team"]]["p18"] += 1
 
-    print("Extracted data from sim #" + str(i))    
+    print("Extracted data from sim #" + str(i))
     i += 1
- 
+
 
 simsummary = simsummary.applymap(lambda x:(x/10000))
 
-simsummary.to_csv(d+"/outputs/finalschances3.csv")
+simsummary.to_csv(d+"/outputs/finalschancesR22.csv")
 
 #Print outputs
 

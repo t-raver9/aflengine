@@ -328,24 +328,24 @@ def getFlippedLadder(df):
 
 
 #load files
-d = dirname(dirname(abspath(__file__)))
+#d = dirname(dirname(abspath(__file__)))
 
-matches = pd.read_csv(d+"/bench/matches.csv")
-gloc = pd.read_csv(d+"/bench/extras/ground_locations.csv")
-tloc = pd.read_csv(d+"/bench/extras/team_locations.csv")
+#matches = pd.read_csv(d+"/bench/matches.csv")
+#gloc = pd.read_csv(d+"/bench/extras/ground_locations.csv")
+#tloc = pd.read_csv(d+"/bench/extras/team_locations.csv")
 
-curr_season = matches.loc[(matches["season"]==2018)]
+#curr_season = matches.loc[(matches["season"]==2018)]
 
-current_ladder = getLadder(curr_season)
-interstate_ladder = getInterstateLadder(curr_season,gloc,tloc)
-halftime_ladder = getHalftimeLadder(curr_season)
-secondhalf_ladder = getSecondhalfLadder(curr_season)
-flipped_ladder = getFlippedLadder(curr_season)
+#current_ladder = getLadder(curr_season)
+#interstate_ladder = getInterstateLadder(curr_season,gloc,tloc)
+#halftime_ladder = getHalftimeLadder(curr_season)
+#secondhalf_ladder = getSecondhalfLadder(curr_season)
+#flipped_ladder = getFlippedLadder(curr_season)
 
-current_ladder.to_csv(d+"/outputs/ladder2018.csv")
-interstate_ladder.to_csv(d+"/outputs/interstateladder2018.csv")
-halftime_ladder.to_csv(d+"/outputs/halftimeladder2018.csv")
-secondhalf_ladder.to_csv(d+"/outputs/secondhalfladder2018.csv")
-flipped_ladder.to_csv(d+"/outputs/flippedladder2018.csv")
+#current_ladder.to_csv(d+"/outputs/ladder2018.csv")
+#interstate_ladder.to_csv(d+"/outputs/interstateladder2018.csv")
+#halftime_ladder.to_csv(d+"/outputs/halftimeladder2018.csv")
+#secondhalf_ladder.to_csv(d+"/outputs/secondhalfladder2018.csv")
+#flipped_ladder.to_csv(d+"/outputs/flippedladder2018.csv")
 
 
