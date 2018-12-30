@@ -17,7 +17,7 @@ the following files:
 import pandas as pd
 from lxml import html
 from datetime import datetime
-import shared_functions as f
+from etl import shared_functions as f
 import re
 from os.path import dirname, abspath
 import os
@@ -268,6 +268,6 @@ def main(scode,ecode):
         pd.DataFrame.from_dict(playermatch_adv).to_csv(d+"/staging/adv_stats.csv", mode="w", index = False)
 
 
-main(9685,9693)
+#main(9685,9693)
 
 

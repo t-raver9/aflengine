@@ -100,8 +100,8 @@ def getPages(syear,eyear):
                 urllib.request.urlretrieve(matchurl,
                                            d + "/matchfiles/afltables/" + year + "/" + code)
                 #print("Successfully downloaded matches for " + str(year) + " season")
-            else:
-                print("Match: " + code + " already exists. Skipping")
+            #else:
+            #    print("Match: " + code + " already exists. Skipping")
 
 
 #get the pages with odds and fantasy data from footywire
@@ -173,5 +173,5 @@ def main(syear,eyear,scode,ecode):
         return
 
 
-main(2018,2018,9685,9693)
+#main(2018,2018,9685,9693)
 

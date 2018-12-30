@@ -13,7 +13,7 @@ two files -
 """
 
 
-import shared_functions as f
+from etl import shared_functions as f
 import os
 import numpy as np
 from os.path import dirname, abspath
@@ -415,4 +415,4 @@ def main(syear,eyear):
 
 
 
-main(2018,2018)
+#main(2018,2018)
