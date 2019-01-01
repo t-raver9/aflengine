@@ -431,9 +431,6 @@ modern_summary = getRecordSummary(modern_teams)
 
 record_summary = getRecordSummary(teams)
 
-
-print(current["elo"].mean())
-
 test.to_csv("elo_out.csv",mode="w")
 
 current_out = current.set_index("team")
