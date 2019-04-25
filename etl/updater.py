@@ -11,23 +11,25 @@ from etl import scrape_at as get_main
 from etl import scrape_fw as get_extra
 from etl import process
 
+SYEAR = 2019
+EYEAR = 2019
+SCODE = 9757
+ECODE = 9765
 
-print("GETTING DATAFILES")
-download.main(2018,2018,9694,9720)
 
-
-print("SUCCESSFULLY LOADED DATAFILES")
-print("SCRAPING AFLTABLES DATA")
-get_main.main(2018,2018)
-print("SUCCESSFULLY SCRAPED AFLTABLES DATA")
-print("SCRAPING FOOTYWIRE DATA")
-get_extra.main(9694,9720)
-
-chr
-print("SUCCESSFULLY SCRAPED FOOTYWIRE DATA")
-print("POST-PROCESSING SCRAPED DATA")
-process.main()
-print("SUCCESSFULLY POST-PROCESSED SCRAPED DATA")
-
-print("DATA IS NOW READY FOR ANALYSIS!")
-
+if __name__ == "__main__":
+    print("1.GETTING DATAFILES")
+    download.main(SYEAR,EYEAR,SCODE,ECODE)
+    print("1.SUCCESSFULLY LOADED DATAFILES")
+    print("2.SCRAPING AFLTABLES DATA")
+    get_main.main(SYEAR,EYEAR)
+    print("2.SUCCESSFULLY SCRAPED AFLTABLES DATA")
+    print("3.SCRAPING FOOTYWIRE DATA")
+    get_extra.main(SCODE,ECODE)
+    
+    print("3.SUCCESSFULLY SCRAPED FOOTYWIRE DATA")
+    print("4.POST-PROCESSING SCRAPED DATA")
+    process.main()
+    print("4.SUCCESSFULLY POST-PROCESSED SCRAPED DATA")
+    
+    print("DATA IS NOW READY FOR ANALYSIS!")

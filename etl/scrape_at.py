@@ -13,12 +13,17 @@ two files -
 """
 
 
-from etl import shared_functions as f
+
 import os
 import numpy as np
 from os.path import dirname, abspath
 import pandas as pd
 import re
+
+try:
+    import shared_functions as f
+except ModuleNotFoundError:
+    from etl import shared_functions as f
 
 
 
@@ -161,8 +166,6 @@ def getPlayerStats(p,t,ha,s,d):
 
     if(len(rows) <22):
         print("FUCKED UP")
-        print(t)
-        print(len(rows))
     else:
         rowpoint = 2
 
@@ -227,7 +230,7 @@ def scrape(syear,eyear):
 
     #iterate through each year, run the scraping process
     while(year>=startyear):
-        print("Processing year: " + str(year))
+        #print("Processing year: " + str(year))
 
 
         files = os.listdir(d + "/matchfiles/afltables/" + str(year))
@@ -373,7 +376,7 @@ def getProgression(table,matchid):
 #If run from command line, takes year ranges as parameters, otherwise
 #uses defaults
 def main(syear,eyear):
-    print("Using default season range of 1897 to 2018")
+    #print("Using default season range of 1897 to 2018")
     #syear = 1897
     #eyear = 2018
     d = dirname(dirname(abspath(__file__)))
@@ -414,5 +417,5 @@ def main(syear,eyear):
             mode="w",index=False)
 
 
-
-#main(2018,2018)
+if __name__ == "__main__":
+   main(2019,2019)

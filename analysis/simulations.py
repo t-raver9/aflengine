@@ -31,7 +31,7 @@ def calcWinProb(df,ratings):
 d = dirname(dirname(abspath(__file__)))
 
 matches = pd.read_csv(d+"/bench/matches.csv")
-fixture = pd.read_csv(d+"/bench/fixture2018.csv")
+fixture = pd.read_csv(d+"/bench/fixture2019.csv")
 simsummary = pd.read_csv(d+"/bench/simframe.csv")
 simsummary = simsummary.set_index("team")
 ratings = pd.read_csv(d+"/bench/ratings.csv")
@@ -65,7 +65,7 @@ fixture["hwinprob"] = fixture.apply(calcWinProb,axis=1,ratings=ratings)
 simresults = []
 simladders = []
 
-for i in range (0,10000):
+for i in range (0,1000):
     simmed_games = copy.deepcopy(fixture)
     for index, game in simmed_games.iterrows():
         if(np.isnan(game["hscore"]) == False):
@@ -114,9 +114,9 @@ for sim in simladders:
     i += 1
 
 
-simsummary = simsummary.applymap(lambda x:(x/10000))
+simsummary = simsummary.applymap(lambda x:(x/1000))
 
-simsummary.to_csv(d+"/outputs/finalschancesR22.csv")
+simsummary.to_csv(d+"/outputs/2019preseason.csv")
 
 #Print outputs
 

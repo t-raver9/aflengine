@@ -17,10 +17,14 @@ the following files:
 import pandas as pd
 from lxml import html
 from datetime import datetime
-from etl import shared_functions as f
 import re
 from os.path import dirname, abspath
 import os
+
+try:
+    import shared_functions as f
+except ModuleNotFoundError:
+    from etl import shared_functions as f
 
 
 
@@ -32,7 +36,7 @@ def loadData(gamerange,playermatch,pma,mdetails):
     for t in range(gamerange[0],gamerange[1]+1):
         if(t>9297 or t<6370 and  t!=6079 and t!=6162):
             try:
-                print("Processing game #" + str(t))
+                #print("Processing game #" + str(t))
                 #download file from server
 
 
@@ -43,26 +47,27 @@ def loadData(gamerange,playermatch,pma,mdetails):
                 tree = html.fromstring(file.read())
                 atree = html.fromstring(afile.read())
 
-
                 #strip overall result and remove linebreaks
                 text_result = tree.xpath('//td[@class="hltitle"]/text()')
                 text_result[0] = text_result[0].replace('\n','')
-
-
+                
                 #strip match details and remove linebreaks
                 text_details = tree.xpath('//td[@class="lnorm"]/text()')
                 for s in text_details:
                     s = s.replace('\n','')
-
 
                 #strip home team data from statbox and remove linebreaks
                 year = int(text_details[1].split(" ")[3].replace(",",""))
                 if(year < 2010):
                     player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
                     adv_stats_h = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
+                elif(year == 2019):
+                    player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
+                    adv_stats_h = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');               
                 else:
                     player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
                     adv_stats_h = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
+
 
                 #replace newlines with blanks
                 for s in player_stats_h:
@@ -71,19 +76,24 @@ def loadData(gamerange,playermatch,pma,mdetails):
                 for s in adv_stats_h:
                     s = s.replace('\n','')
 
-
-
-
+                #print("PLAYER HOME")
+                #print(player_stats_h)
 
                 #strip away team data from statbox and remove linebreaks
                 if(year < 2010):
                     player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr/td/table/tr/td[1]/table/tr[3]/td/table/descendant::*/text()');
                     adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr/td/table/tr/td[1]/table/tr[3]/td/table/descendant::*/text()');
+                elif(year == 2019):
+                    #player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr/td/table/tr/td[1]/table/tr[2]/td[2]/table/descendant::*/text()');
+                    player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[3]/td[1]/table/descendant::*/text()');
+                    adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[3]/td[1]/table/descendant::*/text()');         
                 else:
                     player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');
                     adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');
                 for s in player_stats_a:
                     s = s.replace('\n','')
+
+
 
                 #replace newlines with blanks
                 for s in player_stats_a:
@@ -92,19 +102,18 @@ def loadData(gamerange,playermatch,pma,mdetails):
                     s = s.replace('\n','')
 
 
-
                 scrapeBasicStats(player_stats_h,str(t),playermatch, "Home", year)
                 scrapeBasicStats(player_stats_a,str(t),playermatch, "Away", year)
                 scrapeAdvStats(adv_stats_h,str(t),pma, "Home", year)
                 scrapeAdvStats(adv_stats_a,str(t),pma, "Away", year)
 
                 scrapeMatchDetails(str(text_details),str(text_result),str(t),mdetails)
-                print("Successfully processed game #" + str(t))
+                #print("Successfully processed game #" + str(t))
             except IndexError:
-                print("There was an index error with match #" + str(t))
+                #print("There was an index error with match #" + str(t))
                 errorcount += 1
         else:
-            print("Skipping game #" + str(t))
+            #print("Skipping game #" + str(t))
             continue
 
     print("There were " + str(errorcount) + " number of games that failed")
@@ -114,7 +123,10 @@ def loadData(gamerange,playermatch,pma,mdetails):
 def scrapeAdvStats(gameIn,gameID,gameOut, homeAway,year):
     CP,UP,ED,DE,CM,GA,MI5,P1,BO,CCL,SCL,SI,MG,TO,ITC,T5 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-    i=21
+    if(year == 2019 and homeAway == "Away"):
+        i=19
+    else:
+        i=21
 
 
     for x in range(0,22):
@@ -163,6 +175,8 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
         i=26
     elif(year < 2007 and homeAway == "Away"):
         i=19
+    elif(year == 2019 and homeAway == "Away"):
+        i=19    
     else:
         i=21
 
@@ -173,8 +187,7 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
         else:
             i = i + 38
 
-
-        name = re.sub(r'[^\w\s]','',str(gameIn[i].encode('utf-8'))[2:-1])
+        name = re.sub(r'[^\w\s]','',str(gameIn[i].encode('utf-8'))[2:-1]) ###ERROR HERE
 
         kicks = int(gameIn[i+2].encode('utf-8'))
 
@@ -183,9 +196,12 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
             Supercoach = ""
             continue
         else:
-            AFLfantasy = int(gameIn[i+32].encode('utf-8'))
-            Supercoach = int(gameIn[i+34].encode('utf-8'))
-
+            try:
+                AFLfantasy = int(gameIn[i+32].encode('utf-8'))
+                Supercoach = int(gameIn[i+34].encode('utf-8'))
+            except ValueError:
+                AFLfantasy = -1
+                Supercoach = -1
 
         gameOut.append({'gameID':gameID, 'homeAway':homeAway,
                         'name':name, 'kicks':kicks, 'AFLfantasy':AFLfantasy,
@@ -267,7 +283,8 @@ def main(scode,ecode):
     else:
         pd.DataFrame.from_dict(playermatch_adv).to_csv(d+"/staging/adv_stats.csv", mode="w", index = False)
 
-
-#main(9685,9693)
+#PUT MARCH RANGE IN HERE
+#if __name__ == "__main__":
+#   main()
 
 

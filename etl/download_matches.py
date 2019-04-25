@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+## -*- coding: utf-8 -*-
 """
 Created on Wed Feb  7 20:54:07 2018
 
@@ -67,7 +67,7 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
                 matchstring = "https://afltables.com/afl/" + str(a['href'])[3:]
                 matches.append(matchstring)
                 matchlist.update({year:matches})
-        print("Successfully downloaded match codes for " + str(year) + " season")
+        #print("Successfully downloaded match codes for " + str(year) + " season")
         year -= 1
 
 
@@ -88,7 +88,7 @@ def getPages(syear,eyear):
 
     #Iterate through each year in the list
     for year, mlist in data.items():
-        print("Downloading " + str(year) + " season")
+        #print("Downloading " + str(year) + " season")
         #Create folder for that year if it doesn't exist
         if not os.path.exists(d + "/matchfiles/afltables/" + year):
             os.makedirs(d + "/matchfiles/afltables/" + year)
@@ -107,7 +107,7 @@ def getPages(syear,eyear):
 #get the pages with odds and fantasy data from footywire
 def getExtraPages(scode,ecode):
     d = dirname(dirname(abspath(__file__)))
-    print("Getting matches from " + str(scode) + " to " + str(ecode))
+    #print("Getting matches from " + str(scode) + " to " + str(ecode))
     if not os.path.exists(d + "/matchfiles/footywire/"):
             os.makedirs(d + "/matchfiles/footywire/")
     for t in range(scode,ecode+1):
@@ -120,12 +120,12 @@ def getExtraPages(scode,ecode):
                 d + "/matchfiles/footywire/footywire" + str(t) + ".html")
                 urllib.request.urlretrieve(url2,
                 d + "/matchfiles/footywire_adv/footywire_adv" + str(t) + ".html")
-                print("Successfully downloaded match #" + str(t))
+                #print("Successfully downloaded match #" + str(t))
             except IndexError:
                 print("There was an index error with match #" + str(t))
                 errors += 1
         else:
-            print("Skipping game #" + str(t))
+            #print("Skipping game #" + str(t))
             continue
     print("There were " + str(errors) + " errors in the retrieval of extra data")
 
@@ -145,7 +145,7 @@ def main(syear,eyear,scode,ecode):
     try:
         print("Getting list of URLS from AFLtables")
         getPageNames(syear,eyear)
-        print("Completed")
+        
     except:
         print("There was an error getting list of URLS from\
                AFLtables, try checking that the year parameters are \
@@ -155,7 +155,6 @@ def main(syear,eyear,scode,ecode):
     try:
         print("Download HTML files from AFLTables")
         getPages(syear, eyear)
-        print("Completed")
     except:
         print("There was an error downloading file from AFLtables, \
                try checking that the year parameters are valid, and \
@@ -165,7 +164,6 @@ def main(syear,eyear,scode,ecode):
     try:
         print("Download HTML files from Footywire")
         getExtraPages(scode,ecode)
-        print("Completed")
     except:
         print("There was an error downloading files from Footywire, \
               try checking that the year parameters are valid, and \
@@ -173,5 +171,5 @@ def main(syear,eyear,scode,ecode):
         return
 
 
-main(2018,2018,9685,9720)
+#main(2019,2019,9748,9756)
 

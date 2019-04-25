@@ -7,8 +7,12 @@ Created on Fri Mar 16 20:30:04 2018
 """
 
 import pandas as pd
-import shared_functions as f
 from os.path import dirname, abspath
+
+try:
+    import shared_functions as f
+except ModuleNotFoundError:
+    from etl import shared_functions as f
 
 
 def main():

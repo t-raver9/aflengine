@@ -14,7 +14,7 @@ import copy
 
 
 STARTYEAR = 1897 #Year to begin processing data from
-LASTYEAR = 2018 #Last year data collected
+LASTYEAR = 2019 #Last year data collected
 STARTELO = 1500 #The default starting ELO rating
 MEANELO = 1500 #Mean ELO to regress to between seasons
 ISRF = 0.1 #Inter season regression factor
