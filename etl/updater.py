@@ -13,8 +13,8 @@ from etl import process
 
 SYEAR = 2019
 EYEAR = 2019
-SCODE = 9757
-ECODE = 9765
+SCODE = 9802
+ECODE = 9810
 
 
 if __name__ == "__main__":
@@ -33,3 +33,6 @@ if __name__ == "__main__":
     print("4.SUCCESSFULLY POST-PROCESSED SCRAPED DATA")
     
     print("DATA IS NOW READY FOR ANALYSIS!")
+    
+    
+    
