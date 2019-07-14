@@ -13,8 +13,8 @@ from etl import process
 
 SYEAR = 2019
 EYEAR = 2019
-SCODE = 9802
-ECODE = 9810
+SCODE = 9694
+ECODE = 9720
 
 
 if __name__ == "__main__":
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     download.main(SYEAR,EYEAR,SCODE,ECODE)
     print("1.SUCCESSFULLY LOADED DATAFILES")
     print("2.SCRAPING AFLTABLES DATA")
-    get_main.main(SYEAR,EYEAR)
+    #get_main.main(1897,2019)
     print("2.SUCCESSFULLY SCRAPED AFLTABLES DATA")
     print("3.SCRAPING FOOTYWIRE DATA")
     get_extra.main(SCODE,ECODE)

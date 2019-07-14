@@ -61,7 +61,7 @@ def loadData(gamerange,playermatch,pma,mdetails):
                 if(year < 2010):
                     player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
                     adv_stats_h = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
-                elif(year == 2019):
+                elif(t >= 9694):
                     player_stats_h = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');
                     adv_stats_h = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[1]/td[1]/descendant::*/text()');               
                 else:
@@ -83,7 +83,7 @@ def loadData(gamerange,playermatch,pma,mdetails):
                 if(year < 2010):
                     player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr/td/table/tr/td[1]/table/tr[3]/td/table/descendant::*/text()');
                     adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr/td/table/tr/td[1]/table/tr[3]/td/table/descendant::*/text()');
-                elif(year == 2019):
+                elif(t >= 9694):
                     #player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr/td/table/tr/td[1]/table/tr[2]/td[2]/table/descendant::*/text()');
                     player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[3]/td[1]/table/descendant::*/text()');
                     adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[3]/td[1]/table/descendant::*/text()');         
@@ -103,13 +103,15 @@ def loadData(gamerange,playermatch,pma,mdetails):
 
 
                 scrapeBasicStats(player_stats_h,str(t),playermatch, "Home", year)
+
                 scrapeBasicStats(player_stats_a,str(t),playermatch, "Away", year)
                 scrapeAdvStats(adv_stats_h,str(t),pma, "Home", year)
                 scrapeAdvStats(adv_stats_a,str(t),pma, "Away", year)
 
                 scrapeMatchDetails(str(text_details),str(text_result),str(t),mdetails)
-                #print("Successfully processed game #" + str(t))
-            except IndexError:
+                print("Successfully processed game #" + str(t))
+            except IndexError as e:
+                print(e)
                 #print("There was an index error with match #" + str(t))
                 errorcount += 1
         else:
@@ -123,7 +125,11 @@ def loadData(gamerange,playermatch,pma,mdetails):
 def scrapeAdvStats(gameIn,gameID,gameOut, homeAway,year):
     CP,UP,ED,DE,CM,GA,MI5,P1,BO,CCL,SCL,SI,MG,TO,ITC,T5 = 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-    if(year == 2019 and homeAway == "Away"):
+    if(gameID == "9818" and homeAway == "Home"):
+        i=20
+    elif(gameID == "9818" and homeAway == "Away"):
+        i=18
+    elif(int(gameID) >= 9694 and homeAway == "Away"):
         i=19
     else:
         i=21
@@ -143,8 +149,10 @@ def scrapeAdvStats(gameIn,gameID,gameOut, homeAway,year):
             P1 = int(gameIn[i+16].encode('utf-8'))
             BO = int(gameIn[i+18].encode('utf-8'))
 
+        
         else:
-            i = i + 38
+            i = i + 38   
+
             name = re.sub(r'[^\w\s]','',str(gameIn[i].encode('utf-8'))[2:-1])
             CP = int(gameIn[i+2].encode('utf-8'))
             UP = int(gameIn[i+4].encode('utf-8'))
@@ -175,12 +183,16 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
         i=26
     elif(year < 2007 and homeAway == "Away"):
         i=19
-    elif(year == 2019 and homeAway == "Away"):
+    elif(gameID == "9818" and homeAway == "Home"):
+        i=20
+    elif(gameID == "9818" and homeAway == "Away"):
+        i=18
+    elif(int(gameID) >= 9694 and homeAway == "Away"):
         i=19    
+
     else:
         i=21
 
-    #print(gameIn)
     for x in range(0,22):
         if(year < 2007):
             i = i + 24
@@ -284,7 +296,7 @@ def main(scode,ecode):
         pd.DataFrame.from_dict(playermatch_adv).to_csv(d+"/staging/adv_stats.csv", mode="w", index = False)
 
 #PUT MARCH RANGE IN HERE
-#if __name__ == "__main__":
-#   main()
+if __name__ == "__main__":
+   main(9694,9720)
 
 

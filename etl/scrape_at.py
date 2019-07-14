@@ -230,7 +230,7 @@ def scrape(syear,eyear):
 
     #iterate through each year, run the scraping process
     while(year>=startyear):
-        #print("Processing year: " + str(year))
+        print("Processing year: " + str(year))
 
 
         files = os.listdir(d + "/matchfiles/afltables/" + str(year))
@@ -385,10 +385,18 @@ def main(syear,eyear):
     if(os.path.isfile(d+"/staging/match_summaries.csv")):
         file = open(d+"/staging/match_summaries.csv","a+")
         file2 = open(d+"/staging/player_stats.csv","a+")
+        file3 = open(d+"/staging/scoring_progression.csv","a+")
+        file4 = open(d+"/staging/q_lengths.csv","a+")
+
         file.write("\n")
         file2.write("\n")
+        file3.write("\n")
+        file4.write("\n")
         file.close()
         file2.close()
+        file3.close()
+        file4.close()
+
 
     scrape(syear,eyear)
 
@@ -417,5 +425,5 @@ def main(syear,eyear):
             mode="w",index=False)
 
 
-if __name__ == "__main__":
-   main(2019,2019)
+#if __name__ == "__main__":
+#   main(2019,2019)

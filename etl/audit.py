@@ -55,6 +55,11 @@ T5data = len(players.groupby("playerid").agg('count')["kicks"].to_frame().index)
 
 
 
+#TEST 6: Check missing 2018 games
+T6data = matches.loc[matches['season'] == 2018]
+T6count = T6data.groupby("round").agg('count')
+
+
 
 
 del(d)
