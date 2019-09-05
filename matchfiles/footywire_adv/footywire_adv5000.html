@@ -65,9 +65,9 @@ a.tblink:link {
 }
 
 .dvr { color: #999999; font-weight: normal; vertical-align: middle; }
-.hltitle { text-decoration: none; color: #000000; font-size: 16px; font-weight: bold; }
-.whltitle { background-color: #ffffff; text-decoration: none; color: #000000; font-size: 16px; font-weight: bold; }
-.idxhltitle { text-decoration: none; color: #990099; font-size: 16px; font-weight: bold; }
+.hltitle { text-decoration: none; color: #000000; font-size: 24px; font-weight: bold; }
+.whltitle { background-color: #ffffff; text-decoration: none; color: #000000; font-size: 24px; font-weight: bold; }
+.idxhltitle { text-decoration: none; color: #990099; font-size: 24px; font-weight: bold; }
 
 .tbtitle {
   text-decoration:none;
@@ -75,7 +75,7 @@ a.tblink:link {
   font-weight:bold;
   border-top:1px solid #e4ebf6;
   border-bottom:1px solid #D8DFEA;
-  background:#D8DFEA url(/afl/img/icon/tbback.png); bottom left repeat-x;
+  background-image: linear-gradient(#e4ebf6, #d8dfea);
 }
 
 .innertbtitle {
@@ -83,7 +83,7 @@ a.tblink:link {
   text-decoration:none;
   color:#3B5998;
   font-weight:normal;
-  background:#D8DFEA url(/afl/img/icon/tbback.png); bottom left repeat-x;
+  background-image: linear-gradient(#e4ebf6, #d8dfea);
 }
 
 .tabopt { background-color: #5555cc; vertical-align: middle; text-align: center; }
@@ -100,7 +100,7 @@ a.tablink:hover { color: #eeeeee; }
 .lnitxt { }
 .lseltxt { }
 .lselbldtxt { font-weight: bold; }
-.formcls {  background-color:#f2f4f7; vertical-align:middle; text-align:left }
+.formcls {  background-color:#f2f4f7; vertical-align:middle; text-align:left; }
 .formclsright {  background-color:#f2f4f7; vertical-align:middle; text-align:right }
 
 li { background-color: #ffffff; color: #000000;  }
@@ -139,7 +139,16 @@ table#wirecell td#wirecellblurb {
 
 .smnt { background-color: #ffffff; text-decoration: none; color: #000000; vertical-align: middle; text-align: left; }
 
-a.peep { font-weight:bold; font-size: 12px; line-height: 14px; }
+a.peep { font-weight:bold; font-size: 14px; }
+
+table.peeptable {
+  border:1px solid #D8DFEA;
+  padding:5px;
+}
+
+table.peeptable td {
+  padding:5px;
+}
 
 form {
   padding:0px;
@@ -151,17 +160,17 @@ table.thickouter {
 }
 
 table.thickouter td.padded {
-  padding:2px;
+  padding:4px;
 }
 
 div.notice {
   border:1px solid #D8DFEA;
   padding:8px;
-  background:#D8DFEA url(/afl/img/icon/customback.png);
+  background-image: linear-gradient(#e4ebf6, #d8dfea);
   text-align:center;
   vertical-align:middle;
-  margin-bottom:10px;
-  font-size: 12px;
+  margin-bottom:12px;
+  font-size: 14px;
 }
 
 div.notice div.clickable {
@@ -184,7 +193,7 @@ a:focus { outline:none; }
 
 h1.centertitle {
   padding-top:10px;
-  font-size:20px;
+  font-size:24px;
   font-weight:bold;
   text-align:center;
 }
@@ -214,6 +223,44 @@ h1.centertitle {
   text-align:left;
   padding-left:10px;
 }
+
+span.playerflag {
+  font-style:italic;
+  font-weight:bold;
+  font-size:11px;
+  color:#FF4500;
+  cursor:default;
+}
+
+td.formleftlabel {
+  background-color:#f2f4f7;
+  vertical-align:middle;
+  text-align:left;
+  padding-left:10px;
+}
+
+td.formmidlabel {
+  background-color:#f2f4f7;
+  vertical-align:middle;
+  text-align:left;
+  padding-left:22px;
+}
+
+td.formgo {
+  background-color:#f2f4f7;
+  vertical-align:middle;
+  text-align:left;
+  padding-left:10px;
+  padding-right:10px;
+}
+
+td.formleftlabel, td.formmidlabel, td.gormgo {
+  height:40px;
+}
+
+span.bulletspan {
+  color:#555555;
+}
 body {
   margin-top:0px;
   margin-bottom:5px;
@@ -225,9 +272,10 @@ body {
 }
 
 body, p, td, th, textarea, input, select, h1, h2, h3, h4, h5, h6 {
-	font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
-	font-size:11px;
+	font-family: Arial,sans-serif,"lucida grande",tahoma,verdana;
+	font-size:14px;
 	text-decoration: none;
+	line-height:19px;
 }
 
 table.plain {
@@ -241,14 +289,10 @@ table.leftmenu {
 }
 
 table.leftmenu td {
-  padding:2px 2px 2px 5px;
+  padding:3px 2px 3px 5px;
 }
 
 table.leftmenu td#skyscraper {
-  padding:2px 0px 2px 0px;
-  text-align:left;
-  margin:auto;
-  vertical-align:top;
   background-color:#ffffff;
 }
 
@@ -273,7 +317,7 @@ table.leftmenu td#bottomborderpad {
 td#headercell {
   text-align:left;
   vertical-align:bottom;  
-  background:#3B5998 url(/afl/img/logo/header-logo-bg-2011.png);
+  background:#3B5998 url(/afl/img/logo/fw_header_1200x102.jpg);
 }
 
 a.leftmenu {
@@ -288,6 +332,7 @@ a.leftmenu:hover {
 
 a {
   color:#3B5998;
+  line-height:19px;
 }
 a:link {
   text-decoration:none;
@@ -307,7 +352,7 @@ table#footer {
   border-collapse:collapse;
   padding:0px;
   color:#868686;
-  width:760px;
+  width:1023px;
 }
 
 table#footer td#footercopy {
@@ -329,10 +374,11 @@ table#footer a {
 
 .button {
   color:#ffffff;
-  height:18px;
-  padding:0px 4px 4px 4px;
+  height:22px;
+  padding:1px 4px 4px 4px;
   border:1px solid #3B5998;
-  background:#5b79b8 url(/afl/img/icon/btback.png); bottom left repeat-x;
+  background:#3B5998;
+  background-image: linear-gradient(#5b79b8, #3d5a9a);
   vertical-align:middle;
   cursor:pointer;
 }
@@ -371,11 +417,12 @@ table#teammenu, table#playermenu, table#playerrankmenu, table#teamrankmenu,
   border:1px solid #b7b7b7;
   opacity:.95;
   filter:alpha(opacity=95);
-  width:220px;
+  width:280px;
 }
 
 a.submenuitem {
-  padding:3px;
+  padding:8px;
+  line-height:22px;
   color:#3B5998;
   text-decoration:none;
   border:0px solid #3B5998;
@@ -387,20 +434,28 @@ a.submenuitem:hover {
   text-decoration:underline;
 }
 
-div.submenux, div.submenutitle {
-  font-size:9px;
+div.submenux, div.submenuxb, div.submenutitle {
+  font-size:14px;
   color:#676767;
   font-weight:bold;
 }
 
 div.submenux {
+  padding-right:4px;
+}
+
+div.submenuxb {
+  padding:6px 4px 5px 0px;
+}
+
+div.submenux, div.submenuxb {
   color:#676767;
   cursor:pointer;
 }
 
 div.submenutitle {
   color:#353535;
-  padding:4px 2px 2px 2px;
+  padding:6px 8px 4px 8px;
 }
 
 td#teamArrow, td#playerArrow, td#playerrankArrow, td#teamrankArrow,
@@ -408,14 +463,14 @@ td#teamArrow, td#playerArrow, td#playerrankArrow, td#teamrankArrow,
     td#brownlowArrow, td#attendanceArrow, td#coachArrow, td#supercoachArrow,
     td#dreamteamArrow, td#highlightsArrow, td#selectionsArrow, td#pastplayerArrow, 
     td#tweetArrow, td#contractsArrow {
-  color:#676767;
+  color:#888888;
   font-weight:bold;
   display:block;
   text-decoration:none;
   border-left:1px solid #F7F7F7;
   cursor:pointer;
   text-align:center;
-  width:10px;
+  width:15px;
 }
 table#header {
   border-spacing:0px;
@@ -508,7 +563,7 @@ td.hdbar {
   text-decoration:none;
   border-top:1px solid #92201e;
   border-bottom:1px solid #760402;
-  background:#D8DFEA url(/afl/img/icon/hdback.png); bottom left repeat-x;
+  background-image: linear-gradient(#a21c1c, #870101);
   padding:0px 5px 0px 5px;
 }
 
@@ -519,7 +574,7 @@ td.hdbar div {
 }
 
 td.hdbar div a {
-  font-size:11px;
+  font-size:13px;
   font-weight:normal;
   color:#ffffff;
   font-weight:bold;
@@ -527,6 +582,10 @@ td.hdbar div a {
 
 td.hdbar div a:link { text-decoration:none; }
 td.hdbar div a:hover { text-decoration:underline; }
+
+div#welcome {
+  font-size:13px;
+}
 div#membersbgdiv {
   background:#888888;
   opacity:.50;
@@ -809,30 +868,30 @@ function displayMemberDivs() {
 }
 
 function openRegistrationLoginDialog() {
-  document.getElementById('memberscontent').innerHTML = "<iframe src='/afl/footy/custom_login' width=600 height=350 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe>";
-  document.getElementById('memberswhitediv').style.width = '610px';
-  document.getElementById('memberswhitediv').style.height = '380px';
+  document.getElementById('memberscontent').innerHTML = "<iframe src='/afl/footy/custom_login' width=864 height=430 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe>";
+  document.getElementById('memberswhitediv').style.width = '874px';
+  document.getElementById('memberswhitediv').style.height = '460px';
   displayMemberDivs();
 }
 
 function openRegistrationLoginDialogWithNextPage(nextPage) {
-  document.getElementById('memberscontent').innerHTML = "<div><iframe src='/afl/footy/custom_login?p=" + nextPage + "' width=600 height=350 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe></div>"
-  document.getElementById('memberswhitediv').style.width = '610px';
-  document.getElementById('memberswhitediv').style.height = '380px';
-  displayMemberDivs();
+  document.getElementById('memberscontent').innerHTML = "<div><iframe src='/afl/footy/custom_login?p=" + nextPage + "' width=864 height=430 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe></div>"
+document.getElementById('memberswhitediv').style.width = '874px';
+  document.getElementById('memberswhitediv').style.height = '460px';
+    displayMemberDivs();
 }
 
 function openChangePasswordDialog() {
-  document.getElementById('memberscontent').innerHTML = "<div><iframe src='/afl/footy/custom_login?action=changePasswordForm' width=250 height=190 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe></div>"
-  document.getElementById('memberswhitediv').style.width = '250px';
-  document.getElementById('memberswhitediv').style.height = '240px';
+  document.getElementById('memberscontent').innerHTML = "<div><iframe src='/afl/footy/custom_login?action=changePasswordForm' width=350 height=220 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe></div>"
+  document.getElementById('memberswhitediv').style.width = '350px';
+  document.getElementById('memberswhitediv').style.height = '260px';
   displayMemberDivs();
 }
 
 function openManageSettingsDialog() {
-  document.getElementById('memberscontent').innerHTML = "<div><iframe src='/afl/footy/custom_login?action=manageSettingsForm' width=380 height=210 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe></div>"
-  document.getElementById('memberswhitediv').style.width = '380px';
-  document.getElementById('memberswhitediv').style.height = '260px';
+  document.getElementById('memberscontent').innerHTML = "<div><iframe src='/afl/footy/custom_login?action=manageSettingsForm' width=480 height=240 hspace=0 vspace=0 frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe></div>"
+  document.getElementById('memberswhitediv').style.width = '480px';
+  document.getElementById('memberswhitediv').style.height = '300px';
   displayMemberDivs();
 }
 
@@ -939,19 +998,19 @@ function selfReload() {
 
 </HEAD>
 
-    
-<BODY onload="pushContent('Match Statistics', 'Match Statistics');showMemberStatusWithUrl('https%3A%2F%2Fwww.footywire.com%2Fafl%2Ffooty%2Fft_match_statistics');showWire();hideAllSubMenus();" onresize="positionMemberDivs();">
+
+<BODY onload="pushContent('Match Statistics', 'Match Statistics');showMemberStatusWithUrl('https%3A%2F%2Fwww.footywire.com%2Fafl%2Ffooty%2Fft_match_statistics');hideAllSubMenus();" onresize="positionMemberDivs();">
 
 <DIV align="CENTER">
 
-<table cellpadding="0" cellspacing="0" border="0" id="frametable2008" width="948">
-<tr><td colspan="4" height="102" id="headercell" width="948">
+<table cellpadding="0" cellspacing="0" border="0" id="frametable2008" width="1200">
+<tr><td colspan="4" height="102" id="headercell" width="1200">
 <table id="header">
 <tr>
-<td id="logo" valign="middle" height="102" width="200">
+<td id="logo" valign="middle" height="102" width="300">
 <a class="emptylink" href="//www.footywire.com/"><div style="width:200px;height:54px;cursor:pointer;">&nbsp;</div></a>
 </td>
-<td id="mainlinks" width="200">
+<td id="mainlinks" width="300">
 </td>
 <td style="padding-top:3px;padding-right:4px;">
 <div style="margin-left:-3px;">
@@ -969,7 +1028,7 @@ function selfReload() {
 </tr>
 </table>
 </td></tr>
-<tr><td colspan="4" height="21" class="hdbar" align="right" valign="middle" id="memberStatus"></td></tr>
+<tr><td colspan="4" height="26" class="hdbar" align="right" valign="middle" id="memberStatus"></td></tr>
 <tr>
 <td rowspan="4" width="175" valign="top">
 <table width="175" cellpadding="0" cellspacing="0" border="0" class="leftmenu">
@@ -977,78 +1036,79 @@ function selfReload() {
 <tr><td width="175" colspan="2" onMouseOver="this.style.backgroundColor='#e7e7e7';" onMouseOut="this.style.backgroundColor='transparent';"><a class="leftmenu" href="//www.footywire.com/">AFL Statistics Home</a></td></tr>
 <tr>
 <td id="matchlinkcell" width="165"><a onMouseOver="highlightCell('match')" onMouseOut="dehighlightCell('match')" class="leftmenu" href="/afl/footy/ft_match_list">AFL Fixture</a></td>
-<td id="matchArrow" onMouseOver="highlightArrow('matchArrow')" onMouseOut="dehighlightArrow('matchArrow')" onClick="flipSubMenu('matchlinkcell','matchmenu')">&#187;</td>
+<td id="matchArrow" onMouseOver="highlightArrow('matchArrow')" onMouseOut="dehighlightArrow('matchArrow')" onClick="flipSubMenu('matchlinkcell','matchmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="playerlinkcell" width="165"><a onMouseOver="highlightCell('player')" onMouseOut="dehighlightCell('player')" class="leftmenu" href="/afl/footy/ft_players">Players</a></td>
-<td id="playerArrow" onMouseOver="highlightArrow('playerArrow')" onMouseOut="dehighlightArrow('playerArrow')" onClick="flipSubMenu('playerlinkcell','playermenu')">&#187;</td>
+<td id="playerArrow" onMouseOver="highlightArrow('playerArrow')" onMouseOut="dehighlightArrow('playerArrow')" onClick="flipSubMenu('playerlinkcell','playermenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="teamlinkcell" width="165"><a onMouseOver="highlightCell('team')" onMouseOut="dehighlightCell('team')" class="leftmenu" href="/afl/footy/ft_teams">Teams</a></td>
-<td id="teamArrow" onMouseOver="highlightArrow('teamArrow')" onMouseOut="dehighlightArrow('teamArrow')" onClick="flipSubMenu('teamlinkcell','teammenu')">&#187;</td>
+<td id="teamArrow" onMouseOver="highlightArrow('teamArrow')" onMouseOut="dehighlightArrow('teamArrow')" onClick="flipSubMenu('teamlinkcell','teammenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="playerranklinkcell" width="165"><a onMouseOver="highlightCell('playerrank')" onMouseOut="dehighlightCell('playerrank')" class="leftmenu" href="/afl/footy/ft_player_rankings">Player Rankings</a></td>
-<td id="playerrankArrow" onMouseOver="highlightArrow('playerrankArrow')" onMouseOut="dehighlightArrow('playerrankArrow')" onClick="flipSubMenu('playerranklinkcell','playerrankmenu')">&#187;</td>
+<td id="playerrankArrow" onMouseOver="highlightArrow('playerrankArrow')" onMouseOut="dehighlightArrow('playerrankArrow')" onClick="flipSubMenu('playerranklinkcell','playerrankmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="teamranklinkcell" width="165"><a onMouseOver="highlightCell('teamrank')" onMouseOut="dehighlightCell('teamrank')" class="leftmenu" href="/afl/footy/ft_team_rankings">Team Rankings</a></td>
-<td id="teamrankArrow" onMouseOver="highlightArrow('teamrankArrow')" onMouseOut="dehighlightArrow('teamrankArrow')" onClick="flipSubMenu('teamranklinkcell','teamrankmenu')">&#187;</td>
+<td id="teamrankArrow" onMouseOver="highlightArrow('teamrankArrow')" onMouseOut="dehighlightArrow('teamrankArrow')" onClick="flipSubMenu('teamranklinkcell','teamrankmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="risingstarlinkcell" width="165"><a onMouseOver="highlightCell('risingstar')" onMouseOut="dehighlightCell('risingstar')" class="leftmenu" href="/afl/footy/ft_rising_stars_round_performances">Rising Stars</a></td>
-<td id="risingstarArrow" onMouseOver="highlightArrow('risingstarArrow')" onMouseOut="dehighlightArrow('risingstarArrow')" onClick="flipSubMenu('risingstarlinkcell','risingstarmenu')">&#187;</td>
+<td id="risingstarArrow" onMouseOver="highlightArrow('risingstarArrow')" onMouseOut="dehighlightArrow('risingstarArrow')" onClick="flipSubMenu('risingstarlinkcell','risingstarmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="draftlinkcell" width="165"><a onMouseOver="highlightCell('draft')" onMouseOut="dehighlightCell('draft')" class="leftmenu" href="/afl/footy/ft_drafts">AFL Draft</a></td>
-<td id="draftArrow" onMouseOver="highlightArrow('draftArrow')" onMouseOut="dehighlightArrow('draftArrow')" onClick="flipSubMenu('draftlinkcell','draftmenu')">&#187;</td>
+<td id="draftArrow" onMouseOver="highlightArrow('draftArrow')" onMouseOut="dehighlightArrow('draftArrow')" onClick="flipSubMenu('draftlinkcell','draftmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="brownlowlinkcell" width="165"><a onMouseOver="highlightCell('brownlow')" onMouseOut="dehighlightCell('brownlow')" class="leftmenu" href="/afl/footy/brownlow_medal">Brownlow Medal</a></td>
-<td id="brownlowArrow" onMouseOver="highlightArrow('brownlowArrow')" onMouseOut="dehighlightArrow('brownlowArrow')" onClick="flipSubMenu('brownlowlinkcell','brownlowmenu')">&#187;</td>
+<td id="brownlowArrow" onMouseOver="highlightArrow('brownlowArrow')" onMouseOut="dehighlightArrow('brownlowArrow')" onClick="flipSubMenu('brownlowlinkcell','brownlowmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="ladderlinkcell" width="165"><a onMouseOver="highlightCell('ladder')" onMouseOut="dehighlightCell('ladder')" class="leftmenu" href="/afl/footy/ft_ladder">AFL Ladder</a></td>
-<td id="ladderArrow" onMouseOver="highlightArrow('ladderArrow')" onMouseOut="dehighlightArrow('ladderArrow')" onClick="flipSubMenu('ladderlinkcell','laddermenu')">&#187;</td>
+<td id="ladderArrow" onMouseOver="highlightArrow('ladderArrow')" onMouseOut="dehighlightArrow('ladderArrow')" onClick="flipSubMenu('ladderlinkcell','laddermenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="coachlinkcell" width="165"><a onMouseOver="highlightCell('coach')" onMouseOut="dehighlightCell('coach')" class="leftmenu" href="/afl/footy/afl_coaches">Coaches</a></td>
-<td id="coachArrow" onMouseOver="highlightArrow('coachArrow')" onMouseOut="dehighlightArrow('coachArrow')" onClick="flipSubMenu('coachlinkcell','coachmenu')">&#187;</td>
+<td id="coachArrow" onMouseOver="highlightArrow('coachArrow')" onMouseOut="dehighlightArrow('coachArrow')" onClick="flipSubMenu('coachlinkcell','coachmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="attendancelinkcell" width="165"><a onMouseOver="highlightCell('attendance')" onMouseOut="dehighlightCell('attendance')" class="leftmenu" href="/afl/footy/attendances">Attendances</a></td>
-<td id="attendanceArrow" onMouseOver="highlightArrow('attendanceArrow')" onMouseOut="dehighlightArrow('attendanceArrow')" onClick="flipSubMenu('attendancelinkcell','attendancemenu')">&#187;</td>
+<td id="attendanceArrow" onMouseOver="highlightArrow('attendanceArrow')" onMouseOut="dehighlightArrow('attendanceArrow')" onClick="flipSubMenu('attendancelinkcell','attendancemenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="supercoachlinkcell" width="165"><a onMouseOver="highlightCell('supercoach')" onMouseOut="dehighlightCell('supercoach')" class="leftmenu" href="/afl/footy/supercoach_round">Supercoach</a></td>
-<td id="supercoachArrow" onMouseOver="highlightArrow('supercoachArrow')" onMouseOut="dehighlightArrow('supercoachArrow')" onClick="flipSubMenu('supercoachlinkcell','supercoachmenu')">&#187;</td>
+<td id="supercoachArrow" onMouseOver="highlightArrow('supercoachArrow')" onMouseOut="dehighlightArrow('supercoachArrow')" onClick="flipSubMenu('supercoachlinkcell','supercoachmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="dreamteamlinkcell" width="165"><a onMouseOver="highlightCell('dreamteam')" onMouseOut="dehighlightCell('dreamteam')" class="leftmenu" href="/afl/footy/dream_team_round">AFL Fantasy</a></td>
-<td id="dreamteamArrow" onMouseOver="highlightArrow('dreamteamArrow')" onMouseOut="dehighlightArrow('dreamteamArrow')" onClick="flipSubMenu('dreamteamlinkcell','dreamteammenu')">&#187;</td>
+<td id="dreamteamArrow" onMouseOver="highlightArrow('dreamteamArrow')" onMouseOut="dehighlightArrow('dreamteamArrow')" onClick="flipSubMenu('dreamteamlinkcell','dreamteammenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="highlightslinkcell" width="165"><a onMouseOver="highlightCell('highlights')" onMouseOut="dehighlightCell('highlights')" class="leftmenu" href="/afl/footy/afl_highlights">AFL Highlights</a></td>
-<td id="highlightsArrow" onMouseOver="highlightArrow('highlightsArrow')" onMouseOut="dehighlightArrow('highlightsArrow')" onClick="flipSubMenu('highlightslinkcell','highlightsmenu')">&#187;</td>
+<td id="highlightsArrow" onMouseOver="highlightArrow('highlightsArrow')" onMouseOut="dehighlightArrow('highlightsArrow')" onClick="flipSubMenu('highlightslinkcell','highlightsmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="selectionslinkcell" width="165"><a onMouseOver="highlightCell('selections')" onMouseOut="dehighlightCell('selections')" class="leftmenu" href="/afl/footy/afl_team_selections">AFL Team Selections</a></td>
-<td id="selectionsArrow" onMouseOver="highlightArrow('selectionsArrow')" onMouseOut="dehighlightArrow('selectionsArrow')" onClick="flipSubMenu('selectionslinkcell','selectionsmenu')">&#187;</td>
+<td id="selectionsArrow" onMouseOver="highlightArrow('selectionsArrow')" onMouseOut="dehighlightArrow('selectionsArrow')" onClick="flipSubMenu('selectionslinkcell','selectionsmenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="pastplayerlinkcell" width="165"><a onMouseOver="highlightCell('pastplayer')" onMouseOut="dehighlightCell('pastplayer')" class="leftmenu" href="/afl/footy/past_players">Past Players</a></td>
-<td id="pastplayerArrow" onMouseOver="highlightArrow('pastplayerArrow')" onMouseOut="dehighlightArrow('pastplayerArrow')" onClick="flipSubMenu('pastplayerlinkcell','pastplayermenu')">&#187;</td>
+<td id="pastplayerArrow" onMouseOver="highlightArrow('pastplayerArrow')" onMouseOut="dehighlightArrow('pastplayerArrow')" onClick="flipSubMenu('pastplayerlinkcell','pastplayermenu')">&#x276F;</td>
 </tr>
 <tr>
 <td id="contractslinkcell" width="165"><a onMouseOver="highlightCell('contracts')" onMouseOut="dehighlightCell('contracts')" class="leftmenu" href="/afl/footy/out_of_contract_players">AFL Player Contracts</a></td>
-<td id="contractsArrow" onMouseOver="highlightArrow('contractsArrow')" onMouseOut="dehighlightArrow('contractsArrow')" onClick="flipSubMenu('contractslinkcell','contractsmenu')">&#187;</td>
+<td id="contractsArrow" onMouseOver="highlightArrow('contractsArrow')" onMouseOut="dehighlightArrow('contractsArrow')" onClick="flipSubMenu('contractslinkcell','contractsmenu')">&#x276F;</td>
 </tr>
 <tr><td width="175" colspan="2" onMouseOver="this.style.backgroundColor='#e7e7e7';" onMouseOut="this.style.backgroundColor='transparent';"><a class="leftmenu" href="/afl/footy/afl_betting">AFL Betting</a></td></tr>
 <tr><td width="175" colspan="2" onMouseOver="this.style.backgroundColor='#e7e7e7';" onMouseOut="this.style.backgroundColor='transparent';"><a class="leftmenu" href="/afl/footy/injury_list">AFL Injury List</a></td></tr>
 <tr><td width="175" colspan="2" onMouseOver="this.style.backgroundColor='#e7e7e7';" onMouseOut="this.style.backgroundColor='transparent';"><a class="leftmenu" href="/afl/footy/ft_season_records">Records</a></td></tr>
 <tr><td colspan="2" id="bottomborder">&nbsp;</td></tr>
 <tr><td colspan="2" class="norm" style="height:10px"></td></tr>
-<tr><td colspan="2" id="skyscraper">
+<tr><td colspan="2" id="skyscraper" align="left" valign="top">
+<div style="padding-bottom:40px;">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- Footywire 160x600 Prime -->
 <ins class="adsbygoogle"
@@ -1058,36 +1118,19 @@ function selfReload() {
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+</div>
 </td></tr>
 </table>
 </td>
 <td rowspan="3" bgcolor="#b7b7b7" style="width:1px"></td>
-<td height="900" width="761" valign="top" align="center" style="padding:5px 5px 5px 5px">
-<div id="liveStatus" style="margin:0px;padding:0px;"></div>
+<td height="700" width="1000" valign="top" align="center" style="padding:5px 12px 5px 11px">
 <table border="0" cellspacing="0" cellpadding="0">
-<tr><td>
-<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" WIDTH="760">
-<TR>
-<TD id="threadsWire" WIDTH="450" HEIGHT="250" VALIGN="TOP"> </TD>
-<td rowspan="2" class="norm" style="width:10px"></td>
-<TD WIDTH="300" HEIGHT="250" ROWSPAN="2">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Footywire 300x250 Prime -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:250px"
-     data-ad-client="ca-pub-1151582373407200"
-     data-ad-slot="4250755734"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</TD>
-</TR>
-</TABLE>
-</td></tr>
+
+
 <tr><td colspan="1" class="norm" style="height:10px"></td></tr>
 
 <tr><td>
-<div class="notice" width="760">
+<div class="notice" width="1000">
 Advanced stats currently displayed. <a href="/afl/footy/ft_match_statistics?mid=5000"><b>View Basic Stats</b></a>.
 </div>
 </td></tr>
@@ -1115,47 +1158,47 @@ function getStats() {
 }
 </script>
 
-<TABLE WIDTH="760" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+<TABLE WIDTH="1000" BORDER="0" CELLSPACING="0" CELLPADDING="0">
 <TR><TD CLASS="lnormtop">
-<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="760">
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="1000">
 <TR>
 <TD WIDTH="375" class="lnormtop">
-<table border="0" cellspacing="0" cellpadding="0" width="375">
-<tr><td width="375" valign="top" height="22" align="left" class="hltitle">
+<table border="0" cellspacing="0" cellpadding="0" width="525">
+<tr><td width="525" valign="top" height="30" align="left" class="hltitle">
 Carlton defeats Geelong
 </td></tr>
 
-<tr><td class="lnorm" height="15">Round 5, MCG, Attendance: 71399</td></tr>
-<tr><td class="lnorm" height="15">
+<tr><td class="lnorm" height="22">Round 5, MCG, Attendance: 71399</td></tr>
+<tr><td class="lnorm" height="22">
 Monday, 26th April 2010, 2:10 PM AEST</td></tr>
 
-<tr><td class="lnorm" height="19" style="padding-top:4px;">
+<tr><td class="lnorm" height="22">
 Carlton Betting Odds: Win 4.75, Line +29.5 @ 1.91
 </td></tr>
-<tr><td class="lnorm" height="19" style="padding-bottom:4px;">
+<tr><td class="lnorm" height="22">
 Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 </td></tr>
 
-<tr><td class="lnorm" height="15">
+<tr><td class="lnorm" height="22">
 <b>Brownlow Votes:</b>
 3: <a href="pp-carlton-blues--chris-judd">C Judd</a>, 2: <a href="pp-carlton-blues--jeff-gartlett">J Garlett</a>, 1: <a href="pp-geelong-cats--gary-jnr-ablett">G Ablett</a></td></tr>
 
 </table>
 </TD>
 <td rowspan="1" class="norm" style="width:9px"></td>
-<TD WIDTH="376" class="lnormtop">
+<TD WIDTH="466" class="lnormtop">
 
-<table border="0" cellspacing="0" cellpadding="0" width="376" id="matchscoretable">
+<table border="0" cellspacing="0" cellpadding="0" width="466" id="matchscoretable">
 <tr>
-<th class="leftbold" height="23" width="100">Team</td>
-<th width="49" align="center">Q1</td>
-<th width="49" align="center">Q2</td>
-<th width="49" align="center">Q3</td>
-<th width="49" align="center">Q4</td>
-<th width="49" align="center">Final</td>
+<th class="leftbold" height="30" width="140">Team</td>
+<th width="59" align="center">Q1</td>
+<th width="59" align="center">Q2</td>
+<th width="59" align="center">Q3</td>
+<th width="59" align="center">Q4</td>
+<th width="59" align="center">Final</td>
 </tr>
 <tr>
-<td class="leftbold" height="22"><a href="th-carlton-blues">Carlton</a></td>
+<td class="leftbold" height="28"><a href="th-carlton-blues">Carlton</a></td>
 <td align="center">4.3 
 <td align="center">10.8 
 <td align="center">12.13 
@@ -1163,7 +1206,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td align="center">104
 </tr>
 <tr>
-<td class="leftbold" height="22"><a href="th-geelong-cats">Geelong</a></td>
+<td class="leftbold" height="28"><a href="th-geelong-cats">Geelong</a></td>
 <td align="center">3.4 
 <td align="center">5.7 
 <td align="center">7.10 
@@ -1173,7 +1216,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 </table>
 
 </TD></TR>
-<TR><TD COLSPAN="3" HEIGHT="30" CLASS="norm">
+<TR><TD COLSPAN="3" HEIGHT="45" CLASS="norm">
 <a href="#t1">Carlton Player Stats</a> |
 <a href="#t2">Geelong Player Stats</a> |
 <a href="#hd">Match Head to Head Stats</a> |
@@ -1182,15 +1225,15 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 </TABLE></TD></TR>
 <tr><td colspan="1" class="norm" style="height:5px"></td></tr>
 <TR><TD>
-<table border="0" cellspacing="0" cellpadding="0" width="760">
+<table border="0" cellspacing="0" cellpadding="0" width="1000">
 
 <tr>
 <td>
 
-<table border="0" cellspacing="0" cellpadding="0" width="585">
+<table border="0" cellspacing="0" cellpadding="0" width="825">
 <tr>
-<td height="21" align="center" colspan="3" class="tbtitle" width="585">
-<table border="0" cellspacing="0" cellpadding="0" width="585">
+<td height="28" align="center" colspan="3" class="tbtitle" width="825">
+<table border="0" cellspacing="0" cellpadding="0" width="825">
 <tr>
 <td class="innertbtitle" align="left">&nbsp;&nbsp;<b><a name=t1></a>Carlton Match Statistics (Sorted by Disposals)</b></td>
 <td class="innertbtitle" align="right">Coach: <a href="cp-brett-ratten--3">Brett Ratten</a>&nbsp;&nbsp;</td>
@@ -1201,19 +1244,19 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr>
 <td rowspan="1" class="tabbdr" style="width:1px"></td>
 <td>
-<table border="0" cellspacing="0" cellpadding="3" width="583">
+<table border="0" cellspacing="0" cellpadding="3" width="823">
 <tr>
-<td width="148" class="lbnorm" height="21">Player</td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=23&advv=Y#t1" title="Contested Possessions">CP</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=24&advv=Y#t1" title="Uncontested Possessions">UP</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=25&advv=Y#t1" title="Effective Disposals">ED</a></td>
-<td width="34" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=34&advv=Y#t1" title="Disposal Efficiency %">DE%</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=27&advv=Y#t1" title="Contested Marks">CM</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=21&advv=Y#t1" title="Goal Assists">GA</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=28&advv=Y#t1" title="Marks Inside 50">MI5</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=31&advv=Y#t1" title="One Percenters">1%</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=32&advv=Y#t1" title="Bounces">BO</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=42&advv=Y#t1" title="Time On Ground %">TOG%</a></td>
+<td width="220" class="lbnorm" height="28">Player</td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=23&advv=Y#t1" title="Contested Possessions">CP</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=24&advv=Y#t1" title="Uncontested Possessions">UP</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=25&advv=Y#t1" title="Effective Disposals">ED</a></td>
+<td width="50" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=34&advv=Y#t1" title="Disposal Efficiency %">DE%</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=27&advv=Y#t1" title="Contested Marks">CM</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=21&advv=Y#t1" title="Goal Assists">GA</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=28&advv=Y#t1" title="Marks Inside 50">MI5</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=31&advv=Y#t1" title="One Percenters">1%</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=32&advv=Y#t1" title="Bounces">BO</a></td>
+<td width="50" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=42&advv=Y#t1" title="Time On Ground %">TOG%</a></td>
 </tr>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
 <td align="left" height="18"><a href="pp-adelaide-crows--bryce-gibbs" title="Bryce Gibbs">Bryce Gibbs</a></td>
@@ -1514,7 +1557,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 
 
 
-<table  border="0" cellspacing="0" cellpadding="5" width="160" style="border:1px solid #D8DFEA">
+<table  border="0" cellspacing="0" width="160" class="peeptable">
 <tr><td height="15" valign="top"><a  href="/afl/footy/custom_supercoach_latest_scores" class="peep"><a href='/afl/footy/custom_supercoach_latest_scores' class='peep'>Track your favourite Fantasy Players!</a></a></td></tr>
 <tr>
 <td height="100" align="center" valign="middle">
@@ -1540,10 +1583,10 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr><td colspan="2" class="norm" style="height:20px"></td></tr>
 <tr><td>
 
-<table border="0" cellspacing="0" cellpadding="0" width="585">
+<table border="0" cellspacing="0" cellpadding="0" width="825">
 <tr>
-<td height="21" align="center" colspan="3" class="tbtitle" width="585">
-<table border="0" cellspacing="0" cellpadding="0" width="585">
+<td height="28" align="center" colspan="3" class="tbtitle" width="825">
+<table border="0" cellspacing="0" cellpadding="0" width="825">
 <tr>
 <td class="innertbtitle" align="left">&nbsp;&nbsp;<b><a name=t1></a>Geelong Match Statistics (Sorted by Disposals)</b></td>
 <td class="innertbtitle" align="right">Coach: <a href="cp-mark-thompson--7">Mark Thompson</a>&nbsp;&nbsp;</td>
@@ -1554,19 +1597,19 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr>
 <td rowspan="1" class="tabbdr" style="width:1px"></td>
 <td>
-<table border="0" cellspacing="0" cellpadding="3" width="583">
+<table border="0" cellspacing="0" cellpadding="3" width="823">
 <tr>
-<td width="148" class="lbnorm" height="21">Player</td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=23&advv=Y#t2" title="Contested Possessions">CP</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=24&advv=Y#t2" title="Uncontested Possessions">UP</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=25&advv=Y#t2" title="Effective Disposals">ED</a></td>
-<td width="34" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=34&advv=Y#t2" title="Disposal Efficiency %">DE%</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=27&advv=Y#t2" title="Contested Marks">CM</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=21&advv=Y#t2" title="Goal Assists">GA</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=28&advv=Y#t2" title="Marks Inside 50">MI5</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=31&advv=Y#t2" title="One Percenters">1%</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=32&advv=Y#t2" title="Bounces">BO</a></td>
-<td width="29" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=42&advv=Y#t2" title="Time On Ground %">TOG%</a></td>
+<td width="220" class="lbnorm" height="28">Player</td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=23&advv=Y#t2" title="Contested Possessions">CP</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=24&advv=Y#t2" title="Uncontested Possessions">UP</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=25&advv=Y#t2" title="Effective Disposals">ED</a></td>
+<td width="50" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=34&advv=Y#t2" title="Disposal Efficiency %">DE%</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=27&advv=Y#t2" title="Contested Marks">CM</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=21&advv=Y#t2" title="Goal Assists">GA</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=28&advv=Y#t2" title="Marks Inside 50">MI5</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=31&advv=Y#t2" title="One Percenters">1%</a></td>
+<td width="40" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=32&advv=Y#t2" title="Bounces">BO</a></td>
+<td width="50" class="bnorm"><a href="fts_match_statistics?mid=5000&sby=42&advv=Y#t2" title="Time On Ground %">TOG%</a></td>
 </tr>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
 <td align="left" height="18"><a href="pp-geelong-cats--gary-jnr-ablett" title="Gary Ablett">Gary Jnr Ablett</a></td>
@@ -1870,15 +1913,15 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 
 <tr><td colspan="1" class="norm" style="height:20px"></td></tr>
 <TR><TD valign="top">
-<table border="0" cellspacing="0" cellpadding="0" width="760">
+<table border="0" cellspacing="0" cellpadding="0" width="1000">
 <tr><td valign="top">
-<table border="0" cellspacing="0" cellpadding="0" width="375">
-<tr><td height="21" align="center" colspan="5" class="tbtitle"><a name=hd></a>Head to Head</td></tr>
+<table border="0" cellspacing="0" cellpadding="0" width="575">
+<tr><td height="28" align="center" colspan="5" class="tbtitle"><a name=hd></a>Head to Head</td></tr>
 <tr>
 <td rowspan="24" class="tabbdr" style="width:1px"></td>
-<td width="124" class="bnorm" height="21">Carlton</td>
-<td width="125" class="bnorm">Statistic</td>
-<td width="124" class="bnorm">Geelong</td>
+<td width="190" class="bnorm" height="28">Carlton</td>
+<td width="193" class="bnorm">Statistic</td>
+<td width="190" class="bnorm">Geelong</td>
 <td rowspan="24" class="tabbdr" style="width:1px"></td>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
 <td height="25" class="statdata">111</td>
@@ -1953,89 +1996,89 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 </td>
 <td rowspan="1" class="norm" style="width:11px"></td>
 <td valign="top">
-<table border="0" cellspacing="0" cellpadding="0" width="374">
-<tr><td height="21" align="center" colspan="5" class="tbtitle">Average Attributes</td></tr>
+<table border="0" cellspacing="0" cellpadding="0" width="414">
+<tr><td height="28" align="center" colspan="5" class="tbtitle">Average Attributes</td></tr>
 <tr>
 <td rowspan="5" class="tabbdr" style="width:1px"></td>
-<td width="124" class="bnorm" height="20">Carlton</td>
-<td width="124" class="bnorm">Attribute</td>
-<td width="124" class="bnorm">Geelong</td>
+<td width="137" class="bnorm" height="28">Carlton</td>
+<td width="138" class="bnorm">Attribute</td>
+<td width="137" class="bnorm">Geelong</td>
 <td rowspan="5" class="tabbdr" style="width:1px"></td>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
-<td height="18" class="statdata">187.4cm</td>
+<td height="25" class="statdata">187.4cm</td>
 <td class="statdata">Height</td>
 <td class="statdata">188.5cm</td>
 </tr>
 <tr bgcolor="#ffffff" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#ffffff';">
-<td height="18" class="statdata">85.4kg</td>
+<td height="25" class="statdata">85.4kg</td>
 <td class="statdata">Weight</td>
 <td class="statdata">92.0kg</td>
 </tr>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
-<td height="18" class="statdata">23yr 6mth</td>
+<td height="25" class="statdata">23yr 6mth</td>
 <td class="statdata">Age</td>
 <td class="statdata">26yr 11mth</td>
 </tr>
 <tr bgcolor="#ffffff" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#ffffff';">
-<td height="18" class="statdata">71.5</td>
+<td height="25" class="statdata">71.5</td>
 <td class="statdata">Games</td>
 <td class="statdata">126.3</td>
 </tr>
 <tr><td colspan="5" class="tabbdr" style="height:1px"></td></tr>
 <tr><td colspan="5" class="norm" style="height:7px"></td></tr>
-<tr><td height="21" align="center" colspan="5" class="tbtitle">Total Players By Games</td></tr>
+<tr><td height="28" align="center" colspan="5" class="tbtitle">Total Players By Games</td></tr>
 <tr>
 <td rowspan="5" class="tabbdr" style="width:1px"></td>
-<td width="124" class="bnorm" height="20">Carlton</td>
-<td width="124" class="bnorm">Games</td>
-<td width="124" class="bnorm">Geelong</td>
+<td width="137" class="bnorm" height="28">Carlton</td>
+<td width="138" class="bnorm">Games</td>
+<td width="137" class="bnorm">Geelong</td>
 <td rowspan="5" class="tabbdr" style="width:1px"></td>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
-<td height="18" class="statdata">1</td>
+<td height="25" class="statdata">1</td>
 <td class="statdata">Less than 50</td>
 <td class="statdata">1</td>
 </tr>
 <tr bgcolor="#ffffff" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#ffffff';">
-<td height="18" class="statdata">4</td>
+<td height="25" class="statdata">4</td>
 <td class="statdata">50 to 99</td>
 <td class="statdata">0</td>
 </tr>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
-<td height="18" class="statdata">3</td>
+<td height="25" class="statdata">3</td>
 <td class="statdata">100 to 149</td>
 <td class="statdata">4</td>
 </tr>
 <tr bgcolor="#ffffff" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#ffffff';">
-<td height="18" class="statdata">14</td>
+<td height="25" class="statdata">14</td>
 <td class="statdata">150 or more</td>
 <td class="statdata">17</td>
 </tr>
 <tr><td colspan="5" class="tabbdr" style="height:1px"></td></tr>
 <tr><td colspan="5" class="norm" style="height:7px"></td></tr>
-<tr><td height="21" align="center" colspan="5" class="tbtitle">Goals Analysis</td></tr>
+<tr><td height="28" align="center" colspan="5" class="tbtitle">Goals Analysis</td></tr>
 <tr>
 <td rowspan="5" class="tabbdr" style="width:1px"></td>
-<td width="124" class="bnorm" height="20">Carlton</td>
-<td width="124" class="bnorm">Goals From</td>
-<td width="124" class="bnorm">Geelong</td>
+<td width="190" class="bnorm" height="20">Carlton</td>
+<td width="190" class="bnorm">Goals From</td>
+<td width="190" class="bnorm">Geelong</td>
 <td rowspan="5" class="tabbdr" style="width:1px"></td>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
-<td height="18" class="statdata">8</td>
+<td height="25" class="statdata">8</td>
 <td class="statdata">Mark</td>
 <td class="statdata">5</td>
 </tr>
 <tr bgcolor="#ffffff" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#ffffff';">
-<td height="18" class="statdata">2</td>
+<td height="25" class="statdata">2</td>
 <td class="statdata">Free Kick</td>
 <td class="statdata">1</td>
 </tr>
 <tr bgcolor="#f2f4f7" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#f2f4f7';">
-<td height="18" class="statdata">1</td>
+<td height="25" class="statdata">1</td>
 <td class="statdata">50m Penalty</td>
 <td class="statdata">0</td>
 </tr>
 <tr bgcolor="#ffffff" onMouseOver="this.bgColor='#cbcdd0';" onMouseOut="this.bgColor='#ffffff';">
-<td height="18" class="statdata">5</td>
+<td height="25" class="statdata">5</td>
 <td class="statdata">Play</td>
 <td class="statdata">3</td>
 </tr>
@@ -2050,8 +2093,8 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 
 <tr><td colspan="1" class="norm" style="height:20px"></td></tr>
 <TR><TD>
-<table border="0" cellspacing="0" cellpadding="0" width="760">
-<tr><td height="21" align="center" colspan="7" class="tbtitle"><a name=brk></a>Quarter by Quarter Scoring Breakdown</td></tr>
+<table border="0" cellspacing="0" cellpadding="0" width="1000">
+<tr><td height="28" align="center" colspan="7" class="tbtitle"><a name=brk></a>Quarter by Quarter Scoring Breakdown</td></tr>
 <tr>
 <td rowspan="6" class="ylwbdr" style="width:1px"></td>
 <td rowspan="5" class="ylwbg2" style="width:4px"></td>
@@ -2063,40 +2106,40 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 </tr>
 <tr>
   <td>
-  <table border="0" cellspacing="0" cellpadding="0" width="373">
+  <table border="0" cellspacing="0" cellpadding="0" width="493">
     <tr>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
       <td colspan="3"  class="ylwbdr" style="height:1px"></td>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
     </tr>
     <tr>
-      <td class="ylwbgmid" height="20" width="124"><b>Carlton</b></td>
-      <td class="ylwbgmid" width="125"><b>First Quarter</b></td>
-      <td class="ylwbgmid" width="124"><b>Geelong</b></td>
+      <td class="ylwbgmid" height="28" width="164"><b>Carlton</b></td>
+      <td class="ylwbgmid" width="165"><b>First Quarter</b></td>
+      <td class="ylwbgmid" width="164"><b>Geelong</b></td>
     </tr>
     <tr><td colspan="3" class="ylwbdr" style="height:1px"></td></tr>
     <tr>
-      <td class="ylwbgmid">4.3 27</td>
+      <td class="ylwbgmid" height="22">4.3 27</td>
       <td class="ylwbgmid">Score</td>
       <td class="ylwbgmid">3.4 22</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">7</td>
+      <td class="ylwbgmid" height="22">7</td>
       <td class="ylwbgmid">Scoring Shots</td>
       <td class="ylwbgmid">7</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">57.1%</td>
+      <td class="ylwbgmid" height="22">57.1%</td>
       <td class="ylwbgmid">Conversion</td>
       <td class="ylwbgmid">42.9%</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won quarter by 5</td>
+      <td class="ylwbgmid" height="22">Won quarter by 5</td>
       <td class="ylwbgmid">Result</td>
       <td class="ylwbgmid">Lost quarter by 5</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Leading by 5</td>
+      <td class="ylwbgmid" height="22">Leading by 5</td>
       <td class="ylwbgmid">End of Quarter</td>
       <td class="ylwbgmid">Trailing by 5</td>
     </tr>
@@ -2104,40 +2147,40 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
   </table>
   </td>
   <td>
-  <table border="0" cellspacing="0" cellpadding="0" width="373">
+  <table border="0" cellspacing="0" cellpadding="0" width="493">
     <tr>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
       <td colspan="3"  class="ylwbdr" style="height:1px"></td>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
     </tr>
     <tr>
-      <td class="ylwbgmid" height="20" width="124"><b>Carlton</b></td>
-      <td class="ylwbgmid" width="125"><b>Second Quarter</b></td>
-      <td class="ylwbgmid" width="124"><b>Geelong</b></td>
+      <td class="ylwbgmid" height="28" width="164"><b>Carlton</b></td>
+      <td class="ylwbgmid" width="165"><b>Second Quarter</b></td>
+      <td class="ylwbgmid" width="164"><b>Geelong</b></td>
     </tr>
     <tr><td colspan="3" class="ylwbdr" style="height:1px"></td></tr>
     <tr>
-      <td class="ylwbgmid">6.5 41</td>
+      <td class="ylwbgmid" height="22">6.5 41</td>
       <td class="ylwbgmid">Score</td>
       <td class="ylwbgmid">2.3 15</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">11</td>
+      <td class="ylwbgmid" height="22">11</td>
       <td class="ylwbgmid">Scoring Shots</td>
       <td class="ylwbgmid">5</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">54.5%</td>
+      <td class="ylwbgmid" height="22">54.5%</td>
       <td class="ylwbgmid">Conversion</td>
       <td class="ylwbgmid">40.0%</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won quarter by 26</td>
+      <td class="ylwbgmid" height="22">Won quarter by 26</td>
       <td class="ylwbgmid">Result</td>
       <td class="ylwbgmid">Lost quarter by 26</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Leading by 31</td>
+      <td class="ylwbgmid" height="22">Leading by 31</td>
       <td class="ylwbgmid">Halftime</td>
       <td class="ylwbgmid">Trailing by 31</td>
     </tr>
@@ -2148,40 +2191,40 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr><td colspan="3" class="ylwbg2" style="height:4px"></td></tr>
 <tr>
   <td>
-  <table border="0" cellspacing="0" cellpadding="0" width="373">
+  <table border="0" cellspacing="0" cellpadding="0" width="493">
     <tr>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
       <td colspan="3"  class="ylwbdr" style="height:1px"></td>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
     </tr>
     <tr>
-      <td class="ylwbgmid" height="20" width="124"><b>Carlton</b></td>
-      <td class="ylwbgmid" width="125"><b>Third Quarter</b></td>
-      <td class="ylwbgmid" width="124"><b>Geelong</b></td>
+      <td class="ylwbgmid" height="28" width="164"><b>Carlton</b></td>
+      <td class="ylwbgmid" width="165"><b>Third Quarter</b></td>
+      <td class="ylwbgmid" width="164"><b>Geelong</b></td>
     </tr>
     <tr><td colspan="3" class="ylwbdr" style="height:1px"></td></tr>
     <tr>
-      <td class="ylwbgmid">2.5 17</td>
+      <td class="ylwbgmid" height="22">2.5 17</td>
       <td class="ylwbgmid">Score</td>
       <td class="ylwbgmid">2.3 15</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">7</td>
+      <td class="ylwbgmid" height="22">7</td>
       <td class="ylwbgmid">Scoring Shots</td>
       <td class="ylwbgmid">5</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">28.6%</td>
+      <td class="ylwbgmid" height="22">28.6%</td>
       <td class="ylwbgmid">Conversion</td>
       <td class="ylwbgmid">40.0%</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won quarter by 2</td>
+      <td class="ylwbgmid" height="22">Won quarter by 2</td>
       <td class="ylwbgmid">Result</td>
       <td class="ylwbgmid">Lost quarter by 2</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Leading by 33</td>
+      <td class="ylwbgmid" height="22">Leading by 33</td>
       <td class="ylwbgmid">End of Quarter</td>
       <td class="ylwbgmid">Trailing by 33</td>
     </tr>
@@ -2189,40 +2232,40 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
   </table>
   </td>
   <td>
-  <table border="0" cellspacing="0" cellpadding="0" width="373">
+  <table border="0" cellspacing="0" cellpadding="0" width="493">
     <tr>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
       <td colspan="3"  class="ylwbdr" style="height:1px"></td>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
     </tr>
     <tr>
-      <td class="ylwbgmid" height="20" width="124"><b>Carlton</b></td>
-      <td class="ylwbgmid" width="125"><b>Final Quarter</b></td>
-      <td class="ylwbgmid" width="124"><b>Geelong</b></td>
+      <td class="ylwbgmid" height="28" width="164"><b>Carlton</b></td>
+      <td class="ylwbgmid" width="165"><b>Final Quarter</b></td>
+      <td class="ylwbgmid" width="164"><b>Geelong</b></td>
     </tr>
     <tr><td colspan="3" class="ylwbdr" style="height:1px"></td></tr>
     <tr>
-      <td class="ylwbgmid">3.1 19</td>
+      <td class="ylwbgmid" height="22">3.1 19</td>
       <td class="ylwbgmid">Score</td>
       <td class="ylwbgmid">2.4 16</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">4</td>
+      <td class="ylwbgmid" height="22">4</td>
       <td class="ylwbgmid">Scoring Shots</td>
       <td class="ylwbgmid">6</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">75.0%</td>
+      <td class="ylwbgmid" height="22">75.0%</td>
       <td class="ylwbgmid">Conversion</td>
       <td class="ylwbgmid">33.3%</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won quarter by 3</td>
+      <td class="ylwbgmid" height="22">Won quarter by 3</td>
       <td class="ylwbgmid">Result</td>
       <td class="ylwbgmid">Lost quarter by 3</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won game by 36</td>
+      <td class="ylwbgmid" height="22">Won game by 36</td>
       <td class="ylwbgmid">End of Game</td>
       <td class="ylwbgmid">Lost game by 36</td>
     </tr>
@@ -2237,8 +2280,8 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 
 <tr><td colspan="1" class="norm" style="height:20px"></td></tr>
 <TR><TD>
-<table border="0" cellspacing="0" cellpadding="0" width="760">
-<tr><td height="21" align="center" colspan="7" class="tbtitle">Scoring Breakdown For Each Half</td></tr>
+<table border="0" cellspacing="0" cellpadding="0" width="1000">
+<tr><td height="28" align="center" colspan="7" class="tbtitle">Scoring Breakdown For Each Half</td></tr>
 <tr>
 <td rowspan="4" class="ylwbdr" style="width:1px"></td>
 <td rowspan="3" class="ylwbg2" style="width:4px"></td>
@@ -2250,40 +2293,40 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 </tr>
 <tr>
   <td>
-  <table border="0" cellspacing="0" cellpadding="0" width="373">
+  <table border="0" cellspacing="0" cellpadding="0" width="493">
     <tr>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
       <td colspan="3"  class="ylwbdr" style="height:1px"></td>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
     </tr>
     <tr>
-      <td class="ylwbgmid" height="20" width="124"><b>Carlton</b></td>
-      <td class="ylwbgmid" width="125"><b>First Half</b></td>
-      <td class="ylwbgmid" width="124"><b>Geelong</b></td>
+      <td class="ylwbgmid" height="28" width="164"><b>Carlton</b></td>
+      <td class="ylwbgmid" width="165"><b>First Half</b></td>
+      <td class="ylwbgmid" width="164"><b>Geelong</b></td>
     </tr>
     <tr><td colspan="3" class="ylwbdr" style="height:1px"></td></tr>
     <tr>
-      <td class="ylwbgmid">10.8 68</td>
+      <td class="ylwbgmid" height="22">10.8 68</td>
       <td class="ylwbgmid">Score</td>
       <td class="ylwbgmid">5.7 37</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">18</td>
+      <td class="ylwbgmid" height="22">18</td>
       <td class="ylwbgmid">Scoring Shots</td>
       <td class="ylwbgmid">12</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">55.6%</td>
+      <td class="ylwbgmid" height="22">55.6%</td>
       <td class="ylwbgmid">Conversion</td>
       <td class="ylwbgmid">41.7%</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won half by 31</td>
+      <td class="ylwbgmid" height="22">Won half by 31</td>
       <td class="ylwbgmid">Result</td>
       <td class="ylwbgmid">Lost half by 31</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Leading by 31</td>
+      <td class="ylwbgmid" height="22">Leading by 31</td>
       <td class="ylwbgmid">Halftime</td>
       <td class="ylwbgmid">Trailing by 31</td>
     </tr>
@@ -2291,40 +2334,40 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
   </table>
   </td>
   <td>
-  <table border="0" cellspacing="0" cellpadding="0" width="373">
+  <table border="0" cellspacing="0" cellpadding="0" width="493">
     <tr>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
       <td colspan="3"  class="ylwbdr" style="height:1px"></td>
       <td rowspan="9" class="ylwbdr" style="width:1px"></td>
     </tr>
     <tr>
-      <td class="ylwbgmid" height="20" width="124"><b>Carlton</b></td>
-      <td class="ylwbgmid" width="125"><b>Second Half</b></td>
-      <td class="ylwbgmid" width="124"><b>Geelong</b></td>
+      <td class="ylwbgmid" height="28" width="164"><b>Carlton</b></td>
+      <td class="ylwbgmid" width="165"><b>Second Half</b></td>
+      <td class="ylwbgmid" width="164"><b>Geelong</b></td>
     </tr>
     <tr><td colspan="3" class="ylwbdr" style="height:1px"></td></tr>
     <tr>
-      <td class="ylwbgmid">5.6 36</td>
+      <td class="ylwbgmid" height="22">5.6 36</td>
       <td class="ylwbgmid">Score</td>
       <td class="ylwbgmid">4.7 31</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">11</td>
+      <td class="ylwbgmid" height="22">11</td>
       <td class="ylwbgmid">Scoring Shots</td>
       <td class="ylwbgmid">11</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">45.5%</td>
+      <td class="ylwbgmid" height="22">45.5%</td>
       <td class="ylwbgmid">Conversion</td>
       <td class="ylwbgmid">36.4%</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won half by 5</td>
+      <td class="ylwbgmid" height="22">Won half by 5</td>
       <td class="ylwbgmid">Result</td>
       <td class="ylwbgmid">Lost half by 5</td>
     </tr>
     <tr>
-      <td class="ylwbgmid">Won game by 36</td>
+      <td class="ylwbgmid" height="22">Won game by 36</td>
       <td class="ylwbgmid">End of Game</td>
       <td class="ylwbgmid">Lost game by 36</td>
     </tr>
@@ -2339,6 +2382,9 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 
 </TABLE>
 </td></tr>
+
+
+
 </table></td>
 <td rowspan="3" bgcolor="#b7b7b7" style="width:1px"></td>
 </tr>
@@ -2350,12 +2396,11 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr><td colspan="3" align="center" valign="middle" height="25">
 <table id="footer">
 <tr>
-<td id="footercopy">Footywire.com &copy; 2018</td>
+<td id="footercopy">Footywire.com &copy; 2019</td>
 <td id="footerlinks">
 <a href="/afl/footy/info?if=a">about</a>
 <a href="/afl/footy/info?if=t">terms</a>
 <a href="/afl/footy/info?if=p">privacy</a>
-<a target="_smaq" href="http://www.smaqtalk.com/">discussions</a>
 <a href="/afl/footy/contact_us">contact us</a>
 </td>
 </tr>
@@ -2405,7 +2450,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('teammenu')" onMouseUp="hideSubMenu('teammenu')"  class="submenuitem" href="/afl/footy/th-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('teammenu')" onMouseUp="hideSubMenu('teammenu')"  class="submenuitem" href="/afl/footy/th-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('teammenu')" onMouseUp="hideSubMenu('teammenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('teammenu')" onMouseUp="hideSubMenu('teammenu')">hide menu</div></td></tr>
 </table>
 
 <table id="playermenu">
@@ -2448,7 +2493,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('playermenu')" onMouseUp="hideSubMenu('playermenu')"  class="submenuitem" href="/afl/footy/tp-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('playermenu')" onMouseUp="hideSubMenu('playermenu')"  class="submenuitem" href="/afl/footy/tp-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('playermenu')" onMouseUp="hideSubMenu('playermenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('playermenu')" onMouseUp="hideSubMenu('playermenu')">hide menu</div></td></tr>
 </table>
 
 <table id="playerrankmenu">
@@ -2491,7 +2536,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('playerrankmenu')" onMouseUp="hideSubMenu('playerrankmenu')"  class="submenuitem" href="/afl/footy/tr-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('playerrankmenu')" onMouseUp="hideSubMenu('playerrankmenu')"  class="submenuitem" href="/afl/footy/tr-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td colspan="3" align="right"><div class="submenux" onClick="hideSubMenu('playerrankmenu')" onMouseUp="hideSubMenu('playerrankmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td colspan="3" align="right"><div class="submenuxb" onClick="hideSubMenu('playerrankmenu')" onMouseUp="hideSubMenu('playerrankmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="teamrankmenu">
@@ -2502,7 +2547,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr><td><a onClick="hideSubMenu('teamrankmenu')" onMouseUp="hideSubMenu('teamrankmenu')"  class="submenuitem" href="/afl/footy/ft_team_rankings?type=OT">Opponent Totals</a></td></tr>
 <tr><td><a onClick="hideSubMenu('teamrankmenu')" onMouseUp="hideSubMenu('teamrankmenu')"  class="submenuitem" href="/afl/footy/ft_team_rankings?type=DA">Team/Opponent Differential Averages</a></td></tr>
 <tr><td><a onClick="hideSubMenu('teamrankmenu')" onMouseUp="hideSubMenu('teamrankmenu')"  class="submenuitem" href="/afl/footy/ft_team_rankings?type=DT">Team/Opponent Differential Totals</a></td></tr>
-<tr><td align="right"><div class="submenux" onClick="hideSubMenu('teamrankmenu')" onMouseUp="hideSubMenu('teamrankmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right"><div class="submenuxb" onClick="hideSubMenu('teamrankmenu')" onMouseUp="hideSubMenu('teamrankmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="draftmenu">
@@ -2542,12 +2587,12 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('draftmenu')" onMouseUp="hideSubMenu('draftmenu')"  class="submenuitem" href="/afl/footy/td-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('draftmenu')" onMouseUp="hideSubMenu('draftmenu')"  class="submenuitem" href="/afl/footy/td-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('draftmenu')" onMouseUp="hideSubMenu('draftmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('draftmenu')" onMouseUp="hideSubMenu('draftmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="risingstarmenu">
 <tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')" >x</div></td></tr>
-<tr><td colspan="3"><a onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')"  class="submenuitem" href="/afl/footy/ft_rising_stars_round_performances">Rising Star Round by Round Performances</a></td></tr>
+<tr><td colspan="3"><a onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')"  class="submenuitem" href="/afl/footy/ft_rising_stars_round_performances">Rising Star Round by Round</a></td></tr>
 <tr><td colspan="3"><a onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')"  class="submenuitem" href="/afl/footy/rising_star_nominations">Rising Star Nominees</a></td></tr>
 <tr><td colspan="3"><a onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')"  class="submenuitem" href="/afl/footy/rising_star_winners">Rising Star Winners</a></td></tr>
 <tr>
@@ -2583,7 +2628,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')"  class="submenuitem" href="/afl/footy/ty-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')"  class="submenuitem" href="/afl/footy/ty-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('risingstarmenu')" onMouseUp="hideSubMenu('risingstarmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="matchmenu">
@@ -2622,7 +2667,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('matchmenu')" onMouseUp="hideSubMenu('matchmenu')"  class="submenuitem" href="/afl/footy/tg-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('matchmenu')" onMouseUp="hideSubMenu('matchmenu')"  class="submenuitem" href="/afl/footy/tg-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('matchmenu')" onMouseUp="hideSubMenu('matchmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('matchmenu')" onMouseUp="hideSubMenu('matchmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="laddermenu">
@@ -2641,7 +2686,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('laddermenu')" onMouseUp="hideSubMenu('laddermenu')"  class="submenuitem" href="/afl/footy/ft_ladder?pt=VN&st=10&sb=p">Venue</a></td>
 <td><a onClick="hideSubMenu('laddermenu')" onMouseUp="hideSubMenu('laddermenu')"  class="submenuitem" href="/afl/footy/ft_ladder?pt=ST&st=disposals&sb=p">Stats</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('laddermenu')" onMouseUp="hideSubMenu('laddermenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('laddermenu')" onMouseUp="hideSubMenu('laddermenu')">hide menu</div></td></tr>
 </table>
 
 <table id="brownlowmenu">
@@ -2682,7 +2727,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('brownlowmenu')" onMouseUp="hideSubMenu('brownlowmenu')"  class="submenuitem" href="/afl/footy/tb-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('brownlowmenu')" onMouseUp="hideSubMenu('brownlowmenu')"  class="submenuitem" href="/afl/footy/tb-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('brownlowmenu')" onMouseUp="hideSubMenu('brownlowmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('brownlowmenu')" onMouseUp="hideSubMenu('brownlowmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="attendancemenu">
@@ -2721,7 +2766,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('attendancemenu')" onMouseUp="hideSubMenu('attendancemenu')"  class="submenuitem" href="/afl/footy/ta-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('attendancemenu')" onMouseUp="hideSubMenu('attendancemenu')"  class="submenuitem" href="/afl/footy/ta-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('attendancemenu')" onMouseUp="hideSubMenu('attendancemenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('attendancemenu')" onMouseUp="hideSubMenu('attendancemenu')">hide menu</div></td></tr>
 </table>
 
 <table id="coachmenu">
@@ -2760,7 +2805,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('coachmenu')" onMouseUp="hideSubMenu('coachmenu')"  class="submenuitem" href="/afl/footy/tc-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('coachmenu')" onMouseUp="hideSubMenu('coachmenu')"  class="submenuitem" href="/afl/footy/tc-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('coachmenu')" onMouseUp="hideSubMenu('coachmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('coachmenu')" onMouseUp="hideSubMenu('coachmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="highlightsmenu">
@@ -2799,7 +2844,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('highlightsmenu')" onMouseUp="hideSubMenu('highlightsmenu')"  class="submenuitem" href="/afl/footy/tv-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('highlightsmenu')" onMouseUp="hideSubMenu('highlightsmenu')"  class="submenuitem" href="/afl/footy/tv-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('highlightsmenu')" onMouseUp="hideSubMenu('highlightsmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('highlightsmenu')" onMouseUp="hideSubMenu('highlightsmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="supercoachmenu">
@@ -2811,7 +2856,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr><td><a onClick="hideSubMenu('supercoachmenu')" onMouseUp="hideSubMenu('supercoachmenu')"  class="submenuitem" href="/afl/footy/supercoach_prices">Supercoach Prices</a></td></tr><tr>
 <tr><td><a onClick="hideSubMenu('supercoachmenu')" onMouseUp="hideSubMenu('supercoachmenu')"  class="submenuitem" href="/afl/footy/custom_supercoach_latest_scores">Custom Supercoach Player List</a></td></tr><tr>
 <tr><td><a onClick="hideSubMenu('supercoachmenu')" onMouseUp="hideSubMenu('supercoachmenu')"  class="submenuitem" href="/afl/footy/pre_season_supercoach">Pre-Season Supercoach Stats</a></td></tr><tr>
-<tr><td align="right"><div class="submenux" onClick="hideSubMenu('supercoachmenu')" onMouseUp="hideSubMenu('supercoachmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right"><div class="submenuxb" onClick="hideSubMenu('supercoachmenu')" onMouseUp="hideSubMenu('supercoachmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="dreamteammenu">
@@ -2823,14 +2868,14 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <tr><td><a onClick="hideSubMenu('dreamteammenu')" onMouseUp="hideSubMenu('dreamteammenu')"  class="submenuitem" href="/afl/footy/dream_team_prices">AFL Fantasy Prices</a></td></tr><tr>
 <tr><td><a onClick="hideSubMenu('dreamteammenu')" onMouseUp="hideSubMenu('dreamteammenu')"  class="submenuitem" href="/afl/footy/custom_dream_team_latest_scores">Custom AFL Fantasy Player List</a></td></tr><tr>
 <tr><td><a onClick="hideSubMenu('dreamteammenu')" onMouseUp="hideSubMenu('dreamteammenu')"  class="submenuitem" href="/afl/footy/pre_season_dream_team">Pre-Season AFL Fantasy Stats</a></td></tr><tr>
-<tr><td align="right"><div class="submenux" onClick="hideSubMenu('dreamteammenu')" onMouseUp="hideSubMenu('dreamteammenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right"><div class="submenuxb" onClick="hideSubMenu('dreamteammenu')" onMouseUp="hideSubMenu('dreamteammenu')">hide menu</div></td></tr>
 </table>
 
 <table id="selectionsmenu">
 <tr><td align="right"><div class="submenux" onClick="hideSubMenu('selectionsmenu')" onMouseUp="hideSubMenu('selectionsmenu')" >x</div></td></tr>
 <tr><td><a onClick="hideSubMenu('selectionsmenu')" onMouseUp="hideSubMenu('selectionsmenu')"  class="submenuitem" href="/afl/footy/afl_team_selections">Latest Team Selections</a></td></tr><tr>
 <tr><td><a onClick="hideSubMenu('selectionsmenu')" onMouseUp="hideSubMenu('selectionsmenu')"  class="submenuitem" href="/afl/footy/custom_all_team_selections">Custom Team Selections List</a></td></tr><tr>
-<tr><td align="right"><div class="submenux" onClick="hideSubMenu('selectionsmenu')" onMouseUp="hideSubMenu('selectionsmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right"><div class="submenuxb" onClick="hideSubMenu('selectionsmenu')" onMouseUp="hideSubMenu('selectionsmenu')">hide menu</div></td></tr>
 </table>
 
 <table id="pastplayermenu">
@@ -2865,7 +2910,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('pastplayermenu')" onMouseUp="hideSubMenu('pastplayermenu')"  class="submenuitem" href="/afl/footy/ti-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('pastplayermenu')" onMouseUp="hideSubMenu('pastplayermenu')"  class="submenuitem" href="/afl/footy/ti-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('pastplayermenu')" onMouseUp="hideSubMenu('pastplayermenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('pastplayermenu')" onMouseUp="hideSubMenu('pastplayermenu')">hide menu</div></td></tr>
 </table>
 
 <table id="contractsmenu">
@@ -2900,7 +2945,7 @@ Geelong Betting Odds: Win 1.19, Line -29.5 @ 1.91
 <td><a onClick="hideSubMenu('contractsmenu')" onMouseUp="hideSubMenu('contractsmenu')"  class="submenuitem" href="/afl/footy/to-sydney-swans">Swans</a></td>
 <td><a onClick="hideSubMenu('contractsmenu')" onMouseUp="hideSubMenu('contractsmenu')"  class="submenuitem" href="/afl/footy/to-richmond-tigers">Tigers</a></td>
 </tr>
-<tr><td align="right" colspan="3"><div class="submenux" onClick="hideSubMenu('contractsmenu')" onMouseUp="hideSubMenu('contractsmenu')" style="padding-top:6px;">hide menu</div></td></tr>
+<tr><td align="right" colspan="3"><div class="submenuxb" onClick="hideSubMenu('contractsmenu')" onMouseUp="hideSubMenu('contractsmenu')">hide menu</div></td></tr>
 </table>
 
 <div id="membersbgdiv" onClick="closeMemberDivs();"></div>

@@ -19,6 +19,7 @@ import numpy as np
 from os.path import dirname, abspath
 import pandas as pd
 import re
+import sys
 
 try:
     import shared_functions as f
@@ -230,7 +231,7 @@ def scrape(syear,eyear):
 
     #iterate through each year, run the scraping process
     while(year>=startyear):
-        print("Processing year: " + str(year))
+        #print("Processing year: " + str(year))
 
 
         files = os.listdir(d + "/matchfiles/afltables/" + str(year))
@@ -291,7 +292,7 @@ def scrape(syear,eyear):
 
             summaries = f.initSummaries()
             player_stats = f.initPlayerStats()
-            #print("Completed game #" + str(i) + " in season " + str(year))
+            sys.stdout.write("\rCompleted game #" + str(i) + " in season " + str(year))
             i += 1
 
         year -= 1

@@ -12,6 +12,7 @@ Footywire from within the given parameters, in order to be scraped
 from bs4 import BeautifulSoup
 from os.path import dirname, abspath
 import urllib, os, json
+import sys
 
 
 #startyear - earliest year to get
@@ -67,7 +68,7 @@ def getPageNames(startyear, endyear):  #Gets JSON list of URLS
                 matchstring = "https://afltables.com/afl/" + str(a['href'])[3:]
                 matches.append(matchstring)
                 matchlist.update({year:matches})
-        #print("Successfully downloaded match codes for " + str(year) + " season")
+        sys.stdout.write("\rSuccessfully downloaded match codes for " + str(year) + " season")
         year -= 1
 
 
@@ -99,7 +100,7 @@ def getPages(syear,eyear):
             if not os.path.exists(d + "/matchfiles/afltables/" + year + "/" + code):
                 urllib.request.urlretrieve(matchurl,
                                            d + "/matchfiles/afltables/" + year + "/" + code)
-                #print("Successfully downloaded matches for " + str(year) + " season")
+                sys.stdout.write("Successfully downloaded matches for " + str(year) + " season\r")
             #else:
             #    print("Match: " + code + " already exists. Skipping")
 
@@ -120,12 +121,12 @@ def getExtraPages(scode,ecode):
                 d + "/matchfiles/footywire/footywire" + str(t) + ".html")
                 urllib.request.urlretrieve(url2,
                 d + "/matchfiles/footywire_adv/footywire_adv" + str(t) + ".html")
-                #print("Successfully downloaded match #" + str(t))
+                sys.stdout.write("Successfully downloaded match #" + str(t) + "\r")
             except IndexError:
                 print("There was an index error with match #" + str(t))
                 errors += 1
         else:
-            #print("Skipping game #" + str(t))
+            sys.stdout.write("Skipping game #" + str(t) + "\r")
             continue
     print("There were " + str(errors) + " errors in the retrieval of extra data")
 

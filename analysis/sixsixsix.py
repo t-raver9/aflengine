@@ -34,7 +34,17 @@ progressjoin.drop(columns=['qminutes','qseconds','sminute','ssecond'],
 
 progressjoin['elapsed'] = progressjoin['scoretime'] / progressjoin['qlength'] * 100
 
-progressjoin['bouncestart'] = progressjoin.apply(axis=1,checkbouncestart)  
 
+for i, row in progressjoin.iterrows():
+    if(i==0):
+        progressjoin.at[i,'bouncestart'] = "YES"
+    elif(progressjoin.at[i,'quarter'] != progressjoin.at[i-1,'quarter']):
+        progressjoin.at[i,'bouncestart'] = "YES"
+    elif(progressjoin.at[i-1, 'type'] == "goal"):
+        progressjoin.at[i, 'bouncestart'] = "YES"
+    else:
+        progressjoin.at[i,'bouncestart'] = "NO"
 
-def checkbouncestart(df):              
+print("DONE")
+
+#progressjoin['bouncestart'] = progressjoin.apply(axis=1,checkbouncestart)

@@ -18,7 +18,7 @@ LASTYEAR = 2019 #Last year data collected
 STARTELO = 1500 #The default starting ELO rating
 MEANELO = 1500 #Mean ELO to regress to between seasons
 ISRF = 0.1 #Inter season regression factor
-K_FACTOR = 40 #K factor for elo
+K_FACTOR = 60 #K factor for elo
 
 class Team:    
     """
@@ -61,9 +61,9 @@ def expected(T1, T2, HA, match):
     #Calculate home ground advantage factor
     #TODO: base on venue, rather than who is listed as home/away team
     if(HA == "Home"):
-        HGA = 50
+        HGA = 0
     else:
-        HGA = -50
+        HGA = 0
     
     #Standard formula for calculating ELO probability
     return (1 / (1 + 10 ** ((T2 - T1 + HGA) / 400)))

@@ -44,8 +44,17 @@ fixture['hteam'] = fixture['hteam'].str.replace('GWS Giants','Greater Western Sy
 fixture['ateam'] = fixture['ateam'].str.replace('GWS Giants','Greater Western Sydney')
 fixture['hteam'] = fixture['hteam'].str.replace('Western Bulldogs','Footscray')
 fixture['ateam'] = fixture['ateam'].str.replace('Western Bulldogs','Footscray')
-fixture['hteam'] = fixture['hteam'].str.replace('Brisbane','Brisbane Lions')
-fixture['ateam'] = fixture['ateam'].str.replace('Brisbane','Brisbane Lions')
+fixture['hteam'] = fixture['hteam'].str.replace('Geelong Cats','Geelong')
+fixture['ateam'] = fixture['ateam'].str.replace('Geelong Cats','Geelong')
+fixture['hteam'] = fixture['hteam'].str.replace('Adelaide Crows','Adelaide')
+fixture['ateam'] = fixture['ateam'].str.replace('Adelaide Crows','Adelaide')
+fixture['hteam'] = fixture['hteam'].str.replace('Sydney Swans','Sydney')
+fixture['ateam'] = fixture['ateam'].str.replace('Sydney Swans','Sydney')
+fixture['hteam'] = fixture['hteam'].str.replace('West Coast Eagles','West Coast')
+fixture['ateam'] = fixture['ateam'].str.replace('West Coast Eagles','West Coast')
+fixture['hteam'] = fixture['hteam'].str.replace('Gold Coast Suns','Gold Coast')
+fixture['ateam'] = fixture['ateam'].str.replace('Gold Coast Suns','Gold Coast')
+
 
 
 fixture["hscore"] = fixture.apply(lambda x:int(x['result'].split("-")[0])\
@@ -90,7 +99,8 @@ for i in range (0,1000):
 i = 1
 for sim in simladders:
 
-    #Calc minor premier
+    #Calc minor premier    
+    
     simsummary.loc[sim.iloc[0]["team"]]["p1"] += 1
     simsummary.loc[sim.iloc[1]["team"]]["p2"] += 1
     simsummary.loc[sim.iloc[2]["team"]]["p3"] += 1
@@ -116,7 +126,7 @@ for sim in simladders:
 
 simsummary = simsummary.applymap(lambda x:(x/10000))
 
-simsummary.to_csv(d+"/outputs/2019round6.csv")
+simsummary.to_csv(d+"/outputs/finalssim.csv")
 
 #Print outputs
 
