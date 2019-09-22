@@ -227,6 +227,14 @@ def fixFinalsRounds(df):
         
         try:
             return {
+                9925 : 'Preliminary',
+                9926 : 'Preliminary',
+                9923 : 'Semi',
+                9924 : 'Semi',
+                9919 : 'Elimination',
+                9921 : 'Elimination',
+                9920 : 'Qualifying',
+                9922 : 'Qualifying',    
                 9720 : 'Grand',
                 9719 : 'Preliminary',
                 9718 : 'Preliminary',

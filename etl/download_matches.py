@@ -146,8 +146,8 @@ def main(syear,eyear,scode,ecode):
     try:
         print("Getting list of URLS from AFLtables")
         getPageNames(syear,eyear)
-        
-    except:
+    except Exception as e:
+        print(e)
         print("There was an error getting list of URLS from\
                AFLtables, try checking that the year parameters are \
                valid, and that you are connected to the internet")

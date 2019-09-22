@@ -13,8 +13,8 @@ from etl import process
 
 SYEAR = 2019
 EYEAR = 2019
-SCODE = 4961
-ECODE = 9918
+SCODE = 9919
+ECODE = 9926
 
 
 if __name__ == "__main__":

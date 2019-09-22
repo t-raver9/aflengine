@@ -5,7 +5,7 @@ Created on Thu Jul 19 20:49:12 2018
 
 @author: chrisstrods
 """
-
+#%%
 import pandas as pd
 from os.path import dirname, abspath
 
