@@ -15,6 +15,9 @@ class Team_ladder_info():
         self.played = 0
         self.byes = 0
         self.bye_rounds = []
+        self.won_game = 0
+        self.points_for_game = 0
+        self.points_against_game = 0
         
     def update_ladder_info(self,match_data):
         if self.team == match_data['hteam']:
@@ -26,15 +29,21 @@ class Team_ladder_info():
         if match_data['hscore'] > match_data['ascore']:
             self.prem_points += 4
             self.wins += 1
+            self.won_game = 1
         elif match_data['hscore'] == match_data['ascore']:
             self.prem_points += 2
             self.draws += 1
+            self.won_game = .5
         else:
             self.losses += 1
+            self.won_game = 0
 
         self.points_for += match_data['hscore']
         self.points_against += match_data['ascore']
         self.played += 1
+
+        self.points_for_game = match_data['hscore']
+        self.points_against_game = match_data['ascore']
 
         self.update_percentage()
     
@@ -42,15 +51,21 @@ class Team_ladder_info():
         if match_data['hscore'] < match_data['ascore']:
             self.prem_points += 4
             self.wins += 1
+            self.won_game = 1
         elif match_data['hscore'] == match_data['ascore']:
             self.prem_points += 2
             self.draws += 1
+            self.won_game = .5
         else:
             self.losses += 1
+            self.won_game = 0
         
         self.points_for += match_data['ascore']
         self.points_against += match_data['hscore']
         self.played += 1
+
+        self.points_for_game = match_data['ascore']
+        self.points_against_game = match_data['hscore']
         
         self.update_percentage()
     

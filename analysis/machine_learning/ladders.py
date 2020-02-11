@@ -108,8 +108,8 @@ def add_ladders_to_dataset(history: History, matches: pd.DataFrame) -> pd.DataFr
     to the matches dataset. Need to define these manually."""
     # Include all new attributes for the dataframe
     new_cols = ['h_wins','h_losses','h_draws','h_points_for','h_points_against',
-    'h_percentage','h_ladder_position','a_wins','a_losses','a_draws',
-    'a_points_for','a_points_against','a_percentage','a_ladder_position']
+    'h_percentage','h_ladder_position','h_played','a_wins','a_losses','a_draws',
+    'a_points_for','a_points_against','a_percentage','a_ladder_position','a_played']
 
     for col in new_cols:
         matches[col] = None
@@ -128,6 +128,7 @@ def add_ladders_to_dataset(history: History, matches: pd.DataFrame) -> pd.DataFr
         matches.at[idx,'h_points_against'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['hteam']].points_against
         matches.at[idx,'h_percentage'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['hteam']].percentage
         matches.at[idx,'h_ladder_position'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['hteam']].ladder_position
+        matches.at[idx,'h_played'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['hteam']].played
         matches.at[idx,'a_wins'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['ateam']].wins
         matches.at[idx,'a_losses'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['ateam']].losses
         matches.at[idx,'a_draws'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['ateam']].draws
@@ -135,5 +136,8 @@ def add_ladders_to_dataset(history: History, matches: pd.DataFrame) -> pd.DataFr
         matches.at[idx,'a_points_against'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['ateam']].points_against
         matches.at[idx,'a_percentage'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['ateam']].percentage
         matches.at[idx,'a_ladder_position'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['ateam']].ladder_position
+        matches.at[idx,'a_played'] = history.seasons[row['season']].rounds[row['round']].teams_ladder_info[row['ateam']].played
 
+    # Reset the index, which is now jumbled and meaningless
+    matches.reset_index(drop=True,inplace=True)
     return matches
