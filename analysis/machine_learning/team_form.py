@@ -22,17 +22,21 @@ def last_x_games_stats_hteam(matches: pd.DataFrame, history: History, num_games:
     matches['h_last_5_pts_for'] = 0
     matches['h_last_5_pts_against'] = 0
 
+    # Logging
+    season = matches['season'].iloc[0] - 1
+
     # Flip the match dataframe so we can work from latest to oldest
     matches_flipped = matches[::-1]
     for idx,row in matches_flipped.iterrows():
         # Logging
-        print(row['season'],row['round'])
+        if (season != row['season']):
+            print('Collecting home team form data from season {}'.format(row['season']))
         games_back = num_games # Reset for every row
         wins_last_x = 0
         points_for_last_x = 0
         points_against_last_x = 0
         percentage_last_x = 0
-        
+
         # Check how many games the team has played that season
         h_games_played = row['h_played']
         
@@ -118,11 +122,15 @@ def last_x_games_stats_ateam(matches: pd.DataFrame, history: History, num_games:
     matches['a_last_5_pts_for'] = 0
     matches['a_last_5_pts_against'] = 0
 
+    # Logging
+    season = matches['season'].iloc[0] - 1
+
     # Flip the match dataframe so we can work from latest to oldest
     matches_flipped = matches[::-1]
     for idx,row in matches_flipped.iterrows():
         # Logging
-        print(row['season'],row['round'])
+        if (season != row['season']):
+            print('Collecting away team form data from season {}'.format(row['season']))
         games_back = num_games # Reset for every row
         wins_last_x = 0
         points_for_last_x = 0
