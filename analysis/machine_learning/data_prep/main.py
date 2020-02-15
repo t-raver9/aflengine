@@ -4,7 +4,7 @@ from os.path import dirname, abspath
 from team_form import last_x_games_stats_hteam, last_x_games_stats_ateam
 from features import days_break, x_game_average_break
 from player_data_aggregate import read_player_data,aggregate_player_data
-from player_data_calculation import generate_team_player_data_objects
+from player_data_calculation import generate_team_player_data_objects, add_player_data_to_dataset
 
 d = dirname(dirname(dirname(dirname(abspath(__file__)))))
 save_data_path = d + '/bench/'
@@ -36,9 +36,12 @@ def main():
     # Create player data attributes
     history_object = generate_team_player_data_objects(matches,2000)
 
+    # Add player data to dataset
+    matches = add_player_data_to_dataset(history_object, matches)
+
     # Write out the new dataset
-    # matches.to_csv(save_data_path + 'matches_with_player_data.csv')
-    # print("Ladder/form/breaks file successfully written")
+    matches.to_csv(save_data_path + 'matches_with_player_data_ver_2.csv')
+    print("Ladder/form/breaks file successfully written")
 
 if __name__=="__main__":
     main()
