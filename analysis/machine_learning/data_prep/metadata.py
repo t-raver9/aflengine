@@ -33,36 +33,33 @@ def get_season_teams(matches: pd.DataFrame) -> Dict:
     return teams_in_season
 
 # What are the home grounds of each team for each season?
-def get_home_grounds(matches: pd.DataFrame) -> Dict:
-    """
-    Return a dictionary with teams as keys and a list of home
-    grounds as values. Historically there are far more grounds -
-    will include this later. For now, use this only for after
-    2000.
-    """
-    home_grounds = {
-        'St Kilda':['Docklands'],
-        'Carlton': ['MCG','Docklands'],
-        'Hawthorn': ['MCG','York Park'],
-        'Footscray': ['Docklands','Eureka Stadium'],
-        'Fitzroy': [],
-        'Geelong': ['Kardinia Park'],
-        'Essendon': ['MCG','Docklands'],
-        'Richmond': ['MCG'],
-        'Melbourne': ['MCG','Traeger Park'],
-        'Collingwood': ['MCG'],
-        'West Coast': ['Perth Stadium','Subiaco','W.A.C.A'],
-        'North Melbourne': ['Docklands','North Hobart'],
-        'Sydney': ['SCG'],
-        'Port Adelaide': ['Adelaide Oval'],
-        'Adelaide': ['Adelaide Oval','Jiangwan Stadium'],
-        'Brisbane Lions': ['Gabba'],
-        'Greater Western Sydney': ['Sydney Showground'],
-        'South Melbourne': [],
-        'University': [],
-        'Fremantle': ['Perth Stadium','Subiaco','W.A.C.A'],
-        'Gold Coast': ['Carrara'],
-        'Brisbane Bears': []
-    }
-    
-    return home_grounds
+"""
+Dictionary with teams as keys and a list of home
+grounds as values. Historically there are far more grounds -
+will include this later. For now, use this only for after
+2000.
+"""
+home_grounds = {
+    'St Kilda':['Docklands'],
+    'Carlton': ['M.C.G.','Docklands','Princes Park'],
+    'Hawthorn': ['M.C.G.','York Park'],
+    'Footscray': ['Docklands','Eureka Stadium'],
+    'Fitzroy': [],
+    'Geelong': ['Kardinia Park'],
+    'Essendon': ['M.C.G.','Docklands'],
+    'Richmond': ['M.C.G.'],
+    'Melbourne': ['M.C.G.','Traeger Park'],
+    'Collingwood': ['M.C.G.'],
+    'West Coast': ['Perth Stadium','Subiaco','W.A.C.A'],
+    'North Melbourne': ['Docklands','Bellerive Oval'],
+    'Sydney': ['S.C.G.'],
+    'Port Adelaide': ['Adelaide Oval','Football Park'],
+    'Adelaide': ['Adelaide Oval','Jiangwan Stadium','Football Park'],
+    'Brisbane Lions': ['Gabba'],
+    'Greater Western Sydney': ['Sydney Showground'],
+    'South Melbourne': [],
+    'University': [],
+    'Fremantle': ['Perth Stadium','Subiaco','W.A.C.A'],
+    'Gold Coast': ['Carrara'],
+    'Brisbane Bears': []
+}
