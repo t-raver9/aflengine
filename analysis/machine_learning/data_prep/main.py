@@ -42,7 +42,7 @@ def main():
     matches = add_player_data_to_dataset(history_object, matches)
 
     # Write out the new dataset
-    matches.to_csv(save_data_path + 'matches_with_player_data_ver_2.csv')
+    matches.to_csv(save_data_path + 'matches_plus.csv')
     print("Ladder/form/breaks file successfully written")
 
 if __name__=="__main__":

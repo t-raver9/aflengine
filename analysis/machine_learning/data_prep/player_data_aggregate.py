@@ -1,13 +1,13 @@
 import pandas as pd
+from os.path import dirname,abspath
 from copy import deepcopy
 
-player_data_path = 'https://github.com/t-raver9/aflengine/raw/master/bench/players.csv'
-
-def read_player_data(path: str = player_data_path) -> pd.DataFrame:
+def read_player_data() -> pd.DataFrame:
     """
     Read in individual player data for each game
     """
-    players = pd.read_csv(player_data_path)
+    d = dirname(dirname(dirname(dirname(abspath(__file__)))))
+    players = pd.read_csv(d + "/bench/players.csv")
     return players
 
 def aggregate_player_data(matches: pd.DataFrame, players: pd.DataFrame) -> pd.DataFrame:
