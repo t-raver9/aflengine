@@ -3,7 +3,7 @@ from ladders_calculation import generate_ladder_objects, add_ladders_to_dataset
 from os.path import dirname, abspath
 from team_form import last_x_games_stats_hteam, last_x_games_stats_ateam
 from misc import days_break, x_game_average_break, home_ground_advantage
-from player_data_aggregate import read_player_data,aggregate_player_data
+from player_data_aggregate import read_player_data,aggregate_player_data, games_played
 from player_data_calculation import generate_team_player_data_objects, add_player_data_to_dataset
 
 d = dirname(dirname(dirname(dirname(abspath(__file__)))))
@@ -31,19 +31,22 @@ def main():
     matches = home_ground_advantage(matches)
     # matches = x_game_average_break(matches,num_games=3)
 
-    # Read in player data and the aggregate individual stats to team level
+    # Read in player data and the aggregate individual stats to team level. This
+    # includes how many games have been played by the home and away teams,
+    # cumalatively, in the player's careers
     players = read_player_data()
     matches = aggregate_player_data(matches,players)
+    matches = games_played(matches,players)
 
     # Create player data attributes
-    history_object = generate_team_player_data_objects(matches,2000)
+    history_object = generate_team_player_data_objects(matches,1897)
 
     # Add player data to dataset
     matches = add_player_data_to_dataset(history_object, matches)
 
     # Write out the new dataset
     matches.to_csv(save_data_path + 'matches_plus.csv')
-    print("Ladder/form/breaks file successfully written")
+    print("File successfully written")
 
 if __name__=="__main__":
     main()
