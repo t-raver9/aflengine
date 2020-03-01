@@ -3,7 +3,7 @@ from player_data_classes import Team_player_data, Season, Round_obj, History
 from metadata import get_season_teams
 from copy import deepcopy
 
-def generate_team_player_data_objects(matches: pd.DataFrame, current_season: int = 2000) -> History:
+def generate_team_player_data_objects(matches: pd.DataFrame, current_season: int = 1897) -> History:
     """
     Takes the matches dataframe and creates a "History" object that contains
     all of the aggregated individual stats throughout a season. The heirachy
