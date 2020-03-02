@@ -1,11 +1,11 @@
 import pandas as pd
 from datetime import datetime
 from typing import List, Dict
+from os.path import dirname,abspath
 
-default_data_path = 'https://github.com/chrisstrods/aflengine/raw/master/bench/matches.csv'
-
-def read_data(match_data_path: str) -> pd.DataFrame:
-    matches = pd.read_csv(match_data_path)
+def read_data() -> pd.DataFrame:
+    d = dirname(dirname(dirname(dirname(abspath(__file__)))))
+    matches = pd.read_csv(d + "/bench/matches.csv")
     return matches
 
 def change_date_type(matches: pd.DataFrame) -> pd.DataFrame:
@@ -65,12 +65,12 @@ def remove_finals(matches: pd.DataFrame) -> pd.DataFrame:
     matches['round'] = matches['round'].astype(int)
     return matches
 
-def prepare_data(match_data_path: str = default_data_path) -> pd.DataFrame:
+def prepare_data() -> pd.DataFrame:
     """
     Apply transformations to dataset, and return
     """
     # Read in data
-    matches = read_data(match_data_path)
+    matches = read_data()
 
     # Change data type for time and data
     matches = change_time_type(matches)
