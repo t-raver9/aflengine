@@ -3,7 +3,8 @@ home_cols_this_game = [
     'homeline',
     'h_break',
     'h_ground_advantage',
-    'winner'
+    'winner',
+    'h_games_played'
 ]
 
 home_cols_prev_games = [
@@ -57,7 +58,8 @@ away_cols_this_game = [
     'awayodds',
     'awayline',
     'a_break',
-    'a_ground_advantage'
+    'a_ground_advantage',
+    'a_games_played'
 ]
 
 away_cols_prev_games = [
@@ -112,6 +114,7 @@ home_cols = [
     'homeline',
     'h_break',
     'h_ground_advantage',
+    'h_games_played',
     'h_wins_pg',
     'h_losses_pg',
     'h_draws_pg',
@@ -163,6 +166,7 @@ away_cols = [
     'awayline',
     'a_break',
     'a_ground_advantage',
+    'a_games_played',
     'a_wins_pg',
     'a_losses_pg',
     'a_draws_pg',

@@ -83,15 +83,23 @@ def home_away_features(matches: pd.DataFrame) -> pd.DataFrame:
         if row['h_played'] > 1:
             hteam_prev = matches[((matches['h_played'] == (row['h_played'] - 1)) & (matches['hteam'] == row['hteam']) & (matches['season'] == row['season'])) | 
                                 ((matches['a_played'] == (row['h_played'] - 1)) & (matches['ateam'] == row['hteam'])& (matches['season'] == row['season']))].iloc[0]
-            for col in (home_cols_prev_games):
-                home_away_df.at[idx,col] = hteam_prev[col]
+            if hteam_prev['hteam'] == row['hteam']:
+                for col in (home_cols_prev_games):
+                    home_away_df.at[idx,col] = hteam_prev[col]
+            else:
+                for col in (zip(home_cols_prev_games,away_cols_prev_games)):
+                    home_away_df.at[idx,col[0]] = hteam_prev[col[1]]
                 
         # Away team
         if row['a_played'] > 1:
             ateam_prev = matches[((matches['h_played'] == (row['a_played'] - 1)) & (matches['hteam'] == row['ateam']) & (matches['season'] == row['season'])) | 
                                 ((matches['a_played'] == (row['a_played'] - 1)) & (matches['ateam'] == row['ateam']) & (matches['season'] == row['season']))].iloc[0]
-            for col in (away_cols_prev_games):
-                home_away_df.at[idx,col] = ateam_prev[col]
+            if ateam_prev['ateam'] == row['ateam']:
+                for col in (away_cols_prev_games):
+                    home_away_df.at[idx,col] = ateam_prev[col]
+            else:
+                for col in (zip(home_cols_prev_games,away_cols_prev_games)):
+                    home_away_df.at[idx,col[1]] = ateam_prev[col[0]]
                 
         # If game played == 1 and team played in the previous season, get the data from the final round
         # of the previous season. Otherwise, set it to zero
