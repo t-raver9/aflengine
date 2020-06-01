@@ -11,10 +11,10 @@ from etl import scrape_at as get_main
 from etl import scrape_fw as get_extra
 from etl import process
 
-SYEAR = 2019
-EYEAR = 2019
-SCODE = 9919
-ECODE = 9926
+SYEAR = 2018
+EYEAR = 2020
+SCODE = 9694
+ECODE = 9936
 
 
 if __name__ == "__main__":

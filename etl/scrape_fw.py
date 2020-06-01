@@ -119,7 +119,9 @@ def loadData(gamerange,playermatch,pma,mdetails):
                 scrapeMatchDetails(str(text_details),str(text_result),str(t),mdetails)
                 sys.stdout.write("\rSuccessfully processed game #" + str(t))
             except IndexError as e:
-                print(e)
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)
                 print("There was an index error with match #" + str(t))
                 errorcount += 1
         else:
@@ -237,21 +239,30 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
 def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
     gameString = gameIn.replace('\\n','').replace("'",'').split(',')
 
-    mround = gameString[0].split(' ')[1]
-    if(not(int(gameID) < 1840)):
+    print("one")
 
+    mround = gameString[0].split(' ')[1]
+    if((not(int(gameID) < 1840))and(int(gameID) < 9928)):
         date = datetime.strptime(f.changeDate(gameString[4]),'%d %B %Y').date()
         time = str(gameString[5].split(" ")[1] + gameString[5].split(" ")[2] )
+    elif(int(gameID) >= 9928):
+        date = datetime.strptime(f.changeDate(gameString[3]),'%d %B %Y').date()
+        time = str(gameString[4].split(" ")[1] + gameString[4].split(" ")[2] )  
 
-
+    print("two")
 
     #odds only collected since 2010, and footywire is missing 2017 GF odds
     if(date.year > 2009 and not(int(gameID) == 9513)):
-        if "Brownlow" not in str(gameString):
+        if "Brownlow" not in str(gameString) and(int(gameID) < 9928):
             homeodds = gameString[6].split(":")[1].split(" ")[2]
             homeline = gameString[7].split("@")[0].split(" ")[2]
             awayodds = gameString[8].split(":")[1].split(" ")[2]
             awayline = gameString[9].split("@")[0].split(" ")[2]
+        elif "Brownlow" not in str(gameString):
+            homeodds = gameString[5].split(":")[1].split(" ")[2]
+            homeline = gameString[6].split("@")[0].split(" ")[2]
+            awayodds = gameString[7].split(":")[1].split(" ")[2]
+            awayline = gameString[8].split("@")[0].split(" ")[2]
         else:
             homeodds = -1
             homeline = -1
@@ -262,6 +273,8 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
         homeline = -1
         awayodds = -1
         awayline = -1
+
+    print("three")
 
     resultsString = gameResult.replace("'","").replace("defeats","defeated by").replace("defeat ","defeated by").replace("[","").replace("]","").replace("drew with","defeated by")
     results = resultsString.split("defeated by")

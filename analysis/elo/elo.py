@@ -17,8 +17,8 @@ STARTYEAR = 1897 #Year to begin processing data from
 LASTYEAR = 2019 #Last year data collected
 STARTELO = 1500 #The default starting ELO rating
 MEANELO = 1500 #Mean ELO to regress to between seasons
-ISRF = 0.1 #Inter season regression factor
-K_FACTOR = 60 #K factor for elo
+ISRF = 0.25 #Inter season regression factor
+K_FACTOR = 50 #K factor for elo
 
 class Team:    
     """
@@ -48,7 +48,18 @@ class Record:
         self.lowest_elo_season = ""
 
 
-#def calcHGA
+#print("Home team has a " + str(expected(1435,1457,"Home",0)) + "percent chance of winning")
+
+
+#Richmond
+#
+#
+#
+#
+#
+#
+#
+#
 
 def expected(T1, T2, HA, match):
     """
@@ -61,9 +72,9 @@ def expected(T1, T2, HA, match):
     #Calculate home ground advantage factor
     #TODO: base on venue, rather than who is listed as home/away team
     if(HA == "Home"):
-        HGA = 0
+        HGA = -25
     else:
-        HGA = 0
+        HGA = +25
     
     #Standard formula for calculating ELO probability
     return (1 / (1 + 10 ** ((T2 - T1 + HGA) / 400)))

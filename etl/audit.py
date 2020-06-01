@@ -50,3 +50,6 @@ T6data = matches.loc[matches['season'] == 2018]
 T6count = T6data.groupby("round").agg('count')
 
 del (d)
+
+
+#%%

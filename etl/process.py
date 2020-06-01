@@ -178,7 +178,7 @@ def main():
     player_full["season"] = player_full.apply(f.fillYear,axis=1)
     
     
-    player_full.to_sparse()
+    #player_full.to_sparse()
     
     temp_pf = player_full.fillna("0")
     
