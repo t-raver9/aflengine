@@ -553,3 +553,12 @@ def nameClean(df):
             #return NAMESWAP.get(df.loc[])
             #str(df["fullname"])
 
+def shortName(df):
+    fullname = df["name"]
+    
+    initial = fullname.split(" ",1)[0]
+    rest = fullname.split(" ",1)[1]
+    
+    return initial[0] + " " + rest
+
+                          
