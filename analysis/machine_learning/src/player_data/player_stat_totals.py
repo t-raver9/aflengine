@@ -43,6 +43,7 @@ def add_player_totals(matches: pd.DataFrame, players: pd.DataFrame) -> pd.DataFr
 
     # Drop the columns we don't need from players_col_to_agg
     player_cols_to_agg.remove('matchid')
+    player_cols_to_agg.remove('next_matchid')
     player_cols_to_agg.remove('team')
 
     # Organise the df, then go down, implementing both the logic for the overall stats and the season stats

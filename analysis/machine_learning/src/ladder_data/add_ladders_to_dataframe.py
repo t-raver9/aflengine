@@ -22,6 +22,7 @@ def add_ladders(history: Type[History], matches: Type[pd.DataFrame]):
     return matches
 
 def get_team_ladder_object(history: Type[History], data: pd.DataFrame):
+    print(data['round'],data['season'],data['hteam'],data['ateam'])
     if data['round'] == 1:
         h_ladder = TeamLadder(data['hteam'])
         a_ladder = TeamLadder(data['ateam'])
