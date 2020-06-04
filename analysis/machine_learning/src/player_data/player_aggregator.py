@@ -23,9 +23,10 @@ def read_data() -> pd.DataFrame:
     Read in players.csv
     Returns a pandas dataframe
     """
-    # d = dirname(dirname(dirname(dirname(dirname(abspath(__file__))))))
-    # players = pd.read_csv(d + "/bench/players.csv")
-    players = pd.read_csv('src/player_data/data/players_with_player_stat_totals.csv')
+    d = dirname(dirname(dirname(dirname(dirname(abspath(__file__))))))
+    players = pd.read_csv(d + "/bench/players.csv")
+    # Use below for testing
+    # players = pd.read_csv('src/player_data/data/players_with_player_stat_totals.csv')
     players['round'] = players.apply(lambda row: get_round(row['matchid']), axis = 1)
     return players
 
@@ -33,6 +34,12 @@ def define_aggregate_columns(player_cols_to_agg: List) -> List:
     """
     Defines which columns we'd like to aggregate to the team level
     """
+    # Check that our grouping columns are in the player column list
+    cols_to_check = ['matchid','next_matchid','team']
+    for col in cols_to_check:
+        if col not in player_cols_to_agg:
+            player_cols_to_agg.append(col)
+    # Define aggregate columns
     player_cols_to_agg_temp = list(filter(
         lambda x: x not in ['matchid','next_matchid','team'],player_cols_to_agg))
     player_cols_to_agg.extend(

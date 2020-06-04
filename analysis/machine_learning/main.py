@@ -16,6 +16,7 @@ from src.player_data import (
     player_stat_totals
 )
 import time
+import pandas as pd
 
 def main():
     start_time = time.time()
@@ -39,12 +40,15 @@ def main():
 
     # Get the team form for each team
     matches = ladder_form.get_ladder_form(ladder_history, matches, 5)
+
+    # For testing purposes
+    # matches = pd.read_csv('/Users/t_raver9/Desktop/projects/aflengine/analysis/machine_learning/src/ladder_form/data/matches_with_form.csv')
     
     # Read player data
     players = player_aggregator.read_data()
 
     # Add player individual statistic totals for season and career
-    # players = player_stat_totals.add_player_totals(matches, players)
+    players = player_stat_totals.add_player_totals(matches, players)
 
     # Aggregate the individual player data to the team level
     matches = player_aggregator.aggregate_player_data(players, matches)
