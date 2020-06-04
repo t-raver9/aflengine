@@ -57,11 +57,11 @@ def loadData(gamerange,playermatch,pma,mdetails):
                 for s in text_details:
                     s = s.replace('\n','')
 
-                #print("STARTING IT")
+
 
                 #strip home team data from statbox and remove linebreaks
                 year = int(text_details[1].split(" ")[3].replace(",",""))
-                #print("GOTYEAR")
+
                 if(year < 2010 
                    or (t >= 4961 and t <= 5004) 
                    or (t >=5089 and t <=5092)
@@ -97,7 +97,7 @@ def loadData(gamerange,playermatch,pma,mdetails):
                     player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[3]/td/table/tr[3]/td/table/tr[3]/td[1]/table/descendant::*/text()');
                     adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');                   
                 else:
-                    #print("NOTODD")
+
                     player_stats_a = tree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');
                     adv_stats_a = atree.xpath('//table[@id="frametable2008"]/tr[3]/td[3]/table/tr[4]/td/table/tr[3]/td/table/tr[3]/td[1]/descendant::*/text()');
                 for s in player_stats_a:
@@ -239,7 +239,6 @@ def scrapeBasicStats(gameIn,gameID,gameOut, homeAway,year):
 def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
     gameString = gameIn.replace('\\n','').replace("'",'').split(',')
 
-    print("one")
 
     mround = gameString[0].split(' ')[1]
     if((not(int(gameID) < 1840))and(int(gameID) < 9928)):
@@ -249,7 +248,6 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
         date = datetime.strptime(f.changeDate(gameString[3]),'%d %B %Y').date()
         time = str(gameString[4].split(" ")[1] + gameString[4].split(" ")[2] )  
 
-    print("two")
 
     #odds only collected since 2010, and footywire is missing 2017 GF odds
     if(date.year > 2009 and not(int(gameID) == 9513)):
@@ -274,7 +272,6 @@ def scrapeMatchDetails(gameIn,gameResult,gameID,gameOut):
         awayodds = -1
         awayline = -1
 
-    print("three")
 
     resultsString = gameResult.replace("'","").replace("defeats","defeated by").replace("defeat ","defeated by").replace("[","").replace("]","").replace("drew with","defeated by")
     results = resultsString.split("defeated by")
@@ -307,20 +304,26 @@ def main(scode,ecode):
     playermatch,mdetails,playermatch_adv = loadData(daterange,playermatch,playermatch_adv,mdetails)
 
 
+    pm = pd.DataFrame.from_dict(playermatch).drop_duplicates()
+    md = pd.DataFrame.from_dict(mdetails).drop_duplicates()
+    ad = pd.DataFrame.from_dict(playermatch_adv).drop_duplicates()
+
+
+
 
     if(os.path.isfile(d+"/staging/fantasy_scores.csv")):
-        pd.DataFrame.from_dict(playermatch).to_csv(d+"/staging/fantasy_scores.csv", mode="a", index = False, header=False)
+        pm.to_csv(d+"/staging/fantasy_scores.csv", mode="a", index = False, header=False)
     else:
-        pd.DataFrame.from_dict(playermatch).to_csv(d+"/staging/fantasy_scores.csv", mode="w", index = False)
+        pm.to_csv(d+"/staging/fantasy_scores.csv", mode="w", index = False)
 
     if(os.path.isfile(d+"/staging/odds_data.csv")):
-        pd.DataFrame.from_dict(mdetails).to_csv(d+"/staging/odds_data.csv", mode="a", index = False, header=False)
+        md.to_csv(d+"/staging/odds_data.csv", mode="a", index = False, header=False)
     else:
-        pd.DataFrame.from_dict(mdetails).to_csv(d+"/staging/odds_data.csv", mode="w", index = False)
+        md.to_csv(d+"/staging/odds_data.csv", mode="w", index = False)
     if(os.path.isfile(d+"/staging/adv_stats.csv")):
-        pd.DataFrame.from_dict(playermatch_adv).to_csv(d+"/staging/adv_stats.csv", mode="a", index = False, header=False)
+        ad.to_csv(d+"/staging/adv_stats.csv", mode="a", index = False, header=False)
     else:
-        pd.DataFrame.from_dict(playermatch_adv).to_csv(d+"/staging/adv_stats.csv", mode="w", index = False)
+        ad.to_csv(d+"/staging/adv_stats.csv", mode="w", index = False)
 
 #PUT MARCH RANGE IN HERE
 #if __name__ == "__main__":

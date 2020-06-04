@@ -6,20 +6,20 @@ Created on Tue May 29 18:43:10 2018
 @author: chrisstrods
 """
 
-from etl import download_matches as download
-from etl import scrape_at as get_main
-from etl import scrape_fw as get_extra
-from etl import process
+import download_matches as download
+import scrape_at as get_main
+import scrape_fw as get_extra
+import process
 
-SYEAR = 2018
+SYEAR = 2020
 EYEAR = 2020
-SCODE = 9694
+SCODE = 9928
 ECODE = 9936
 
 
 if __name__ == "__main__":
     print("1.GETTING DATAFILES")
-    download.main(SYEAR, EYEAR, SCODE, ECODE)
+    #download.main(SYEAR, EYEAR, SCODE, ECODE)
     print("1.SUCCESSFULLY LOADED DATAFILES")
     print("2.SCRAPING AFLTABLES DATA")
     get_main.main(SYEAR, EYEAR)
