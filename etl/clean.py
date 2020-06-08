@@ -17,8 +17,7 @@ except ModuleNotFoundError:
 
 def main():
     #load files
-    #d = dirname(dirname(abspath(__file__)))
-    d = ".."
+    d = dirname(dirname(abspath(__file__)))
 
     summaries = pd.read_csv(d+"/staging/match_summaries.csv")
     player_stats = pd.read_csv(d+"/staging/player_stats.csv",low_memory=False)
@@ -37,13 +36,13 @@ def main():
     quarters.drop_duplicates(inplace=True)
     progression.drop_duplicates(inplace=True)
     
-    summaries.to_csv(d+"/staging/match_summaries.csv")
-    player_stats.to_csv(d+"/staging/player_stats.csv")
-    odds.to_csv(d+"/staging/odds_data.csv")
-    fantasy.to_csv(d+"/staging/fantasy_scores.csv")
-    adv_stats.to_csv(d+"/staging/adv_stats.csv")
-    quarters.to_csv(d+"/staging/q_lengths.csv")
-    progression.to_csv(d+"/staging/scoring_progression.csv")    
+    summaries.to_csv(d+"/staging/match_summaries.csv", index=False)
+    player_stats.to_csv(d+"/staging/player_stats.csv", index=False)
+    odds.to_csv(d+"/staging/odds_data.csv", index=False)
+    fantasy.to_csv(d+"/staging/fantasy_scores.csv", index=False)
+    adv_stats.to_csv(d+"/staging/adv_stats.csv", index=False)
+    quarters.to_csv(d+"/staging/q_lengths.csv", index=False)
+    progression.to_csv(d+"/staging/scoring_progression.csv", index=False)    
 
     
-main()
+#main()

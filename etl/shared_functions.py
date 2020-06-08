@@ -105,7 +105,28 @@ def fixFullName(df):
             '201809CARMELskerridge14' : '201809CARMELskerridge15',
             '201809CARMELmkreuzer7' : '201809CARMELmkreuzer6',
             '201815COLGCSdswallow17' : '201815COLGCSdswallow16',
-            '201815FOTGEEgablett18' : '201815FOTGEEgablett17'
+            '201815FOTGEEgablett18' : '201815FOTGEEgablett17',
+            '201823ADECARdthomas12' : '201823ADECARdthomas11',
+            '2018QFHAWRCHdrioli7' : '2018QFHAWRCHdrioli8',
+            '2018QFHAWRCHjriewoldt10' : '2018QFHAWRCHjriewoldt9',
+            '201901ESSGWSatomlinson16' : '201901ESSGWSatomlinson15',
+            '201903HAWNORdmirra12' : '201903HAWNORdmirra13',
+            '201903HAWNORjomeara17' : '201903HAWNORjomeara16',
+            '201907CARNORjanderson13' : '201907CARNORjanderson12',
+            '201908FRERCHjcaddy17' : '201908FRERCHjcaddy16',
+            '201908STKWEGjnewnes7' : '201908STKWEGjnewnes8',
+            '201909CARGWSnhaynes15' : '201909CARGWSnhaynes14',
+            '201909FOTGEEtmclean13' : '201909FOTGEEtmclean12',
+            '201909GCSPORtrockliff21' : '201909GCSPORtrockliff20',
+            '201915ESSGWSttaranto14' : '201915ESSGWSttaranto13',
+            '201915FOTPORbsmith8' : '201915FOTPORbsmith9',
+            '201915FOTPORrsmith15' : '201915FOTPORrsmith14',
+            '201919MELSTKjgresham23' : '201919MELSTKjgresham22',
+            '201921ADEWEGeyeo13' : '201921ADEWEGeyeo12',
+            '2019EFESSWEGdshiel14' : '2019EFESSWEGdshiel13',
+            '2019EFESSWEGlshuey23' : '2019EFESSWEGlshuey22',
+            '2019SFGEEWEGjkolodjashnij10' : '2019SFGEEWEGjkolodjashnij11',
+            '2019SFGEEWEGrstanley7' : '2019SFGEEWEGrstanley6'
             }[fullkey]
     except KeyError:
         return fullkey
@@ -529,6 +550,7 @@ def fillYear(df):
 def nameClean(df):
     return {
             'Gary Jnr Ablett': 'Gary Ablett',
+            'G Ablett': 'Gary Ablett',
             'Darcy BJones' : 'Darcy ByrneJones',
             'Josh DCardillo' : 'Josh Deluca',
             'Trent DLane' : 'Trent DennisLane',
@@ -538,6 +560,8 @@ def nameClean(df):
             'Will HElliott' : 'Will HoskinElliott',
             'Jarrod KThomson' : 'Jarrod KaylerThomson',
             'Josh P Kennedy' : 'Josh Kennedy',
+            'J Kennedy' : 'Josh Kennedy',
+            'Josh P. Kennedy' : 'Josh Kennedy',
             'Jay KHarris' : 'Jay Kennedy',
             'Nathan LMurray' : 'Nathan LovettMurray',
             'Anthony MTipungwuti' : 'Anthony McDonaldTipungwuti',
@@ -546,7 +570,11 @@ def nameClean(df):
             'Sam PPepper' : 'Sam PowellPepper',
             'Lewis RThomson' : 'Lewis RobertsThomson',
             'Ed VWillis' : 'Ed VickersWillis',
-            'Luke DUniacke' : 'Luke DaviesUniacke'
+            'Luke DUniacke' : 'Luke DaviesUniacke',
+            'Brandon ZThatcher' : 'Brandon ZerkThatcher',
+            'Derek ESmith' : 'Derek EggmolesseSmith',
+            'Ian Hill' : 'Bobby Hill',            
+            'Callum CJones' : 'Callum ColemanJones',      
 
             }.get(df["name"],df["name"])
     
@@ -556,8 +584,8 @@ def nameClean(df):
 def shortName(df):
     fullname = df["name"]
     
-    initial = fullname.split(" ",1)[0]
-    rest = fullname.split(" ",1)[1]
+    initial = fullname.split(" ")[0]
+    rest = fullname.split(" ")[-1]
     
     return initial[0] + " " + rest
 

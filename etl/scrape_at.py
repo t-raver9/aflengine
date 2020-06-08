@@ -29,7 +29,7 @@ except ModuleNotFoundError:
 
 
 #Process and return match summary box
-def getSummary(t):
+def getSummary(t,year):
     cells=list()
     for cell in t.findAll("td"):
         cells.append(cell.text)
@@ -64,40 +64,58 @@ def getSummary(t):
         outrow[24] = str(matchstring[7].split("-")[2])
         outrow[3] = matchstring[6].replace(",","") #day
         outrow[4] = matchstring[8] #localtime
-        outrow[5] = matchstring[13] #venue
+        
+        if(year == 2020):
+            outrow[5] == 0
+        else:
+            outrow[5] = matchstring[13] #venue
+            
     elif(len(matchstring) == 13): #Venue name one word
         outrow[1] = matchstring[3] #venue
         outrow[2] = str(matchstring[6]) #date
         outrow[24] = str(matchstring[6].split("-")[2])
         outrow[3] = matchstring[5].replace(",","")  #day
         outrow[4] = matchstring[7] #localtime
-        outrow[5] = matchstring[12] #venue
+        if(year == 2020):
+            outrow[5] == 0
+        else:
+            outrow[5] = matchstring[12] #venue
+
     elif(len(matchstring) == 12): #Venue name two words, no crowd
         outrow[1] = matchstring[3] + " " + matchstring[4] #venue
         outrow[2] = str(matchstring[7]) #date
         outrow[24] = str(matchstring[7].split("-")[2])
         outrow[3] = matchstring[6].replace(",","")  #day
         outrow[4] = matchstring[8] #localtime
-        outrow[5] = matchstring[11] #venue
+        if(year == 2020):
+            outrow[5] == 0
+        else:
+            outrow[5] = matchstring[11] #venue
+        
     elif(len(matchstring) == 11): #Venue name one word, no crowd
         outrow[1] = matchstring[3] #venue
         outrow[2] = str(matchstring[6]) #date
         outrow[24] = str(matchstring[6].split("-")[2])
         outrow[3] = matchstring[5].replace(",","")  #day
         outrow[4] = matchstring[7] #localtime
-        outrow[5] = matchstring[10] #venue
+        if(year == 2020):
+            outrow[5] == 0
+        else:
+            outrow[5] = matchstring[10] #venue
     elif(len(matchstring) == 10): #Venue name two words, no venue or timezeone
         outrow[1] = matchstring[3] + " " + matchstring[4] #venue
         outrow[2] = str(matchstring[7]) #date
         outrow[24] = str(matchstring[7].split("-")[2])
         outrow[3] = matchstring[6].replace(",","")  #day
         outrow[4] = matchstring[8] #localtime
+        outrow[5] = 0
     elif(len(matchstring) == 9): #Venue name one word, no venue or timezeone
         outrow[1] = matchstring[3] #venue
         outrow[2] = str(matchstring[6]) #date
         outrow[24] = str(matchstring[6].split("-")[2])
         outrow[3] = matchstring[5].replace(",","")  #day
         outrow[4] = matchstring[7] #localtime
+        outrow[5] = 0
     else:
         print ("Error with file:" + str(cells[1]) + "   " + str(len(matchstring)))
 
@@ -250,7 +268,7 @@ def scrape(syear,eyear):
                 del rawmatch[1]
 
             #Scrape the Match Summary
-            summaries = getSummary(rawmatch[0])
+            summaries = getSummary(rawmatch[0],year)
             summaries.fillna('')
             summaries = summaries.replace(np.nan, '', regex=True)
 
