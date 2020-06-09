@@ -4,7 +4,8 @@ from typing import List, Dict
 from os.path import dirname,abspath
 from .columns import (
     player_cols,
-    player_cols_to_agg
+    player_cols_to_agg,
+    player_cols_to_pg
 )
 from copy import deepcopy
 from progress.bar import ShadyBar
@@ -24,9 +25,9 @@ def read_data() -> pd.DataFrame:
     Returns a pandas dataframe
     """
     d = dirname(dirname(dirname(dirname(dirname(abspath(__file__))))))
-    players = pd.read_csv(d + "/bench/players.csv")
+    # players = pd.read_csv(d + "/bench/players.csv")
     # Use below for testing
-    # players = pd.read_csv('src/player_data/data/players_with_player_stat_totals.csv')
+    players = pd.read_csv('src/player_data/data/players_with_player_stat_totals.csv')
     players['round'] = players.apply(lambda row: get_round(row['matchid']), axis = 1)
     return players
 
@@ -101,6 +102,8 @@ def aggregate_player_data(players: pd.DataFrame, matches: pd.DataFrame) -> pd.Da
     players = get_next_matchid(players)
     # Get the list of columns you require
     player_cols = define_aggregate_columns(player_cols_to_agg)
+    for col in player_cols:
+        print(col)
     # Group by matchid and team, and get the sum of the player data
     aggregate = players[player_cols].groupby(['next_matchid','team']).agg('mean')
     # Join these stats onto the matches dataframe
