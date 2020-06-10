@@ -63,7 +63,6 @@ def fill_fixture_scores(fixture: pd.DataFrame, round_num: int, matches: pd.DataF
     """
     Given a round of the season of the fixture, fill out the results of that round
     """
-    
     fixture_round = fixture[fixture['round'] == str(round_num)]
     
     for idx, row in fixture_round.iterrows():
