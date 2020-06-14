@@ -21,28 +21,28 @@ import pandas as pd
 def main():
     start_time = time.time()
     # Create the dataframe
-    # matches = prepare_dataframe.prepare_dataframe()
+    matches = prepare_dataframe.prepare_dataframe()
 
     # Use the below line if you need to recalculate the history object
     # The history object contains a hierarchy for traversing data. 
     # This is, loosely, history -> season -> round -> match, with round objects
     # Also holding ladders for each team for that round
-    # history = generate_history.generate_history_obj()
+    history = generate_history.generate_history_obj()
 
     # Add ladder information to each round
-    # ladder_history = generate_ladders.add_ladders_to_history()
+    ladder_history = generate_ladders.add_ladders_to_history()
+
+    # For testing purposes
+    matches = pd.read_csv('/Users/t_raver9/Desktop/projects/aflengine/analysis/machine_learning/src/ladder_form/data/matches_with_form.csv')
 
     # Add the ladders from ladder_history to the dataframe as an object
-    # matches = add_ladders(ladder_history,matches)
+    matches = add_ladders(ladder_history,matches)
 
     # Get the information out of the ladder objects, and turn them into columns
     # matches = extract_ladder_data(matches, save_to_file=True)
 
     # Get the team form for each team
-    # matches = ladder_form.get_ladder_form(ladder_history, matches, 5)
-
-    # For testing purposes
-    matches = pd.read_csv('/Users/t_raver9/Desktop/projects/aflengine/analysis/machine_learning/src/ladder_form/data/matches_with_form.csv')
+    matches = ladder_form.get_ladder_form(ladder_history, matches, 5)
     
     # Read player data
     players = player_aggregator.read_data()
