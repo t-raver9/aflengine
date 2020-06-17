@@ -165,7 +165,10 @@ def main():
     
     
     #Convert blank number fields to zeroes
-    full_summaries['crowd'].replace({r'[^\x00-\x7F]+':0}, regex=True, inplace=True)
+    full_summaries['crowd'] =  full_summaries['crowd'].apply(
+        lambda x: 0 if x == "" else x)
+    
+
     
     #Remove trailing spaces on names
     player_full["first_name"] = player_full["first_name"].str.strip()

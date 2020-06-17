@@ -396,8 +396,9 @@ def getMatchIndex(m,date):
     for cell in m.findAll("td"):
         cells.append(cell.text)
 
-
+    
     matchstring = str(cells[1]).split(" ")
+    
 
 
     #If match is a final, remove 'FINAL' cell so that it aligns with
@@ -434,6 +435,10 @@ def getMatchIndex(m,date):
     elif(len(cells)==29): #Game finishing in overtime
         hteam = cells[3]    #hteam
         ateam = cells[9]   #ateam
+    elif(len(cells)==23): #Game finishing in overtime
+        hteam = cells[3]    #hteam
+        ateam = cells[8]   #ateam
+
 
     hcode = getTeamCode(replaceTeam(hteam))
     acode = getTeamCode(replaceTeam(ateam))

@@ -46,6 +46,9 @@ def getSummary(t,year):
         umpstring = str(cells[28]).split(",")
     else:
         umpstring = "ERROR"
+        
+    #print(umpstring)
+    #print(str(len(matchstring)))
 
     #If match is a final, remove 'FINAL' cell so that it aligns with
     #Round numbers
@@ -109,6 +112,14 @@ def getSummary(t,year):
         outrow[3] = matchstring[6].replace(",","")  #day
         outrow[4] = matchstring[8] #localtime
         outrow[5] = 0
+    elif(len(matchstring) == 9 and year==2020): #Venue name one word, no venue or timezeone
+        #print(matchstring)
+        outrow[1] = matchstring[3] #venue
+        outrow[2] = str(matchstring[6]) #date
+        outrow[24] = str(matchstring[6].split("-")[2])
+        outrow[3] = matchstring[5].replace(",","")  #day
+        outrow[4] = matchstring[7] #localtime
+        outrow[5] = 0
     elif(len(matchstring) == 9): #Venue name one word, no venue or timezeone
         outrow[1] = matchstring[3] #venue
         outrow[2] = str(matchstring[6]) #date
@@ -120,6 +131,8 @@ def getSummary(t,year):
         print ("Error with file:" + str(cells[1]) + "   " + str(len(matchstring)))
 
     outrow[25] = f.getMatchIndex(t,outrow[2])
+    
+
 
     #Process teams and quarter by quarter scores for non overtime games
     if(len(cells)==25): #Game finishing in regular time
@@ -146,10 +159,29 @@ def getSummary(t,year):
         outrow[15] = cells[7]  #ateamQ4
         outrow[22] = cells[14]  #hteamET
         outrow[23] = cells[8]  #ateamET
+    elif(len(cells)==23): #Game finishing in overtime
+        outrow[6] = f.replaceTeam(cells[3])    #hteam
+        outrow[7] = cells[4]    #hteamQ1
+        outrow[8] = cells[5]    #hteamQ2
+        outrow[9] = cells[6]    #hteamQ3
+        outrow[10] = cells[7]   #hteamQ4
+        outrow[11] = f.replaceTeam(cells[8])   #ateam
+        outrow[12] = cells[9]   #ateamQ1
+        outrow[13] = cells[10]  #ateamQ2
+        outrow[14] = cells[11]  #ateamQ3
+        outrow[15] = cells[12]  #ateamQ4
+        
 
 
     #Process differently based on howm any umpires in the game
-    if(len(umpstring)>2):
+    if(umpstring == "ERROR"):
+        outrow[16] =   ""
+        outrow[17] =   ""
+        outrow[18] =   ""
+        outrow[19] =   0
+        outrow[20] =   0
+        outrow[21] =   0
+    elif(len(umpstring)>2):
         outrow[16] =   umpstring[0].split("(")[0]
         outrow[17] =   umpstring[1].split("(")[0]#umpire2
         outrow[18] =   umpstring[2].split("(")[0]

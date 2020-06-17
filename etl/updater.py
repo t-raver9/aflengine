@@ -14,13 +14,13 @@ from etl import clean
 
 SYEAR = 2020
 EYEAR = 2020
-SCODE = 9928
-ECODE = 9936
+SCODE = 10126
+ECODE = 10134
 
 
 if __name__ == "__main__":
     print("1.GETTING DATAFILES")
-    download.main(SYEAR, EYEAR, SCODE, ECODE)
+    #download.main(SYEAR, EYEAR, SCODE, ECODE)
     print("1.SUCCESSFULLY LOADED DATAFILES")
     print("2.SCRAPING AFLTABLES DATA")
     get_main.main(SYEAR, EYEAR)
