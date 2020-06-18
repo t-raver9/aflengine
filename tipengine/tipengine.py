@@ -99,7 +99,7 @@ fixture2020 = format_fixture(fixture2020)
 tips2020 =  pd.read_csv('tips2020.csv')
 tally2020 =  pd.read_csv('tally2020.csv',index_col='tipper')
 
-rnd = "1"
+rnd = "2"
 
 tippers = tally2020.index.values
 
