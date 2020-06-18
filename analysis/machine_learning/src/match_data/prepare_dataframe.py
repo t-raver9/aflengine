@@ -16,7 +16,17 @@ def change_date_type(matches: pd.DataFrame) -> pd.DataFrame:
     """
     Change date data to be type datetime
     """
-    matches['date'] = pd.to_datetime(matches['date'],format="%d-%b-%Y")
+    try:
+        matches['date'] = pd.to_datetime(matches['date'],format="%d-%b-%Y")
+    except ValueError:
+        # Usually occurs because the years after 1899 got cut to two decimal
+        # places, so fix this by re-adding the year in
+        for idx, row in matches.iterrows():
+            if len(row['date'].split('-')[-1]) == 2:
+                # Has been abbreviated. Fix the year with the matchid
+                full_year = row['matchid'][0:4]
+                matches.at[idx,'date'] = row['date'][:-2] + full_year
+        matches['date'] = pd.to_datetime(matches['date'],format="%d-%b-%Y")
     return matches
 
 def change_time_type(matches: pd.DataFrame) -> pd.DataFrame:
