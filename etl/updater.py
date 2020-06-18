@@ -6,11 +6,18 @@ Created on Tue May 29 18:43:10 2018
 @author: chrisstrods
 """
 
-from etl import download_matches as download
-from etl import scrape_at as get_main
-from etl import scrape_fw as get_extra
-from etl import process
-from etl import clean
+try:
+    from etl import download_matches as download
+    from etl import scrape_at as get_main
+    from etl import scrape_fw as get_extra
+    from etl import process
+    from etl import clean
+except ModuleNotFoundError:
+    import download_matches as download
+    import scrape_at as get_main
+    import scrape_fw as get_extra
+    import process
+    import clean
 
 SYEAR = 2020
 EYEAR = 2020
