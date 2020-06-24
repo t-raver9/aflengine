@@ -113,7 +113,7 @@ def getExtraPages(scode,ecode):
             os.makedirs(d + "/matchfiles/footywire/")
     for t in range(scode,ecode+1):
         errors = 0
-        if(t>9297 or t<6370 and  t!=6079 and t!=6162):
+        if((t>9297 or t<6370) and  (t!=6079 and t!=6162 and t !=10142)):
             try:
                 url1 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t)
                 url2 ='http://www.footywire.com/afl/footy/ft_match_statistics?mid=' + str(t) + '&advv=Y'

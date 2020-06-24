@@ -21,13 +21,13 @@ except ModuleNotFoundError:
 
 SYEAR = 2020
 EYEAR = 2020
-SCODE = 10126
-ECODE = 10134
+SCODE = 10135
+ECODE = 10143
 
 
 if __name__ == "__main__":
     print("1.GETTING DATAFILES")
-    #download.main(SYEAR, EYEAR, SCODE, ECODE)
+    download.main(SYEAR, EYEAR, SCODE, ECODE)
     print("1.SUCCESSFULLY LOADED DATAFILES")
     print("2.SCRAPING AFLTABLES DATA")
     get_main.main(SYEAR, EYEAR)

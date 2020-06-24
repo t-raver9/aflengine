@@ -14,7 +14,7 @@ import copy
 
 
 STARTYEAR = 1897 #Year to begin processing data from
-LASTYEAR = 2019 #Last year data collected
+LASTYEAR = 2020 #Last year data collected
 STARTELO = 1500 #The default starting ELO rating
 MEANELO = 1500 #Mean ELO to regress to between seasons
 ISRF = 0.25 #Inter season regression factor
@@ -429,12 +429,12 @@ def prepareOutput(h):
 teams, matches, history = initialiseData()
 modern_teams = copy.deepcopy(teams)
 teams, history = processELO(matches, teams, history)
-current, history = postProcess(teams,history,1897,2018)
+current, history = postProcess(teams,history,1897,2019)
 teams = getRecords(history,teams)
 test = prepareOutput(history)
 
 #modern_teams = copy.deepcopy(teams)
-modern_details = dict((k,history[k])for k in range(2010,2019))
+modern_details = dict((k,history[k])for k in range(2010,2020))
 modern_teams = getRecords(modern_details,modern_teams)
 modern_summary = getRecordSummary(modern_teams)
 

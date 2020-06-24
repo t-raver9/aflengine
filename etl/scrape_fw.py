@@ -35,9 +35,9 @@ def loadData(gamerange,playermatch,pma,mdetails):
 
 
     for t in range(gamerange[0],gamerange[1]+1):
-        if(t>9297 or t<6370 and  t!=6079 and t!=6162):
+        if((t>9297 or t<6370) and  (t!=6079 and t!=6162 and t !=10142)):
             try:
-                #print("Processing game #" + str(t),end="",flush=True)
+                print("Processing game #" + str(t),end="",flush=True)
                 #download file from server
 
 
@@ -125,7 +125,7 @@ def loadData(gamerange,playermatch,pma,mdetails):
                 print("There was an index error with match #" + str(t))
                 errorcount += 1
         else:
-            #print("Skipping game #" + str(t))
+            print("Skipping game #" + str(t))
             continue
 
     print("There were " + str(errorcount) + " number of games that failed")
