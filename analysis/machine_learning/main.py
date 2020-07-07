@@ -39,7 +39,7 @@ def main():
     matches = add_ladders(ladder_history,matches)
 
     # Get the information out of the ladder objects, and turn them into columns
-    # matches = extract_ladder_data(matches, save_to_file=True)
+    matches = extract_ladder_data(matches, save_to_file=True)
 
     # Get the team form for each team
     matches = ladder_form.get_ladder_form(ladder_history, matches, 5)
@@ -48,7 +48,7 @@ def main():
     players = player_aggregator.read_data()
 
     # Add player individual statistic totals for season and career
-    # players = player_stat_totals.add_player_totals(matches, players)
+    players = player_stat_totals.add_player_totals(matches, players)
 
     # Aggregate the individual player data to the team level
     matches = player_aggregator.aggregate_player_data(players, matches)

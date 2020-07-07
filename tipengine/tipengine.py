@@ -63,15 +63,15 @@ def fill_fixture_scores(fixture: pd.DataFrame, round_num: int, matches: pd.DataF
     """
     Given a round of the season of the fixture, fill out the results of that round
     """
-    fixture_round = fixture[fixture['round'] == str(round_num)]
-    
+    fixture_round = fixture[fixture['round'] == int(round_num)]
+
     for idx, row in fixture_round.iterrows():
         match = matches[(matches['hteam'] == row['hometeam']) \
         & (matches['ateam'] == row['awayteam']) \
         & (matches['season'] == season) & (matches['round'] == str(round_num))]
-
-        fixture.at[idx,'homescore'] = match['hscore']
-        fixture.at[idx,'awayscore'] = match['ascore']
+        
+        fixture.at[idx,'homescore'] = match['hscore'].iloc[0]
+        fixture.at[idx,'awayscore'] = match['ascore'].iloc[0]
         
         if match['hscore'].iloc[0] > match['ascore'].iloc[0]:
             fixture.at[idx,'winner'] = 'H'
@@ -105,7 +105,7 @@ tippers = tally2020.index.values
 
 fixture2020['key'] = str(fixture2020['round']) + fixture2020['hometeam'] + fixture2020['awayteam']
 fixture2020 = standardise_teams(fixture2020)
-fixture2020 = fill_fixture_scores(fixture2020, round_num=1, matches=matches)
+fixture2020 = fill_fixture_scores(fixture2020, round_num=rnd, matches=matches)
 tips2020['key'] = tips2020['round'] + tips2020['hometeam'] + tips2020['awayteam'] 
 combined = fixture2020.merge(tips2020,on='key',how='inner')
 

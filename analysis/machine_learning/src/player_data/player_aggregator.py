@@ -25,9 +25,9 @@ def read_data() -> pd.DataFrame:
     Returns a pandas dataframe
     """
     d = dirname(dirname(dirname(dirname(dirname(abspath(__file__))))))
-    # players = pd.read_csv(d + "/bench/players.csv")
+    players = pd.read_csv(d + "/bench/players.csv")
     # Use below for testing
-    players = pd.read_csv('src/player_data/data/players_with_player_stat_totals.csv')
+    # players = pd.read_csv('src/player_data/data/players_with_player_stat_totals.csv')
     players['round'] = players.apply(lambda row: get_round(row['matchid']), axis = 1)
     return players
 
